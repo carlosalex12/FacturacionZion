@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-lg-6 col-md-6 d-none d-md-block image-container"></div>
+
+    <div class="col-lg-6 col-md-6  form-container justify-content-center ">
+
+      <div class="col-lg-8 col-md-12- col-sm-9 col-xs-12 form-box
+      text-center
+      ">
+       <H1 class="text-white">LOGIN</H1>
+        <div class="logo mb-3">
+          <img src=".\assets\img\person.png" alt="" width="150">
+        </div>
+
+        <div class="form-input ">
+
+          <form [formGroup]="forms" (ngSubmit)="ingresar()">
+            <div class="form-group">
+              <mat-form-field class="ancho" appearance="fill">
+                <mat-label>USUARIO</mat-label>
+                <input matInput autocomplete="off"  [(ngModel)]="l_user" name="l_user" formControlName="Usuario">
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="ancho" appearance="fill">
+                <mat-label>CONTRASEÑA</mat-label>
+                <input type="password" matInput autocomplete="off" [(ngModel)]="l_pass" name="l_pass" formControlName="Contrasena">
+              </mat-form-field>
+            </div>
+            <button mat-raised-button class="mr-3 mt-3" [disabled]="forms.invalid"  type="submit">INGRESAR</button>
+
+          </form>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>

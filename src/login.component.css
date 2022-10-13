@@ -1,0 +1,36 @@
+.example-button-row button {
+    display: table-cell;
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+  .centrar-contenido{
+
+    justify-content: center;
+  }
+  .margin{
+    margin-left: 8px;
+  }
+  .pantalla{
+    height:100%;
+    width: 100%;
+    
+  }
+  .image-container{
+ background: url('https://image.freepik.com/vector-gratis/bella-durmiente-chica-etnic-flor-mandala-fondo_26507-43.jpg')  center no-repeat;
+  background-size: cover;
+  height: 100vh;
+  }
+  .form-container{
+    background-color: #F27E03;
+    justify-content: center;
+    display: flex;
+    
+  }
+  .form-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    
+  }
+  

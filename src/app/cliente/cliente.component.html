@@ -1,0 +1,258 @@
+
+<div class="container ">
+
+  <div class="row">
+
+    <div class="jumbotron jumbotron-fluid container-l">
+      <div class="container">
+        <h1 class="display-4">BENVENIDO</h1>
+
+
+      </div>
+      <button (click)="regresar()">REGRESAR</button>
+    </div>
+  </div>
+
+
+  <!--Filtro-->
+<mat-form-field appearance="standard">
+  <mat-label>Busqueda</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input autocomplete="off">
+</mat-form-field>
+
+<!--TABLA-->
+<div class="row">
+  <!--Tabla-->
+<div class="mat-elevation-z8">
+
+  <table mat-table [dataSource]="dataSource" >
+    <ng-container matColumnDef="emp_cod">
+      <th mat-header-cell *matHeaderCellDef> codigo </th>
+      <td mat-cell *matCellDef="let element"> {{element.emp_cod}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="cli_cod">
+      <th mat-header-cell *matHeaderCellDef> cli_cod </th>
+      <td mat-cell *matCellDef="let element"> {{element.cli_cod}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="cli_nom">
+      <th mat-header-cell *matHeaderCellDef> cli_nom </th>
+      <td mat-cell *matCellDef="let element"> {{element.cli_nom}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="cli_est">
+      <th mat-header-cell *matHeaderCellDef> cli_est </th>
+      <td mat-cell *matCellDef="let element"> {{element.cli_est}} </td>
+    </ng-container>
+    <ng-container matColumnDef="ccl_cod">
+      <th mat-header-cell *matHeaderCellDef> ccl_cod. </th>
+      <td mat-cell *matCellDef="let element"> {{element.ccl_cod}} </td>
+    </ng-container>
+
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="boton">
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let element">
+        <button pButton type="button" class="p-button-raised p-button-rounded" icon="pi pi-check"(click)="onSetData(element)"></button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+  </div>
+</div>
+<!--botones -->
+<div class="row m-3">
+
+  <div class="container text-center">
+    <div class="row">
+       <!--PRIMERO BOTON  INSERTAR-->
+        <div class="col">
+        <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Ingresar
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Ingresos De datos</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="container text-center">
+
+          <div class="row">
+
+            <div class="col">
+              <label class="form-label">emp_cod</label>
+              <input type="text" class="form-control" [(ngModel)]="cliente.emp_cod" id="emp_cod" name="emp_cod"aria-describedby="">
+            </div>
+            <div class="col">
+              <label class="form-label">cli_cod</label>
+          <input type="text" class="form-control" [(ngModel)]="cliente.cli_cod"id="cli_cod" name="cli_cod"aria-describedby="">
+            </div>
+            <div class="col">
+              <label class="form-label">cli_nom</label>
+          <input type="text" class="form-control" [(ngModel)]="cliente.cli_nom"id="cli_nom" name="cli_nom"aria-describedby="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="form-label">cli_est</label>
+              <input type="text" class="form-control" [(ngModel)]="cliente.cli_est"id="cli_est" name="cli_est"aria-describedby="">
+            </div>
+            <div class="col">
+              <label  class="form-label">ccl_cod</label>
+          <input type="text" class="form-control" id="ccl_cod"[(ngModel)]="cliente.ccl_cod" name="ccl_cod"aria-describedby="">
+        </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary "(click)=" OnAddusuario(cliente)" data-bs-dismiss="modal">Guardar</button>
+        </div>
+
+      </div>
+
+
+      </div>
+      </div>
+      </div>
+        </div>
+        <!--SEGUNDO BOTON-->
+        <div class="col">
+      <!-- Scrollable modal -->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  ACTUALIZAR
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">ACTUALIZAR DATOS</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container text-center">
+          <div class="row">
+            <div class="col">
+              <label class="form-label">emp_cod</label>
+              <input type="text" class="form-control" [(ngModel)]="cliente.emp_cod" id="emp_cod" name="emp_cod"aria-describedby="" disabled>
+            </div>
+            <div class="col">
+              <label class="form-label">cli_cod</label>
+          <input type="text" class="form-control" [(ngModel)]="cliente.cli_cod"id="cli_cod" name="cli_cod"aria-describedby="" disabled>
+            </div>
+            <div class="col">
+              <label class="form-label">cli_nom</label>
+          <input type="text" class="form-control" [(ngModel)]="cliente.cli_nom"id="cli_nom" name="cli_nom"aria-describedby="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="form-label">cli_est</label>
+              <input type="text" class="form-control" [(ngModel)]="cliente.cli_est"id="cli_est" name="cli_est"aria-describedby="">
+            </div>
+            <div class="col">
+              <label  class="form-label">ccl_cod</label>
+          <input type="text" class="form-control" id="car_cod"[(ngModel)]="cliente.ccl_cod" name="ccl_cod"aria-describedby="">
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="onUpdateArticulo(cliente)" data-bs-dismiss="modal">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Modal -->
+
+        </div>
+           <!--TERCER  BOTON-->
+           <div class="col">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">
+  ELIMINAR
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">ARTICULO A ELIMINAR</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container text-center">
+          <div class="row">
+            <div class="col">
+              <label class="form-label">emp_cod</label>
+              <input type="text" class="form-control" [(ngModel)]="cliente.emp_cod" id="emp_cod" name="emp_cod"aria-describedby="" disabled>
+            </div>
+            <div class="col">
+              <label class="form-label">cli_cod</label>
+          <input type="text" class="form-control" [(ngModel)]="cliente.cli_cod"id="cli_cod" name="cli_cod"aria-describedby="" disabled>
+            </div>
+            <div class="col">
+              <label class="form-label">cli_nom</label>
+          <input type="text" class="form-control" [(ngModel)]="cliente.cli_nom"id="cli_nom" name="cli_nom"aria-describedby=""disabled>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="form-label">cli_est</label>
+              <input type="text" class="form-control" [(ngModel)]="cliente.cli_est"id="cli_est" name="cli_est"aria-describedby=""disabled>
+            </div>
+            <div class="col">
+              <label  class="form-label">ccl_cod</label>
+          <input type="text" class="form-control" id="ccl_cod"[(ngModel)]="cliente.ccl_cod" name="ccl_cod"aria-describedby=""disabled>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CACELAR</button>
+        <button type="button" class="btn btn-primary"  (click)="onDeleteArticulo(cliente)"  data-bs-dismiss="modal" >ELIMINAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+
+

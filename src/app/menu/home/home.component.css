@@ -1,0 +1,11 @@
+.spacer{
+    flex: 1 1 auto;
+}
+.navar-color{
+
+    background-color: #F27E03;
+}
+.container-style{
+justify-content: center;
+margin-top: 2rem;
+}

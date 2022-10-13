@@ -1,0 +1,280 @@
+
+<div class="container ">
+  <!--Filtro-->
+<mat-form-field appearance="standard">
+  <mat-label>Busqueda</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input autocomplete="off">
+</mat-form-field>
+<div class="row">
+  <!--Tabla-->
+<div class="mat-elevation-z8">
+
+  <table mat-table [dataSource]="dataSource" >
+    <ng-container matColumnDef="usr_cod">
+      <th mat-header-cell *matHeaderCellDef> usr_cod. </th>
+      <td mat-cell *matCellDef="let element"> {{element.usr_cod}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="usr_nom">
+      <th mat-header-cell *matHeaderCellDef> usr_nom </th>
+      <td mat-cell *matCellDef="let element"> {{element.usr_nom}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="usr_est">
+      <th mat-header-cell *matHeaderCellDef> usr_est </th>
+      <td mat-cell *matCellDef="let element"> {{element.usr_est}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="usr_treg">
+      <th mat-header-cell *matHeaderCellDef> usr_treg </th>
+      <td mat-cell *matCellDef="let element"> {{element.usr_treg}} </td>
+    </ng-container>
+    <ng-container matColumnDef="usr_clv">
+      <th mat-header-cell *matHeaderCellDef> usr_clv. </th>
+      <td mat-cell *matCellDef="let element"> {{element.usr_clv}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="usr_tacc">
+      <th mat-header-cell *matHeaderCellDef> usr_tacc </th>
+      <td mat-cell *matCellDef="let element"> {{element.usr_tacc}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="grp_cod">
+      <th mat-header-cell *matHeaderCellDef> grp_cod </th>
+      <td mat-cell *matCellDef="let element"> {{element.grp_cod}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="usr_aud">
+      <th mat-header-cell *matHeaderCellDef> usr_aud </th>
+      <td mat-cell *matCellDef="let element"> {{element.usr_aud}} </td>
+    </ng-container>
+
+
+
+
+    <ng-container matColumnDef="usr_fec_ult">
+      <th mat-header-cell *matHeaderCellDef> usr_fec_ult </th>
+      <td mat-cell *matCellDef="let element"> {{element.usr_fec_ult}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="usr_vig_clv">
+      <th mat-header-cell *matHeaderCellDef> usr_vig_clv </th>
+      <td mat-cell *matCellDef="let element"> {{element.usr_vig_clv}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="usr_dom">
+      <th mat-header-cell *matHeaderCellDef> usr_dom </th>
+      <td mat-cell *matCellDef="let element"> {{element.usr_dom}} </td>
+    </ng-container>
+    <ng-container matColumnDef="boton">
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let element">
+        <button type="button" class="btn btn-outline-primary"(click)="onSetData(element)">s</button>
+
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+  </div>
+</div>
+<!--botones model-->
+
+<div class="row">
+
+  <div class="container text-center">
+    <div class="row">
+      <div class="col">
+        <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      IngresarUsuario
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Ingresos De datos</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="container text-center">
+          <div class="row">
+            <div class="col">
+              <label class="form-label">usr_cod</label>
+              <input type="text" class="form-control" [(ngModel)]="usuario.usr_cod" id="usr_cod" name="usr_cod"aria-describedby="">
+            </div>
+            <div class="col">
+              <label class="form-label">usr_nom</label>
+          <input type="text" class="form-control" [(ngModel)]="usuario.usr_nom"id="usr_nom" name="usr_nom"aria-describedby="">
+            </div>
+            <div class="col">
+              <label class="form-label">usr_est</label>
+          <input type="text" class="form-control" [(ngModel)]="usuario.usr_est"id="usr_est" name="usr_est"aria-describedby="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="form-label">usr_treg</label>
+              <input type="text" class="form-control" [(ngModel)]="usuario.usr_treg"id="usr_treg" name="usr_treg"aria-describedby="">
+            </div>
+            <div class="col">
+              <label  class="form-label">usr_clv</label>
+          <input type="text" class="form-control" id="usr_clv"[(ngModel)]="usuario.usr_clv" name="usr_clv"aria-describedby="">
+            </div>
+            <div class="col">
+              <label class="form-label">usr_tacc</label>
+              <input type="text" class="form-control" id="usr_tacc" [(ngModel)]="usuario.usr_tacc"name="usr_tacc"aria-describedby="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="form-label" id="">grp_cod</label>
+              <input type="text" class="form-control" id="grp_cod" [(ngModel)]="usuario.grp_cod"name="grp_cod"aria-describedby="">
+            </div>
+            <div class="col">
+              <label  class="form-label">usr_aud</label>
+          <input type="text" class="form-control" id="usr_aud" name="usr_aud" [(ngModel)]="usuario.usr_aud" aria-describedby="">
+            </div>
+            <div class="col">
+              <label  class="form-label">usr_fec_ult</label>
+              <input type="date" class="form-control" id="usr_fec_ult" [(ngModel)]="usuario.usr_fec_ult"name="usr_fec_ult"aria-describedby="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label  class="form-label">usr_vig_clv</label>
+              <input type="number" class="form-control"name="usr_vig_clv" id="usr_vig_clv" [(ngModel)]="usuario.usr_vig_clv"aria-describedby="">
+            </div>
+            <div class="col">
+              <label class="form-label">usr_dom</label>
+          <input type="text" class="form-control" name="usr_dom"id="usr_dom" [(ngModel)]="usuario.usr_dom" aria-describedby="">
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary"(click)="OnAddusuario(usuario)">Save changes</button>
+          </div>
+
+      </div>
+
+
+      </div>
+      </div>
+      </div>
+      </div>
+    <!--SEGUNDO BOTON-->
+    <div class="col">
+      <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    ActualizarUsuario
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Datos</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+
+      <div class="container text-center">
+        <div class="row">
+          <div class="col">
+            <label class="form-label">usr_cod</label>
+            <input type="text" class="form-control" [(ngModel)]="usuario.usr_cod" id="usr_cod" name="usr_cod"aria-describedby="">
+          </div>
+          <div class="col">
+            <label class="form-label">usr_nom</label>
+        <input type="text" class="form-control" [(ngModel)]="usuario.usr_nom"id="usr_nom" name="usr_nom"aria-describedby="">
+          </div>
+          <div class="col">
+            <label class="form-label">usr_est</label>
+        <input type="text" class="form-control" [(ngModel)]="usuario.usr_est"id="usr_est" name="usr_est"aria-describedby="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label">usr_treg</label>
+            <input type="text" class="form-control" [(ngModel)]="usuario.usr_treg"id="usr_treg" name="usr_treg"aria-describedby="">
+          </div>
+          <div class="col">
+            <label  class="form-label">usr_clv</label>
+        <input type="text" class="form-control" id="usr_clv"[(ngModel)]="usuario.usr_clv" name="usr_clv"aria-describedby="">
+          </div>
+          <div class="col">
+            <label class="form-label">usr_tacc</label>
+            <input type="text" class="form-control" id="usr_tacc" [(ngModel)]="usuario.usr_tacc"name="usr_tacc"aria-describedby="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label" id="">grp_cod</label>
+            <input type="text" class="form-control" id="grp_cod" [(ngModel)]="usuario.grp_cod"name="grp_cod"aria-describedby="">
+          </div>
+          <div class="col">
+            <label  class="form-label">usr_aud</label>
+        <input type="text" class="form-control" id="usr_aud" name="usr_aud" [(ngModel)]="usuario.usr_aud" aria-describedby="">
+          </div>
+          <div class="col">
+            <label  class="form-label">usr_fec_ult</label>
+            <input type="date" class="form-control" id="usr_fec_ult" [(ngModel)]="usuario.usr_fec_ult"name="usr_fec_ult"aria-describedby="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label  class="form-label">usr_vig_clv</label>
+            <input type="number" class="form-control"name="usr_vig_clv" id="usr_vig_clv" [(ngModel)]="usuario.usr_vig_clv"aria-describedby="">
+          </div>
+          <div class="col">
+            <label class="form-label">usr_dom</label>
+        <input type="text" class="form-control" name="usr_dom"id="usr_dom" [(ngModel)]="usuario.usr_dom" aria-describedby="">
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"(click)="onUpdateUsuario(usuario)">Save changes</button>
+        </div>
+
+    </div>
+
+
+    </div>
+    </div>
+    </div>
+    </div>
+    <!--TERCER BOTON-->
+
+        </div>
+      </div>
+
+
+
+
+
+
+</div>
+</div>
+
+
+
