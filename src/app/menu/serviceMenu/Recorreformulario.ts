@@ -78,7 +78,7 @@ dato:any={}
 
 
       //console.log(valores1[i])
-      console.log(atributos)
+      console.log(atributos[3])
 
 
       }
