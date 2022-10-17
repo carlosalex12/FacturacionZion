@@ -13,7 +13,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   declarations: [],
   imports: [
@@ -30,7 +30,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatPaginatorModule,
     MatBottomSheetModule,
     MatCardModule,
-    MatSelectModule
+    MatSelectModule,
+    MatAutocompleteModule
   ],
   exports:[
     MatToolbarModule,
@@ -45,7 +46,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatPaginatorModule,
     MatBottomSheetModule,
     MatCardModule,
-    MatSelectModule
+    MatSelectModule,
+    MatAutocompleteModule
   ]
 })
 export class MaterialModule { }

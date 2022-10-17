@@ -7,11 +7,11 @@
         <div class="row">
           <div class="col">
             <label class="form-label">N Factura</label>
-            <input type="number" class="form-control"   [(ngModel)]="facturacion.fac_num"  id="fac_num" name="fac_num"aria-describedby="" >
+            <input type="number" class="form-control"   [(ngModel)]="factura.fac_num"  id="fac_num" name="fac_num"aria-describedby="" >
           </div>
           <div class="col">
             <label class="form-label">FECHA FACTURA</label>
-            <input type="datetime" class="form-control" [(ngModel)]="facturacion.fac_fec" id="fac_fec"  name="fac_fec" >
+            <input type="datetime" class="form-control" [(ngModel)]="factura.fac_fec" id="fac_fec"  name="fac_fec" >
 
           </div>
           <div class="col">
@@ -33,7 +33,7 @@
         <div class="row">
           <div class="col">
             <label class="form-label">COD ClIENTE</label>
-            <input type="text" class="form-control" [(ngModel)]="facturacion.cli_cod" id="" name=""aria-describedby="" >
+            <input type="text" class="form-control" [(ngModel)]="factura.cli_cod" id="" name=""aria-describedby="" >
           </div>
           <div class="col">
             <label class="form-label">NOMBRE ClIENTE</label>
@@ -65,6 +65,7 @@
     <mat-card >
       <div class="container text-center">
         <div class="row">
+
           <div class="col">
             <label class="form-label">CODIGO ARTICULO</label>
             <input type="text" class="form-control" [(ngModel)]="l_codArt" id="art_cod" name="art_cod"aria-describedby="" >
@@ -75,7 +76,7 @@
           </div>
           <div class="col">
             <label class="form-label">CANTIDAD </label>
-            <input type="number" class="form-control" [(ngModel)]="l_CantArt"    id="" name=""aria-describedby="" >
+            <input type="number" class="form-control" [(ngModel)]="l_CantArt"    id="" name=""aria-describedby=""  required="llene">
           </div>
           <div class="col">
             <label class="form-label">Precio</label>
@@ -87,7 +88,7 @@
           </div>
           <div class="col mt-4">
 
-            <button type="button" class="btn btn-primary "(click)=" buscArt()" data-bs-dismiss="modal">Buscar</button>
+            <button type="button" class="btn btn-primary "(click)="buscArt()" data-bs-dismiss="modal">Buscar</button>
 
         </div>
         </div>
@@ -100,24 +101,28 @@
 
   </div>
   <div class="row m-4">
-    <mat-card class="table">
-      <table class="table">
+    <mat-card class="table" >
+      <table class="table" method="post"   id="Detalle">
         <thead>
           <tr>
-            <th scope="col">N</th>
+            <th scope="col">id</th>
+            <th scope="col">NFactura</th>
             <th scope="col">ARticulo</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Precio</th>
             <th scope="col">SubTotal</th>
+            <th scope="col">eliminR</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of facturacion.Detalle">
+          <tr *ngFor="let item of this.datostabla" >
+            <th>{{item.id}}</th>
             <th>{{item.fac_num}}</th>
             <th>{{item.art_cod}}</th>
             <th>{{item.fdt_cant}}</th>
             <th>{{item.fdt_prec}}</th>
             <th>{{item.fdt_sub}}</th>
+            <th><button (click)="eliminar(item.id)">menos</button></th>
           </tr>
 
         </tbody>
@@ -129,7 +134,7 @@
     <mat-card>
     <button mat-raised-button color="primary"(click)="agregarArt()">Agregar</button>
     <button mat-raised-button color="accent"(click)="enviar()">Enviar</button>
-    <button mat-raised-button color="warn">Nueva factura</button>
+    <button mat-raised-button color="warn" (clik)="Guardar()">Nueva factura</button>
   </mat-card>
   </div>
 

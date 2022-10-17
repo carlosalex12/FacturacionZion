@@ -28,6 +28,7 @@ Detalle:Detalles[]
   cli_cod: string="";
 
 Detalle:Detalles[]=[];*/
+
 emp_cod: string="G01";
 
   fac_num: number=0;
@@ -44,15 +45,18 @@ Detalle:DEtalles[]=[];
 
 }
 class DEtalles{
-
-  emp_cod: string="G01";
-  fac_num: number=0;
-  art_cod:string="";
-  fdt_cant:number=0;
-  fdt_prec:number=0;
-  fdt_sub:number=0;
-
+    id:number=0;
+    emp_cod:string="G01";
+    fac_num:number=0;
+    art_cod:string="";
+    fdt_cant:number=0;
+    fdt_prec:number=0;
+    fdt_sub:number=0;
 }
+
+
+
+
 
 
 
