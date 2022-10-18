@@ -50,7 +50,7 @@ export class FacturacionComponent implements OnInit {
  l_precioArt=0
  l_subTotal=0
  l_id=0
-
+ l_cantAu=0
   datatable:any=[];
   NunFAc:any=[]
   clientes:any=[];
@@ -137,9 +137,7 @@ factura:Facturacion = new Facturacion();
         }
         );
       });
-
-this.datostabla=this.factura.Detalle
-
+      this.datostabla=this.factura.Detalle
     }
 
  agregarArt(){
@@ -148,11 +146,23 @@ this.datostabla=this.factura.Detalle
 }
 
 //eliminar
-eliminar(item:any)
+eliminar(ids:any)
 {
-  this.datostabla=Object.values(this.factura.Detalle)
-  console.log(this.datostabla)
-  delete this.datostabla[item-1]
+  //const indice =this.factura.Detalle.find((indice)=>{
+
+//console.log(indice.id==ids)
+ // })
+
+const ideli=this.factura.Detalle.findIndex((elemto)=>{
+
+  return elemto.id===ids
+})
+ console.log(ideli)
+ // this.datostabla=Object.values(this.factura.Detalle)
+  //console.log(this.datostabla)
+  //this.datostabla.splice(item-1)
+  //this.datostabla.refresh()
+  //delete this.datostabla[item-1]
 
   //for (let i = 0; i < this.factura.Detalle.length; i++) {
 //let eliminar=this.factura.Detalle[i].id
@@ -164,7 +174,9 @@ eliminar(item:any)
   //let mayorQueDiez = this.factura.Detalle.filter(id =>id = item);
 
 //this.factura.Detalle.omit(item)
-//this.factura.Detalle.splice(item-1)
+this.factura.Detalle.splice(ideli,1)
+console.log(this.factura.Detalle)
+//console.log(this.factura.Detalle)
 //console.log(delete mayorQueDiez[item])
 //console.log( mayorQueDiez)
 }

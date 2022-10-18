@@ -115,14 +115,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of this.datostabla" >
+          <tr *ngFor="let item of this.factura.Detalle" >
             <th>{{item.id}}</th>
             <th>{{item.fac_num}}</th>
             <th>{{item.art_cod}}</th>
-            <th>{{item.fdt_cant}}</th>
+            <th><input type="number" class="form-control" [(ngModel)]="item.fdt_cant" placeholder="{{item.fdt_cant}}"></th>
             <th>{{item.fdt_prec}}</th>
             <th>{{item.fdt_sub}}</th>
-            <th><button (click)="eliminar(item.id)">menos</button></th>
+            <th><button   mat-raised-button color="warn" (click)="eliminar(item.id)">-</button></th>
           </tr>
 
         </tbody>
