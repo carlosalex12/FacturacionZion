@@ -1,0 +1,36 @@
+<div class="container">
+<div class="row">
+  <p>Detalles de busqueda</p>
+</div>
+<div class="row">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">emp_cod</th>
+        <th scope="col">cli_cod</th>
+        <th scope="col">cli_nom</th>
+        <th scope="col">cli_est</th>
+        <th scope="col">ccl_cod</th>
+        <th scope="col">Seleccionar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of this.l_BusCientes" >
+        <td>{{item.emp_cod}}</td>
+        <td>{{item.cli_cod}}</td>
+        <td>{{item.cli_nom}}</td>
+        <td>{{item.cli_est}}</td>
+        <td>{{item.ccl_cod}}</td>
+        <td><button  mat-raised-button color="primary" (click)="cliSelect(item)">seleccionar</button></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+
+</div>
+<div class="row"></div>
+
+
+
+</div>

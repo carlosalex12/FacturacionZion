@@ -33,11 +33,11 @@
         <div class="row">
           <div class="col">
             <label class="form-label">COD ClIENTE</label>
-            <input type="text" class="form-control" [(ngModel)]="factura.cli_cod" id="" name=""aria-describedby="" >
+            <input type="text" class="form-control" (click)="Precionar_teclaCli()"  id="codcli" [(ngModel)]="factura.cli_cod" placeholder="{{this.l_nomArt}}" >
           </div>
           <div class="col">
             <label class="form-label">NOMBRE ClIENTE</label>
-            <input type="text" class="form-control"     value="{{this.l_nomCli}}" aria-describedby="" >
+            <input type="text" class="form-control"  (click)="Precionar_teclaCli()" id="" [(ngModel)]="this.l_nomCli"    placeholder="{{this.l_nomCli}}" >
           </div>
           <div class="col">
             <label class="form-label">ESTADO ClIENTE </label>
@@ -48,7 +48,6 @@
             <input type="text" class="form-control" value="{{this.l_catCli}}"  id="" name=""aria-describedby="" disabled>
           </div>
           <div class="col mt-4">
-
               <button type="button" class="btn btn-primary "(click)=" buscarcli()" data-bs-dismiss="modal">Buscar</button>
 
           </div>
@@ -68,11 +67,11 @@
 
           <div class="col">
             <label class="form-label">CODIGO ARTICULO</label>
-            <input type="text" class="form-control" [(ngModel)]="l_codArt" id="art_cod" name="art_cod"aria-describedby="" >
+            <input type="text" class="form-control" (click)="Precionar_teclaArt()"  id="" [(ngModel)]="this.l_codArt" placeholder="{{this.l_nomArt}}" >
           </div>
           <div class="col">
             <label class="form-label">NOMBRE ARTICULO</label>
-            <input type="text" class="form-control"  id="art_cod"  value="{{this.l_nomArt}}" name="art_cod" disabled >
+            <input type="text" class="form-control" (click)="Precionar_teclaArt()" [(ngModel)]="this.l_nomArt" id="art_cod"  placeholder="{{this.l_nomArt}}"   name="art_cod"  >
           </div>
           <div class="col">
             <label class="form-label">CANTIDAD </label>
@@ -102,12 +101,13 @@
   </div>
   <div class="row m-4">
     <mat-card class="table" >
-      <table class="table" method="post"   id="Detalle">
+      <table class="table"  *ngIf="this.factura.Detalle">
         <thead>
           <tr>
             <th scope="col">id</th>
             <th scope="col">NFactura</th>
             <th scope="col">ARticulo</th>
+            <th scope="col">NombreArt</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Precio</th>
             <th scope="col">SubTotal</th>
@@ -119,12 +119,21 @@
             <th>{{item.id}}</th>
             <th>{{item.fac_num}}</th>
             <th>{{item.art_cod}}</th>
+            <th>{{item.art_nom}}</th>
             <th><input type="number" class="form-control" [(ngModel)]="item.fdt_cant" placeholder="{{item.fdt_cant}}"></th>
             <th>{{item.fdt_prec}}</th>
             <th>{{item.fdt_sub}}</th>
             <th><button   mat-raised-button color="warn" (click)="eliminar(item.id)">-</button></th>
           </tr>
-
+          <tr>
+            <th scope="col">TOTAL</th>
+            <th> </th>
+            <th>  </th>
+            <th>  </th>
+            <th>  </th>
+            <th>  </th>
+            <th> {{this.l_totalG}} </th>
+          </tr>
         </tbody>
       </table>
 

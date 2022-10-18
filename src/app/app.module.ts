@@ -28,6 +28,11 @@ import {TableModule} from 'primeng/table';
 import {DialogModule} from 'primeng/dialog';
 import { PruebaComponent } from './prueba/prueba.component';
 import { FacturacionComponent } from './facturacion/facturacion.component';
+import { ClienteDialogoComponent } from './facturacion/cliente-dialogo/cliente-dialogo.component';
+import { ArticuloDialogoComponent } from './facturacion/articulo-dialogo/articulo-dialogo.component';
+
+
+
 
 
 
@@ -46,6 +51,9 @@ import { FacturacionComponent } from './facturacion/facturacion.component';
     TablaeditComponent,
     PruebaComponent,
     FacturacionComponent,
+    ClienteDialogoComponent,
+    ArticuloDialogoComponent,
+
 
 
 
