@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit {
   articulo(){
 
 this.GlobalService
-    .metodoGet(`https://localhost:44373/Articulo/ConsultaArticulo?usuario=`+ this.Gvariables.g_empid.id.id)
+    .metodoGet(`https://localhost:44381/Articulo/GetAll?p_usr=`+ this.Gvariables.g_empid.id.id)
     .subscribe((resultadoMetodoGet:any) => {
       console.log("resultadoMetodoGet");
     console.log(resultadoMetodoGet)});

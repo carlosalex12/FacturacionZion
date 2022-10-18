@@ -37,7 +37,7 @@
           </div>
           <div class="col">
             <label class="form-label">NOMBRE ClIENTE</label>
-            <input type="text" class="form-control"     value="{{this.l_nomCli}}" aria-describedby="" >
+            <input type="text" class="form-control" [(ngModel)]="this.l_nomCli"    placeholder="{{this.l_nomCli}}" aria-describedby="" >
           </div>
           <div class="col">
             <label class="form-label">ESTADO ClIENTE </label>
@@ -72,7 +72,7 @@
           </div>
           <div class="col">
             <label class="form-label">NOMBRE ARTICULO</label>
-            <input type="text" class="form-control"  id="art_cod"  value="{{this.l_nomArt}}" name="art_cod" disabled >
+            <input type="text" class="form-control" [(ngModel)]="this.l_nomArt" id="art_cod"  placeholder="{{this.l_nomArt}}" name="art_cod" disabled >
           </div>
           <div class="col">
             <label class="form-label">CANTIDAD </label>

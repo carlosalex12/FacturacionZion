@@ -30,8 +30,8 @@ export class GlobalService {
 
 
 
-  server:string='https://localhost:44373/';
-  inser:string='/Insertar?usuario='
+  server:string=`https://localhost:44381`;
+  inser:string='/Add?p_usr='
 
   creainser(tabala:string){
     return this.server+tabala+this.inser

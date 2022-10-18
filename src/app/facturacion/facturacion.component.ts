@@ -101,14 +101,13 @@ factura:Facturacion = new Facturacion();
 
       this.GlobalService
 
-      .metodoGet(`https://localhost:44373/Cliente/ConsultaNombre?cliente=`+this.factura.cli_cod+`&usuario=`+this.gvariables.g_empid.id.id)
+      .metodoGet(`https://localhost:44381/Cliente/GetId?p_id=`+this.factura.cli_cod+`&p_nom=`+this.l_nomCli+`&p_usr=`+this.gvariables.g_empid.id.id)
       .subscribe((res:any) => {
-        this.idclientes=res.Data;
+        this.idclientes=res;
         console.log(this.idclientes);
-        this.l_nomCli=this.idclientes[0].cli_nom
+        // this.l_nomCli=this.idclientes[0].cli_nom
         this.l_estCli=this.idclientes[0].cli_est
         this.l_catCli=this.idclientes[0].ccl_cod
-        console.log(this.l_nomCli)
       });
 
 
@@ -117,11 +116,11 @@ factura:Facturacion = new Facturacion();
 
       this.GlobalService
 
-      .metodoGet(`https://localhost:44373/Articulo/ConsultaNombre?articulo=`+this.l_codArt+`&usuario=`+this.gvariables.g_empid.id.id)
+      .metodoGet(`https://localhost:44381/Articulo/GetId?p_id=`+this.l_codArt+`&p_nom=`+this.l_nomArt+`&p_usr=`+this.gvariables.g_empid.id.id)
       .subscribe((res:any) => {
-        this.idarticulo=res.Data;
+        this.idarticulo=res;
         console.log(this.idclientes);
-        this.l_nomArt=this.idarticulo[0].art_nom
+        // this.l_nomArt=this.idarticulo[0].art_nom
         this.l_precioArt=this.idarticulo[0].art_prec
         this.l_subTotal=this.l_CantArt*this.l_precioArt
 

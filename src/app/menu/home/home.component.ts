@@ -39,7 +39,7 @@ this.l_Lemp=this.Gvariables.g_Lemp;
 articulo(){
   this.GlobalService
 
-  .metodoGet(`https://localhost:44373/Articulo/ConsultaArticulo?usuario=`+ this.Gvariables.g_empid.id.id)
+  .metodoGet(`https://localhost:44381/Articulo/GetAll?p_usr=`+ this.Gvariables.g_empid.id.id)
   .subscribe((resultadoMetodoGet:any) => {
     console.log("resultadoMetodoGet");
   console.log(resultadoMetodoGet)});
@@ -52,7 +52,7 @@ articulo(){
 factura(){
   this.GlobalService
 
-  .metodoGet(`https://localhost:44373/Cliente/Consultas?usuario=`+ this.Gvariables.g_empid.id.id)
+  .metodoGet(`https://localhost:44381/Cliente/GetAll?p_usr=`+ this.Gvariables.g_empid.id.id)
   .subscribe((resultadoMetodoGet:any) => {
     console.log("resultadoMetodoGet");
   console.log(resultadoMetodoGet)});
@@ -65,7 +65,7 @@ factura(){
 cliente(){
   this.GlobalService
 
-  .metodoGet(`https://localhost:44373/Factura/Consultas?usuario=`+ this.Gvariables.g_empid.id.id)
+  .metodoGet(`https://localhost:44381/Factura/GetAll?p_usr=`+ this.Gvariables.g_empid.id.id)
   .subscribe((resultadoMetodoGet:any) => {
     console.log("resultadoMetodoGet");
   console.log(resultadoMetodoGet)});
