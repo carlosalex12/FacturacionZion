@@ -2,7 +2,12 @@ table {
   width: 100%;
 
 }
+.p{
+  min-width:4;
+  max-width:8;
+   size:"10";
 
+}
 .mat-form-field {
   font-size: 14px;
   width: 100%;
@@ -11,3 +16,12 @@ table {
   font-weight: bold;
 }
 
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}

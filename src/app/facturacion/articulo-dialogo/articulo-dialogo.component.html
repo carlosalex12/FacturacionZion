@@ -1,1 +1,39 @@
-<p>articulo-dialogo works!</p>
+
+<div class="container">
+  <div class="row">
+    <p>Detalles de busqueda</p>
+  </div>
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">emp_cod</th>
+          <th scope="col">art_cod</th>
+          <th scope="col">art_nom</th>
+          <th scope="col">art_est</th>
+          <th scope="col">art_prec</th>
+          <th scope="col">car_cod</th>
+          <th scope="col">Seleccionar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of l_Buscarticulo" >
+          <td>{{item.emp_cod}}</td>
+          <td>{{item.art_cod}}</td>
+          <td>{{item.art_nom}}</td>
+          <td>{{item.art_est}}</td>
+          <td>{{item.art_prec}}</td>
+          <td>{{item.car_cod}}</td>
+          <td><button  mat-raised-button color="primary" (click)="cliSelect(item)">seleccionar</button></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+
+  </div>
+  <div class="row"></div>
+
+
+
+  </div>

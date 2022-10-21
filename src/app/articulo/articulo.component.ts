@@ -27,8 +27,7 @@ export class ArticuloComponent implements OnInit {
   car_cod="";
 
   emp_cod="";
-  l_tabla="cliente"
-l_urlist=""
+
 
   articulo:articulo = new articulo();
   datatable:any=[];
@@ -55,9 +54,9 @@ l_urlist=""
   ondatatable(){
     this.GlobalService
 
-    .metodoGet(`https://localhost:44373/Articulo/Consultas?usuario=`+this.gvariables.g_empid.id.id)
+    .metodoGet(`https://localhost:44381/Articulo/GetAll?p_usr=`+this.gvariables.g_empid.id.id)
     .subscribe((res:any) => {
-      this.datatable=res.Data;
+      this.datatable=res;
 
     ///datasource si iguala ala respuesta del get para imprimir los datos
 this.dataSource.data=this.datatable
@@ -90,16 +89,15 @@ this.dataSource.data=this.datatable
       ///ingresar articuloss
 
 OnAddusuario(Articulo:articulo):void{
-  this.l_urlist=this.GlobalService
-  .creainser(this.l_tabla)
+  this.GlobalService.creaURLInsert("Articulo")
 
-  console.log(this.gvariables.g_empid.id.id)
+  console.log(this.GlobalService.creaURLInsert("Articulo"))
 
 
   this.GlobalService
 
 
-  .metodoPost(''+this.l_urlist+''+this.gvariables.g_empid.id.id,
+  .metodoPost(''+this.GlobalService.creaURLInsert("Articulo")+''+this.gvariables.g_empid.id.id,
 
   {
   emp_cod:this.articulo.emp_cod,
@@ -126,7 +124,7 @@ OnAddusuario(Articulo:articulo):void{
       ///actualizar articulo
       onUpdateArticulo(articulo:articulo):void{
       this.GlobalService
-      .metodoPut('https://localhost:44373/Articulo/Actualizar?usuario='+this.gvariables.g_empid.id.id,{
+      .metodoPut('https://localhost:44381/Articulo/Put?p_usr='+this.gvariables.g_empid.id.id,{
       art_cod:this.articulo.art_cod,
       art_nom:this.articulo.art_nom,
       art_est:this.articulo.art_est,
@@ -144,7 +142,7 @@ OnAddusuario(Articulo:articulo):void{
       ///Eliminar
       onDeleteArticulo(articulo:articulo):void{
         this.GlobalService
-        .metodoPut('https://localhost:44373/Articulo/Eliminar?usuario='+this.gvariables.g_empid.id.id,{
+        .metodoPut(`https://localhost:44381/Articulo/Delete?p_usr=`+this.gvariables.g_empid.id.id,{
         art_cod:this.articulo.art_cod,
       })
       .subscribe((resultado)=>{

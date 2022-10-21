@@ -60,16 +60,16 @@ mostrarForm(){
 
 }
   guardar(){
-    this.elements = document.getElementById("datosform")
+    this.elements = document.getElementById("camp1")
    this.datos=this.armarinser.armarinsert(this.elements)
-
+this.elements.value
 
 console.log('datos form')
 console.log(this.datos)
 console.log('url insert')
 
 this.urlin=this.gservice
-.creainser(this.tabla)
+.creaURLInsert(this.tabla)
 
 console.log(this.urlin)
 
