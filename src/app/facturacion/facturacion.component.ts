@@ -101,7 +101,8 @@ export class FacturacionComponent implements OnInit {
     public gvariablesBus: VariablesGlobalesBusqueda,
     public dialog: MatDialog,
     public dialog1: MatDialog,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _router: Router
   ) {
     this.DArt = this.fb.group({
       artcod: ['', Validators.required],
@@ -125,20 +126,14 @@ export class FacturacionComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-
+  regresar() {
+    console.log(this.gvariables.g_empid);
+    this._router.navigate([`/home/` + this.gvariables.g_empid.id.id]);
+  }
   ngOnInit(): void {
     this.gvariables.g_empid = {
       id: this._rutaDatos.snapshot.params,
     };
-
-  }
-  mostrarTabla(){
-
-    for (var i = 0, element; element = this.factura.Detalles [i++];) {
-      this.gvariablesBus.gsubtotal=this.gvariablesBus.gsubtotal+element.fdt_sub
-       console.log("datos total",this.gvariablesBus.gsubtotal)
-     }
-
   }
 
   ngAfterViewInit() {}
@@ -156,9 +151,11 @@ export class FacturacionComponent implements OnInit {
           fdt_prec: this.gvariablesBus.g_DatosArt.art_prec,
           fdt_sub: this.gvariablesBus.g_DatosArt.art_prec,
         });
-        this.gvariablesBus.gsubtotal=1*this.gvariablesBus.g_DatosArt.art_prec
-        console.log("datos subtotal",this.gvariablesBus.gsubtotal)
-        this.gvariablesBus.g_total=this.gvariablesBus.g_total+this.gvariablesBus.gsubtotal
+        this.gvariablesBus.gsubtotal =
+          1 * this.gvariablesBus.g_DatosArt.art_prec;
+        console.log('datos subtotal', this.gvariablesBus.gsubtotal);
+        this.gvariablesBus.g_total =
+          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
         this.clear();
       } else {
         this.factura.Detalles.push({
@@ -169,11 +166,13 @@ export class FacturacionComponent implements OnInit {
           art_nom: this.gvariablesBus.g_DatosArt.art_nom,
           fdt_cant: this.fart_cant,
           fdt_prec: this.gvariablesBus.g_DatosArt.art_prec,
-          fdt_sub: this.fart_cant*this.gvariablesBus.g_DatosArt.art_prec,
+          fdt_sub: this.fart_cant * this.gvariablesBus.g_DatosArt.art_prec,
         });
-        this.gvariablesBus.gsubtotal=this.fart_cant*this.gvariablesBus.g_DatosArt.art_prec
-        console.log("datos subtotal",this.gvariablesBus.gsubtotal)
-        this.gvariablesBus.g_total=this.gvariablesBus.g_total+this.gvariablesBus.gsubtotal
+        this.gvariablesBus.gsubtotal =
+          this.fart_cant * this.gvariablesBus.g_DatosArt.art_prec;
+        console.log('datos subtotal', this.gvariablesBus.gsubtotal);
+        this.gvariablesBus.g_total =
+          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
         this.clear();
       }
     } else {
@@ -189,9 +188,10 @@ export class FacturacionComponent implements OnInit {
           fdt_prec: this.l_art_prec,
           fdt_sub: this.l_art_prec,
         });
-        this.gvariablesBus.gsubtotal=1*this.l_art_prec
-        console.log("datos total",this.gvariablesBus.gsubtotal)
-        this.gvariablesBus.g_total=this.gvariablesBus.g_total+this.gvariablesBus.gsubtotal
+        this.gvariablesBus.gsubtotal = 1 * this.l_art_prec;
+        console.log('datos total', this.gvariablesBus.gsubtotal);
+        this.gvariablesBus.g_total =
+          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
         console.log('los datos agregados', this.factura);
       } else {
         this.factura.cli_cod = this.Fcli_cod;
@@ -203,18 +203,18 @@ export class FacturacionComponent implements OnInit {
           art_nom: this.l_art_nom,
           fdt_cant: this.fart_cant,
           fdt_prec: this.l_art_prec,
-          fdt_sub: this.fart_cant*this.l_art_prec,
+          fdt_sub: this.fart_cant * this.l_art_prec,
         });
-        this.gvariablesBus.gsubtotal=this.fart_cant*this.l_art_prec
-        this.gvariablesBus.g_total=this.gvariablesBus.g_total+this.gvariablesBus.gsubtotal
-        console.log("datos total",this.gvariablesBus.gsubtotal)
+        this.gvariablesBus.gsubtotal = this.fart_cant * this.l_art_prec;
+        this.gvariablesBus.g_total =
+          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
+        console.log('datos total', this.gvariablesBus.gsubtotal);
         console.log('los datos agregados', this.factura);
       }
     }
     if (this.factura.Detalles.length != 0) {
       this.vertable = true;
     }
-
   }
 
   //funcion de la teclas f4 ,esc,eliminar
@@ -302,7 +302,7 @@ export class FacturacionComponent implements OnInit {
     this.gvariablesBus.g_total = this.gvariablesBus.g_total - ids.fdt_sub;
   }
   //focus del input de la tabla
-  fousTable(dato: any ,valor:any) {
+  fousTable(dato: any, valor: any) {
     const ideli = this.factura.Detalles.findIndex((elemto) => {
       return elemto.id === dato.id;
     });
@@ -317,11 +317,11 @@ export class FacturacionComponent implements OnInit {
       fdt_prec: dato.fdt_prec,
       fdt_sub: valor * dato.fdt_prec,
     });
-    this.gvariablesBus.g_total=0
-    for (var i = 0, element; element = this.factura.Detalles [i++];) {
-      this.gvariablesBus.g_total=this.gvariablesBus.g_total+element.fdt_sub
-       console.log("datos total ",this.gvariablesBus.gsubtotal)
-     }
+    this.gvariablesBus.g_total = 0;
+    for (var i = 0, element; (element = this.factura.Detalles[i++]); ) {
+      this.gvariablesBus.g_total = this.gvariablesBus.g_total + element.fdt_sub;
+      console.log('datos total ', this.gvariablesBus.gsubtotal);
+    }
 
     alert('dato cambiado');
 
@@ -436,7 +436,7 @@ export class FacturacionComponent implements OnInit {
             this.datosart.value = this.l_art_nom;
             this.gvariablesBus.g_DatosArt.art_prec = this.l_art_prec;
             this.datosart = document.getElementById('idart_sub');
-            this.datosart.value = this.fart_cant*this.l_art_prec;
+            this.datosart.value = this.fart_cant * this.l_art_prec;
           }
         });
       }
@@ -470,23 +470,13 @@ export class FacturacionComponent implements OnInit {
             this.datosart = document.getElementById('idart_prec');
             this.datosart.value = this.l_art_prec;
             this.datosart = document.getElementById('idart_sub');
-            this.datosart.value =this.fart_cant*this.l_art_prec;
+            this.datosart.value = this.fart_cant * this.l_art_prec;
           }
         });
       }
     }
-
   }
 
-  // operacion de antidad
-  // CantidadOp(id: any) {
-
-  //   console.log('el precio es:');
-
-  //   this.gvariablesBus.gsubtotal =
-  //     this.gvariablesBus.g_DatosArt.art_prec * this.fart_cant;
-  //   console.log(this.gvariablesBus.gsubtotal);
-  // }
 
   clear() {
     this.fart_cod = '';

@@ -31,7 +31,7 @@ import { FacturacionComponent } from './facturacion/facturacion.component';
 import { ClienteDialogoComponent } from './facturacion/cliente-dialogo/cliente-dialogo.component';
 import { ArticuloDialogoComponent } from './facturacion/articulo-dialogo/articulo-dialogo.component';
 import {FieldsetModule} from 'primeng/fieldset';
-
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 
@@ -71,7 +71,8 @@ ButtonModule,
 TableModule,
 DialogModule,
 ReactiveFormsModule,
-FieldsetModule
+FieldsetModule,
+MatSidenavModule
 
 
 

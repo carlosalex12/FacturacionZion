@@ -1,4 +1,23 @@
-<div class="container">
+
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <p>Auto-resizing sidenav</p>
+    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+    <button (click)="showFiller = !showFiller" mat-raised-button>
+      Toggle extra text
+    </button>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <button type="button" mat-button (click)="drawer.toggle()">
+      Toggle sidenav
+    </button>
+  </div>
+
+</mat-drawer-container>
+
+<!-- <div class="container">
+
   <form method="post"    (ngSubmit)="guardar()" id="datosform" >
     <div class="col">
       <label>camp1</label>
@@ -18,5 +37,5 @@
     </div>
   </form>
 
-</div>
+</div> -->
 
