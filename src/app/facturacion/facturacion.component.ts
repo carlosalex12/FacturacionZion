@@ -64,6 +64,7 @@ export class FacturacionComponent implements OnInit {
   fart_cod = '';
   fart_nom = '';
   fart_cant = 0;
+  fdt_cant = 0;
   ////
   l_Buscarticulo: any;
   l_datosArt: any = [];
@@ -91,6 +92,8 @@ export class FacturacionComponent implements OnInit {
   prueba: FormGroup;
   datocli: any;
   datosart: any;
+  vertable = false;
+
   constructor(
     private readonly _rutaDatos: ActivatedRoute,
     private GlobalService: GlobalService,
@@ -127,28 +130,38 @@ export class FacturacionComponent implements OnInit {
     this.gvariables.g_empid = {
       id: this._rutaDatos.snapshot.params,
     };
+
+  }
+  mostrarTabla(){
+
+    for (var i = 0, element; element = this.factura.Detalles [i++];) {
+      this.gvariablesBus.gsubtotal=this.gvariablesBus.gsubtotal+element.fdt_sub
+       console.log("datos total",this.gvariablesBus.gsubtotal)
+     }
+
   }
 
   ngAfterViewInit() {}
-
-  buscArt() {
+  //añaddir articulo
+  agregarArt() {
     if (this.fart_cod == '' && this.fart_nom == '') {
-      if(this.fart_cant==0){
-        this.factura.Detalle.push({
+      if (this.fart_cant == 0) {
+        this.factura.Detalles.push({
           id: (this.l_id = this.l_id + 1),
           emp_cod: 'G01',
           fac_num: this.factura.fac_num,
           art_cod: this.gvariablesBus.g_DatosArt.art_cod,
           art_nom: this.gvariablesBus.g_DatosArt.art_nom,
-          fdt_cant:1,
+          fdt_cant: 1,
           fdt_prec: this.gvariablesBus.g_DatosArt.art_prec,
           fdt_sub: this.gvariablesBus.g_DatosArt.art_prec,
         });
-        this.gvariablesBus.g_total =
-          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
+        this.gvariablesBus.gsubtotal=1*this.gvariablesBus.g_DatosArt.art_prec
+        console.log("datos subtotal",this.gvariablesBus.gsubtotal)
+        this.gvariablesBus.g_total=this.gvariablesBus.g_total+this.gvariablesBus.gsubtotal
         this.clear();
-      }else{
-        this.factura.Detalle.push({
+      } else {
+        this.factura.Detalles.push({
           id: (this.l_id = this.l_id + 1),
           emp_cod: 'G01',
           fac_num: this.factura.fac_num,
@@ -156,17 +169,17 @@ export class FacturacionComponent implements OnInit {
           art_nom: this.gvariablesBus.g_DatosArt.art_nom,
           fdt_cant: this.fart_cant,
           fdt_prec: this.gvariablesBus.g_DatosArt.art_prec,
-          fdt_sub: this.gvariablesBus.gsubtotal,
+          fdt_sub: this.fart_cant*this.gvariablesBus.g_DatosArt.art_prec,
         });
-        this.gvariablesBus.g_total =
-          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
+        this.gvariablesBus.gsubtotal=this.fart_cant*this.gvariablesBus.g_DatosArt.art_prec
+        console.log("datos subtotal",this.gvariablesBus.gsubtotal)
+        this.gvariablesBus.g_total=this.gvariablesBus.g_total+this.gvariablesBus.gsubtotal
         this.clear();
       }
-
     } else {
-      if(this.fart_cant==0){
+      if (this.fart_cant == 0) {
         this.factura.cli_cod = this.Fcli_cod;
-        this.factura.Detalle.push({
+        this.factura.Detalles.push({
           id: (this.l_id = this.l_id + 1),
           emp_cod: 'G01',
           fac_num: this.factura.fac_num,
@@ -174,14 +187,15 @@ export class FacturacionComponent implements OnInit {
           art_nom: this.l_art_nom,
           fdt_cant: 1,
           fdt_prec: this.l_art_prec,
-          fdt_sub:this.l_art_prec ,
+          fdt_sub: this.l_art_prec,
         });
-        this.gvariablesBus.g_total =
-          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
+        this.gvariablesBus.gsubtotal=1*this.l_art_prec
+        console.log("datos total",this.gvariablesBus.gsubtotal)
+        this.gvariablesBus.g_total=this.gvariablesBus.g_total+this.gvariablesBus.gsubtotal
         console.log('los datos agregados', this.factura);
-      }else{
+      } else {
         this.factura.cli_cod = this.Fcli_cod;
-        this.factura.Detalle.push({
+        this.factura.Detalles.push({
           id: (this.l_id = this.l_id + 1),
           emp_cod: 'G01',
           fac_num: this.factura.fac_num,
@@ -189,19 +203,28 @@ export class FacturacionComponent implements OnInit {
           art_nom: this.l_art_nom,
           fdt_cant: this.fart_cant,
           fdt_prec: this.l_art_prec,
-          fdt_sub: this.gvariablesBus.gsubtotal,
+          fdt_sub: this.fart_cant*this.l_art_prec,
         });
-        this.gvariablesBus.g_total =
-          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
+        this.gvariablesBus.gsubtotal=this.fart_cant*this.l_art_prec
+        this.gvariablesBus.g_total=this.gvariablesBus.g_total+this.gvariablesBus.gsubtotal
+        console.log("datos total",this.gvariablesBus.gsubtotal)
         console.log('los datos agregados', this.factura);
       }
-
     }
+    if (this.factura.Detalles.length != 0) {
+      this.vertable = true;
+    }
+
   }
 
+  //funcion de la teclas f4 ,esc,eliminar
   precionarTecla(event: any, id: any, idinput: any) {
-
-    if (this.fart_cod != "" && this.fart_nom!= ""&&this.Fcli_cod!= ""&&this.Fcli_nom!= "") {
+    if (
+      this.fart_cod != '' &&
+      this.fart_nom != '' &&
+      this.Fcli_cod != '' &&
+      this.Fcli_nom != ''
+    ) {
       if (event.keyCode == 115) {
         if (id == 'divCliente') {
           this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
@@ -233,64 +256,83 @@ export class FacturacionComponent implements OnInit {
           this.datosart.value = '';
         }
       }
-    }else{
-this.fart_cod=""
-this.fart_nom=""
-this.Fcli_cod=""
-this.Fcli_nom=""
-if (event.keyCode == 115) {
-  if (id == 'divCliente') {
-    this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
-    this.gvariablesBus.g_clicod = this.Fcli_cod;
-    this.gvariablesBus.g_clinom = this.Fcli_nom;
-    return this.openDialogcli();
-  } else if (id == 'divArticulo') {
-    this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
-    this.gvariablesBus.g_artcod = this.fart_cod;
-    this.gvariablesBus.g_artnom = this.fart_nom;
-    return this.openDialogArt();
-  }
-} else if (event.keyCode == 27) {
-  this.dialogRef.afterClosed().subscribe((result: any) => {
-    console.log(`Dialog result: ${result}`);
-  });
-} else if (event.keyCode == 8) {
-  if (idinput == 'idcli_cod') {
-    this.datocli = document.getElementById('idcli_nom');
-    this.datocli.value = '';
-  } else if (idinput == 'idcli_nom') {
-    this.datocli = document.getElementById('idcli_cod');
-    this.datocli.value = '';
-  } else if (idinput == 'idart_cod') {
-    this.datosart = document.getElementById('idart_nom');
-    this.datosart.value = '';
-  } else if (idinput == 'idart_nom') {
-    this.datosart = document.getElementById('idart_cod');
-    this.datosart.value = '';
-  }
-}
+    } else {
+      if (event.keyCode == 115) {
+        if (id == 'divCliente') {
+          this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
+          this.gvariablesBus.g_clicod = this.Fcli_cod;
+          this.gvariablesBus.g_clinom = this.Fcli_nom;
+          return this.openDialogcli();
+        } else if (id == 'divArticulo') {
+          this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
+          this.gvariablesBus.g_artcod = this.fart_cod;
+          this.gvariablesBus.g_artnom = this.fart_nom;
+          return this.openDialogArt();
+        }
+      } else if (event.keyCode == 27) {
+        this.dialogRef.afterClosed().subscribe((result: any) => {
+          console.log(`Dialog result: ${result}`);
+        });
+      } else if (event.keyCode == 8) {
+        if (idinput == 'idcli_cod') {
+          this.datocli = document.getElementById('idcli_nom');
+          this.datocli.value = '';
+        } else if (idinput == 'idcli_nom') {
+          this.datocli = document.getElementById('idcli_cod');
+          this.datocli.value = '';
+        } else if (idinput == 'idart_cod') {
+          this.datosart = document.getElementById('idart_nom');
+          this.datosart.value = '';
+        } else if (idinput == 'idart_nom') {
+          this.datosart = document.getElementById('idart_cod');
+          this.datosart.value = '';
+        }
+      }
     }
   }
 
-  agregarArt() {}
-
-  //eliminar
+  //eliminar articulos
   eliminar(ids: any) {
-    const ideli = this.factura.Detalle.findIndex((elemto) => {
-      return elemto.id === ids;
+    const ideli = this.factura.Detalles.findIndex((elemto) => {
+      return elemto.id === ids.id;
     });
     console.log(ideli);
 
-    this.factura.Detalle.splice(ideli, 1);
-    this.gvariablesBus.g_total =
-      this.gvariablesBus.g_total - this.gvariablesBus.gsubtotal;
+    this.factura.Detalles.splice(ideli, 1);
+    this.gvariablesBus.g_total = this.gvariablesBus.g_total - ids.fdt_sub;
   }
+  //focus del input de la tabla
+  fousTable(dato: any ,valor:any) {
+    const ideli = this.factura.Detalles.findIndex((elemto) => {
+      return elemto.id === dato.id;
+    });
+    console.log();
+    this.factura.Detalles.splice(ideli, 1, {
+      id: dato.id,
+      emp_cod: 'G01',
+      fac_num: dato.fac_num,
+      art_cod: dato.art_cod,
+      art_nom: dato.art_nom,
+      fdt_cant: valor,
+      fdt_prec: dato.fdt_prec,
+      fdt_sub: valor * dato.fdt_prec,
+    });
+    this.gvariablesBus.g_total=0
+    for (var i = 0, element; element = this.factura.Detalles [i++];) {
+      this.gvariablesBus.g_total=this.gvariablesBus.g_total+element.fdt_sub
+       console.log("datos total ",this.gvariablesBus.gsubtotal)
+     }
 
+    alert('dato cambiado');
+
+    console.log(this.factura.Detalles);
+  }
+  //focus de cliente
   foucuscliente(idCamp: any) {
     if (idCamp.id == 'idcli_cod') {
       if (this.Fcli_cod == '') {
         this.datocli = document.getElementById('idcli_cod');
-        this.datocli.placeholder = this.l_tmpCli_cod
+        this.datocli.placeholder = this.l_tmpCli_cod;
         //this.Fcli_cod = this.l_tmpCli_cod;
       } else {
         this.GlobalService.metodoGet(
@@ -329,7 +371,7 @@ if (event.keyCode == 115) {
     } else if (idCamp.id == 'idcli_nom') {
       if (this.Fcli_nom == '') {
         this.datocli = document.getElementById('idcli_nom');
-        this.datocli.placeholder = this.l_tmpCli_nom
+        this.datocli.placeholder = this.l_tmpCli_nom;
         //this.Fcli_nom = this.l_tmpCli_nom;
       } else {
         this.GlobalService.metodoGet(
@@ -363,11 +405,12 @@ if (event.keyCode == 115) {
       }
     }
   }
+  //focus de Articulo
   foucusArticulo(idCamp: any) {
     if (idCamp.id == 'idart_cod') {
       if (this.fart_cod == '') {
         this.datosart = document.getElementById('idart_cod');
-        this.datosart.placeholder = this.l_tmpart_cod
+        this.datosart.placeholder = this.l_tmpart_cod;
         //this.fart_cod = this.l_tmpart_cod;
       } else {
         this.GlobalService.metodoGet(
@@ -393,14 +436,14 @@ if (event.keyCode == 115) {
             this.datosart.value = this.l_art_nom;
             this.gvariablesBus.g_DatosArt.art_prec = this.l_art_prec;
             this.datosart = document.getElementById('idart_sub');
-            this.datosart.value = this.gvariablesBus.gsubtotal;
+            this.datosart.value = this.fart_cant*this.l_art_prec;
           }
         });
       }
     } else if (idCamp.id == 'idart_nom') {
       if (this.fart_nom == '') {
         this.datosart = document.getElementById('idart_nom');
-        this.datosart.placeholder = this.l_tmpart_nom
+        this.datosart.placeholder = this.l_tmpart_nom;
         //this.fart_nom = this.l_tmpart_nom;
       } else {
         this.GlobalService.metodoGet(
@@ -427,50 +470,23 @@ if (event.keyCode == 115) {
             this.datosart = document.getElementById('idart_prec');
             this.datosart.value = this.l_art_prec;
             this.datosart = document.getElementById('idart_sub');
-            this.datosart.value = this.gvariablesBus.gsubtotal;
+            this.datosart.value =this.fart_cant*this.l_art_prec;
           }
         });
       }
     }
+
   }
 
-  CantidadOp(id: any) {
+  // operacion de antidad
+  // CantidadOp(id: any) {
 
-    console.log('el precio es:');
+  //   console.log('el precio es:');
 
-    this.gvariablesBus.gsubtotal =
-      this.gvariablesBus.g_DatosArt.art_prec * this.fart_cant;
-    console.log(this.gvariablesBus.gsubtotal);
-  }
-
-  enviar() {
-    //console.log(this.elements)
-    //console.log(this.elements.tr)
-    //console.log(this.elements.row)
-    /*this.factura.Detalle.push(
-    {emp_cod:'G01',
-    fac_num:this.factura.fac_num,
-    art_cod:row.cod_art,
-    fdt_cant:row.fdt_cant,
-    fdt_prec:row.fdt_prec,
-    fdt_sub:row.fdt_sub
-   }
-
-    );*/
-    //if (element.tbody === 'th'){
-    // }
-    //for (var j = 0, col; col = row.cells[j]; j++) {
-    //alert(col[j].innerText);
-    //.log(`Txt: ${col.innerText} \tFila: ${i} \t Celda: ${j}`);
-    //
-    //for let i = 0; i < this.facturacion.Detalle.length; i++) {
-    //let Fac_num=[]
-    // Fac_num[i]=this.facturacion.Detalle
-    //}
-    //this.facturacion.Detalle=this.facturacion.Detalle;
-    //console.log(JSON.stringify(this.facturacion))
-    //console.log(this.facturacion)
-  }
+  //   this.gvariablesBus.gsubtotal =
+  //     this.gvariablesBus.g_DatosArt.art_prec * this.fart_cant;
+  //   console.log(this.gvariablesBus.gsubtotal);
+  // }
 
   clear() {
     this.fart_cod = '';
@@ -482,11 +498,11 @@ if (event.keyCode == 115) {
   Guardar() {
     //this.facturacion.Detalle=this.facturacion.Detalle;
 
-    this.GlobalService.metodoPost('', this.factura).subscribe((resultado) => {
-      alert('ARTICULO AÑADIDO');
-
-      this.clear();
-      console.log(resultado);
+    this.GlobalService.metodoPost(
+      '' + this.gvariables.g_empid.id.id,
+      this.factura
+    ).subscribe((resultado) => {
+      alert('FACTURA  AÑADIDA');
     });
   }
 }

@@ -3,6 +3,7 @@ import{HttpClient} from '@angular/common/http';
 
 import{Observable}from 'rxjs'
 import { articulo } from '../model/articulo';
+import { Facturacion } from '../model/Facturacion';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +18,6 @@ export class GlobalService {
   metodoPost(url:string,datos:any) {
     return this.http.post(url,datos);
   }
-
   metodoPut(url:string,datos:any) {
     return this.http.put(url,datos);
   }

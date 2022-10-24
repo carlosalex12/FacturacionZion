@@ -51,9 +51,9 @@ export class FacturaComponent implements OnInit {
   ondatatable(){
     this.GlobalService
 
-    .metodoGet(`https://localhost:44373/Factura/Consultas?usuario=`+this.gvariables.g_empid.id.id)
+    .metodoGet(`https://localhost:44381/Factura/GetAll?p_usr=`+this.gvariables.g_empid.id.id)
     .subscribe((res:any) => {
-      this.datatable=res.Data;
+      this.datatable=res;
 
     ///datasource si iguala ala respuesta del get para imprimir los datos
 this.dataSource.data=this.datatable

@@ -51,13 +51,13 @@ export class ClienteComponent implements OnInit {
   ondatatable(){
     this.GlobalService
 
-    .metodoGet(`https://localhost:44373/Cliente/Consultas?usuario=`+this.gvariables.g_empid.id.id)
+    .metodoGet(`https://localhost:44381/Cliente/GetAll?p_usr=`+this.gvariables.g_empid.id.id)
     .subscribe((res:any) => {
-      this.datatable=res.Data;
+      this.datatable=res;
 
     ///datasource si iguala ala respuesta del get para imprimir los datos
 this.dataSource.data=this.datatable
-    console.log(res.Data);
+    console.log(res);
     });}
 
 
@@ -84,7 +84,7 @@ this.dataSource.data=this.datatable
 
 
 //INGRESAR
-      OnAddusuario(Cliente:clientes):void{
+      OnAddCliente(Cliente:clientes):void{
 
         console.log(this.gvariables.g_empid.id.id)
         this.GlobalService
@@ -110,7 +110,7 @@ this.dataSource.data=this.datatable
               }
 
             ///actualizar
-            onUpdateArticulo(cliente:clientes):void{
+            onUpdateCliente(cliente:clientes):void{
             this.GlobalService
             .metodoPut('https://localhost:44373/Cliente/Actualizar?usuario='+this.gvariables.g_empid.id.id,{
 
@@ -129,7 +129,7 @@ this.dataSource.data=this.datatable
           })}
 
             ///Eliminar
-            onDeleteArticulo(cliente:clientes):void{
+            onDeleteCliente(cliente:clientes):void{
               this.GlobalService
               .metodoPut('https://localhost:44373/Cliente/Eliminar?usuario='+this.gvariables.g_empid.id.id,{
                 cli_cod:this.cliente.cli_cod,

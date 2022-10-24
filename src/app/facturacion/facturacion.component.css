@@ -25,3 +25,6 @@ table {
 .example-full-width {
   width: 100%;
 }
+.hscroll {
+  overflow-x: auto; /* Horizontal */
+}
