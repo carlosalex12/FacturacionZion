@@ -34,15 +34,17 @@ export class ArticuloDialogoComponent implements OnInit {
 cliSelect(DatosArtSelc:any){
 
 
+
   this.gvariablesBus.g_DatosArt={
     emp_cod:DatosArtSelc.emp_cod,
     art_cod:DatosArtSelc.art_cod,
     art_est:DatosArtSelc.art_est,
     art_nom:DatosArtSelc.art_nom,
     art_prec:DatosArtSelc.art_prec,
-    car_cod:DatosArtSelc.car_cod
-
-
+    art_fkey:DatosArtSelc.art_fkey,
+    art_treg:DatosArtSelc.art_treg,
+    uni_cod:DatosArtSelc.uni_cod,
+    art_nomcorto:DatosArtSelc.art_nomcorto,
     }
 
 console.log(this.gvariablesBus.g_DatosArt)

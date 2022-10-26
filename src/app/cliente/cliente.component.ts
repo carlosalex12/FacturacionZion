@@ -13,16 +13,6 @@ import { GlobalService } from '../services/GserviceGPPD';
   styleUrls: ['./cliente.component.css'],
 })
 export class ClienteComponent implements OnInit {
-  emp_cod: string = '';
-
-  cli_cod: string = '';
-
-  cli_nom: string = '';
-
-  cli_est: string = '';
-
-  ccl_cod: string = '';
-
   cliente: clientes = new clientes();
   datatable: any = [];
   displayedColumns: string[] = [
@@ -30,7 +20,12 @@ export class ClienteComponent implements OnInit {
     'cli_cod',
     'cli_nom',
     'cli_est',
-    'ccl_cod',
+    'cli_tid',
+    'cli_nid',
+    'cli_dir',
+    'cli_tlf1',
+    'cli_tlf2',
+    'cli_email',
     'boton',
   ];
   constructor(
@@ -80,22 +75,30 @@ export class ClienteComponent implements OnInit {
     this.cliente.cli_cod = select.cli_cod;
     this.cliente.cli_nom = select.cli_nom;
     this.cliente.cli_est = select.cli_est;
-    this.cliente.ccl_cod = select.ccl_cod;
+    this.cliente.cli_tid = select.cli_tid;
+    this.cliente.cli_nid = select.cli_nid;
+    this.cliente.cli_dir = select.cli_dir;
+    this.cliente.cli_tlf1 = select.cli_tlf1;
+    this.cliente.cli_tlf2 = select.cli_tlf2;
+    this.cliente.cli_email = select.cli_email;
   }
 
   //INGRESAR
   OnAddCliente(Cliente: clientes): void {
     console.log(this.gvariables.g_empid.id.id);
-    this.GlobalService.metodoPost(
-      'https://localhost:44373/Cliente/Insertar?usuario=' +
+    this.GlobalService.metodoPost(''+this.GlobalService.creaURLInsert("Cliente")+'' +
         this.gvariables.g_empid.id.id,
 
       {
         emp_cod: this.cliente.emp_cod,
         cli_cod: this.cliente.cli_cod,
         cli_nom: this.cliente.cli_nom,
-        cli_est: this.cliente.cli_est,
-        ccl_cod: 'c01',
+        cli_tid: this.cliente.cli_tid,
+        cli_nid: this.cliente.cli_nid,
+        cli_dir: this.cliente.cli_dir,
+        cli_tlf1: this.cliente.cli_tlf1,
+        cli_tlf2: this.cliente.cli_tlf2,
+        cli_email: this.cliente.cli_email,
       }
     ).subscribe((resultado) => {
       alert('CLIENTE AÑADIDO');
@@ -108,16 +111,26 @@ export class ClienteComponent implements OnInit {
   ///actualizar
   onUpdateCliente(cliente: clientes): void {
     this.GlobalService.metodoPut(
-      'https://localhost:44373/Cliente/Actualizar?usuario=' +
+      'https://localhost:44381/Cliente/Put?p_usr=' +
         this.gvariables.g_empid.id.id,
       {
+        emp_cod: this.cliente.emp_cod,
         cli_cod: this.cliente.cli_cod,
         cli_nom: this.cliente.cli_nom,
         cli_est: this.cliente.cli_est,
-        ccl_cod: this.cliente.ccl_cod,
+        cli_treg: this.cliente.cli_treg,
+        cli_fkey: this.cliente.cli_fkey,
+        cli_fing: this.cliente.cli_fing,
+        cli_tid: this.cliente.cli_tid,
+        cli_nid: this.cliente.cli_nid,
+        cli_dir: this.cliente.cli_dir,
+        cli_tlf1: this.cliente.cli_tlf1,
+        cli_tlf2: this.cliente.cli_tlf2,
+        cli_email: this.cliente.cli_email,
+
       }
     ).subscribe((resultado) => {
-      alert('ARTICULO ACTUALIZADO');
+      alert('CLIENTE  ACTUALIZADO');
       this.ondatatable();
       this.clear();
       console.log(resultado);
@@ -126,14 +139,12 @@ export class ClienteComponent implements OnInit {
 
   ///Eliminar
   onDeleteCliente(cliente: clientes): void {
-    this.GlobalService.metodoPut(
-      'https://localhost:44373/Cliente/Eliminar?usuario=' +
+    this.GlobalService.metodoDelete(
+      'https://localhost:44381/Cliente/Delete?p_id='+cliente.cli_cod+'&p_usr=' +
         this.gvariables.g_empid.id.id,
-      {
-        cli_cod: this.cliente.cli_cod,
-      }
+
     ).subscribe((resultado) => {
-      alert('ARTICULO ELIMINADO');
+      alert('Cliente ELIMINADO');
       this.ondatatable();
       this.clear();
       console.log(resultado);
@@ -150,7 +161,11 @@ export class ClienteComponent implements OnInit {
     this.cliente.emp_cod = '';
     this.cliente.cli_cod = '';
     this.cliente.cli_nom = '';
-    this.cliente.cli_est = '';
-    this.cliente.ccl_cod = '';
+    this.cliente.cli_nid = '';
+    this.cliente.cli_tid = '';
+    this.cliente.cli_dir = '';
+    this.cliente.cli_tlf1 = 0;
+    this.cliente.cli_tlf2 = 0;
+    this.cliente.cli_email = '';
   }
 }

@@ -93,6 +93,8 @@ export class FacturacionComponent implements OnInit {
   datocli: any;
   datosart: any;
   vertable = false;
+  //facturacion
+  l_fdt_sec=0
 
   constructor(
     private readonly _rutaDatos: ActivatedRoute,
@@ -139,12 +141,18 @@ export class FacturacionComponent implements OnInit {
   ngAfterViewInit() {}
   //añaddir articulo
   agregarArt() {
+    this.l_fdt_sec=this.l_fdt_sec+1
+   this.datocli=document.getElementById('idcli_cod')
+    this.factura.cli_cod=this.datocli.value
+    console.log("si esta guardandoclicod",this.factura.cli_cod,"global variable",this.gvariablesBus.g_clicod)
     if (this.fart_cod == '' && this.fart_nom == '') {
       if (this.fart_cant == 0) {
         this.factura.Detalles.push({
           id: (this.l_id = this.l_id + 1),
-          emp_cod: 'G01',
+          emp_cod: 'P01',
+          fac_doc: 'FAC',
           fac_num: this.factura.fac_num,
+          fdt_sec:this.l_fdt_sec,
           art_cod: this.gvariablesBus.g_DatosArt.art_cod,
           art_nom: this.gvariablesBus.g_DatosArt.art_nom,
           fdt_cant: 1,
@@ -160,8 +168,10 @@ export class FacturacionComponent implements OnInit {
       } else {
         this.factura.Detalles.push({
           id: (this.l_id = this.l_id + 1),
-          emp_cod: 'G01',
+          emp_cod: 'P01',
+          fac_doc: 'FAC',
           fac_num: this.factura.fac_num,
+          fdt_sec:this.l_fdt_sec,
           art_cod: this.gvariablesBus.g_DatosArt.art_cod,
           art_nom: this.gvariablesBus.g_DatosArt.art_nom,
           fdt_cant: this.fart_cant,
@@ -177,11 +187,13 @@ export class FacturacionComponent implements OnInit {
       }
     } else {
       if (this.fart_cant == 0) {
-        this.factura.cli_cod = this.Fcli_cod;
+        //this.factura.cli_cod=this.gvariablesBus.g_DatosCli.cli_cod
         this.factura.Detalles.push({
           id: (this.l_id = this.l_id + 1),
-          emp_cod: 'G01',
+          emp_cod: 'P01',
+          fac_doc: 'FAC',
           fac_num: this.factura.fac_num,
+          fdt_sec:this.l_fdt_sec,
           art_cod: this.fart_cod,
           art_nom: this.l_art_nom,
           fdt_cant: 1,
@@ -194,11 +206,14 @@ export class FacturacionComponent implements OnInit {
           this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
         console.log('los datos agregados', this.factura);
       } else {
-        this.factura.cli_cod = this.Fcli_cod;
+        this.factura.cli_cod = this.gvariablesBus.g_clicod;
+       // this.factura.cli_cod=this.gvariablesBus.g_DatosCli.cli_cod
         this.factura.Detalles.push({
           id: (this.l_id = this.l_id + 1),
-          emp_cod: 'G01',
+          emp_cod: 'P01',
+          fac_doc: 'FAC',
           fac_num: this.factura.fac_num,
+          fdt_sec:this.l_fdt_sec,
           art_cod: this.fart_cod,
           art_nom: this.l_art_nom,
           fdt_cant: this.fart_cant,
@@ -222,14 +237,12 @@ export class FacturacionComponent implements OnInit {
     if (
       this.fart_cod != '' &&
       this.fart_nom != '' &&
-      this.Fcli_cod != '' &&
-      this.Fcli_nom != ''
+      this.gvariablesBus.g_clicod != '' &&
+      this.gvariablesBus.g_clinom != ''
     ) {
       if (event.keyCode == 115) {
         if (id == 'divCliente') {
           this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
-          this.gvariablesBus.g_clicod = this.Fcli_cod;
-          this.gvariablesBus.g_clinom = this.Fcli_nom;
           return this.openDialogcli();
         } else if (id == 'divArticulo') {
           this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
@@ -260,8 +273,6 @@ export class FacturacionComponent implements OnInit {
       if (event.keyCode == 115) {
         if (id == 'divCliente') {
           this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
-          this.gvariablesBus.g_clicod = this.Fcli_cod;
-          this.gvariablesBus.g_clinom = this.Fcli_nom;
           return this.openDialogcli();
         } else if (id == 'divArticulo') {
           this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
@@ -310,7 +321,9 @@ export class FacturacionComponent implements OnInit {
     this.factura.Detalles.splice(ideli, 1, {
       id: dato.id,
       emp_cod: 'G01',
+      fac_doc:'FAC',
       fac_num: dato.fac_num,
+      fdt_sec:0,
       art_cod: dato.art_cod,
       art_nom: dato.art_nom,
       fdt_cant: valor,
@@ -330,16 +343,16 @@ export class FacturacionComponent implements OnInit {
   //focus de cliente
   foucuscliente(idCamp: any) {
     if (idCamp.id == 'idcli_cod') {
-      if (this.Fcli_cod == '') {
+      if (this.gvariablesBus.g_clicod == '') {
         this.datocli = document.getElementById('idcli_cod');
         this.datocli.placeholder = this.l_tmpCli_cod;
         //this.Fcli_cod = this.l_tmpCli_cod;
       } else {
         this.GlobalService.metodoGet(
           `https://localhost:44381/Cliente/GetExistencia?p_id=` +
-            this.Fcli_cod +
+          this.gvariablesBus.g_clicod +
             `&p_nom=` +
-            this.Fcli_nom +
+            this.gvariablesBus.g_clinom +
             `&p_usr=` +
             this.gvariables.g_empid.id.id
         ).subscribe((res: any) => {
@@ -347,10 +360,10 @@ export class FacturacionComponent implements OnInit {
           //console.log(this.l_BusCientes);
           if (this.l_BusCientes.length == 0) {
             alert('EL CODIDO DEL CLIENTE NO EXISTE');
-            this.l_tmpCli_cod = this.Fcli_cod;
+            this.l_tmpCli_cod = this.gvariablesBus.g_clicod;
             // console.log(this.l_tmpCli_cod);
             //this.Fcli_cod = l_tmp;
-            this.Fcli_cod = '';
+            this.gvariablesBus.g_clicod = '';
             let id = document.getElementById('idcli_cod');
             id?.focus();
           } else if (this.l_BusCientes.length > 1) {
@@ -358,7 +371,7 @@ export class FacturacionComponent implements OnInit {
           } else {
             this.l_cli_nom = this.l_BusCientes[0].cli_nom;
             this.l_Cli_est = this.l_BusCientes[0].cli_est;
-            this.l_Cli_cat = this.l_BusCientes[0].ccl_cod;
+            this.l_Cli_cat = this.l_BusCientes[0].cli_email;
             this.datocli = document.getElementById('idcli_nom');
             this.datocli.value = this.l_cli_nom;
             this.datocli = document.getElementById('idcli_est');
@@ -369,16 +382,16 @@ export class FacturacionComponent implements OnInit {
         });
       }
     } else if (idCamp.id == 'idcli_nom') {
-      if (this.Fcli_nom == '') {
+      if (this.gvariablesBus.g_clinom == '') {
         this.datocli = document.getElementById('idcli_nom');
         this.datocli.placeholder = this.l_tmpCli_nom;
         //this.Fcli_nom = this.l_tmpCli_nom;
       } else {
         this.GlobalService.metodoGet(
           `https://localhost:44381/Cliente/GetExistencia?p_id=` +
-            this.Fcli_cod +
+          this.gvariablesBus.g_clicod+
             `&p_nom=` +
-            this.Fcli_nom +
+            this.gvariablesBus.g_clinom+
             `&p_usr=` +
             this.gvariables.g_empid.id.id
         ).subscribe((res: any) => {
@@ -386,14 +399,14 @@ export class FacturacionComponent implements OnInit {
           //console.log(this.l_BusCientes);
           if (this.l_BusCientes.length == 0) {
             alert('Cliente No Existe');
-            this.l_tmpCli_nom = this.Fcli_nom;
-            this.Fcli_nom = '';
+            this.l_tmpCli_nom = this.gvariablesBus.g_clinom;
+            this.gvariablesBus.g_clinom = '';
             let id = document.getElementById('idcli_nom');
             id?.focus();
           } else {
             this.l_cli_cod = this.l_BusCientes[0].cli_cod;
             this.l_Cli_est = this.l_BusCientes[0].cli_est;
-            this.l_Cli_cat = this.l_BusCientes[0].ccl_cod;
+            this.l_Cli_cat = this.l_BusCientes[0].cli_email;
             this.datocli = document.getElementById('idcli_cod');
             this.datocli.value = this.l_cli_cod;
             this.datocli = document.getElementById('idcli_est');
@@ -487,10 +500,10 @@ export class FacturacionComponent implements OnInit {
   }
   Guardar() {
     //this.facturacion.Detalle=this.facturacion.Detalle;
-
+let factura= JSON.stringify(this.factura)
+console.log(factura)
     this.GlobalService.metodoPost(
-      '' + this.gvariables.g_empid.id.id,
-      this.factura
+      'https://localhost:44381/Facturacion/Add?p_usr=' + this.gvariables.g_empid.id.id,this.factura
     ).subscribe((resultado) => {
       alert('FACTURA  AÑADIDA');
     });

@@ -16,12 +16,16 @@
               <input type="datetime" class="form-control" [(ngModel)]="factura.fac_fec" id="fac_fec" name="fac_fec" />
             </div>
             <div class="col">
+              <label class="form-label">TIPO DE PAGO</label>
+              <input type="text" class="form-control" [(ngModel)]="factura.fac_tpag" id="fac_tpag" maxlength="1" name="fac_tpag" />
+            </div>
+            <div class="col">
               <label class="form-label">SERIE</label>
-              <input type="text" class="form-control" id="" name="" aria-describedby="" />
+              <input type="text" class="form-control" [(ngModel)]="factura.fac_ser " id="" name="" aria-describedby="" />
             </div>
             <div class="col">
               <label class="form-label">SUCURSAL</label>
-              <input type="text" class="form-control" id="" name="" aria-describedby="" />
+              <input type="text" class="form-control" [(ngModel)]="factura.suc_cod" id=""  maxlength="3"name="" aria-describedby="" />
             </div>
           </div>
         </div>
@@ -34,7 +38,7 @@
             <div class="col">
               <label class="form-label">COD ClIENTE</label>
 
-              <input type="text" class="form-control" #idcli_cod id="idcli_cod" [(ngModel)]="this.Fcli_cod"
+              <input type="text" class="form-control" #idcli_cod id="idcli_cod" [(ngModel)]="this.gvariablesBus.g_clicod"
                 (focusout)="foucuscliente(idcli_cod)" value="{{ this.gvariablesBus.g_DatosCli.cli_cod }}"
                 (keydown)="precionarTecla($event , divCliente.id,idcli_cod.id)" placeholder="" />
             </div>
@@ -45,7 +49,7 @@
               <label class="form-label">NOMBRE ClIENTE</label>
               <input type="text" class="form-control" #idcli_nom
                 (keydown)="precionarTecla($event , divCliente.id,idcli_nom.id)" id="idcli_nom"
-                [(ngModel)]="this.Fcli_nom" value="{{ this.gvariablesBus.g_DatosCli.cli_nom }}"
+                [(ngModel)]="this.gvariablesBus.g_clinom" value="{{ this.gvariablesBus.g_DatosCli.cli_nom }}"
                 (focusout)="foucuscliente(idcli_nom)" />
             </div>
 
@@ -55,9 +59,9 @@
                 disabled />
             </div>
             <div class="col">
-              <label class="form-label">CATEGORIA ClIENTE</label>
+              <label class="form-label">EMAIL</label>
               <input type="text" class="form-control" id="idcli_ccl_cod"
-                value="{{this.gvariablesBus.g_DatosCli.ccl_cod}}" disabled />
+                value="{{this.gvariablesBus.g_DatosCli.cli_email}}"   disabled />
             </div>
           </div>
         </div>

@@ -23,8 +23,8 @@ export class GlobalService {
   }
 
 
-  metodoDelete(url:string,datos:any) {
-    return this.http.delete(url,datos);
+  metodoDelete(url:string,) {
+    return this.http.delete(url);
 
   }
 

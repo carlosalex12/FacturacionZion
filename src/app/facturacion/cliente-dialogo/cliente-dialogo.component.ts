@@ -43,12 +43,18 @@ this.GlobalService
   }
 cliSelect(datosCli:any){
 //console.log(datosCli)
+
 this.gvariablesBus.g_DatosCli={
 emp_cod:datosCli.emp_cod,
 cli_cod:datosCli.cli_cod,
 cli_nom:datosCli.cli_nom,
 cli_est:datosCli.cli_est,
-ccl_cod:datosCli.ccl_cod
+cli_nid:datosCli.cli_nid,
+cli_tid:datosCli.cli_tid,
+cli_dir:datosCli.cli_dir,
+cli_tlf1:datosCli.cli_tlf1,
+cli_tlf2:datosCli.cli_tlf2,
+cli_email:datosCli.cli_email,
 
 }
 

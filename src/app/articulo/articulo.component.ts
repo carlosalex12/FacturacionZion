@@ -31,7 +31,7 @@ export class ArticuloComponent implements OnInit {
 
   articulo:articulo = new articulo();
   datatable:any=[];
-  displayedColumns: string[] = ['art_cod', 'art_est', 'art_nom', 'art_prec','car_cod', 'emp_cod','car_nom','boton'];
+  displayedColumns: string[] = ['art_cod', 'art_est', 'art_nom', 'art_prec','art_nomcorto','uni_cod', 'emp_cod','boton'];
   constructor(
     private readonly _rutaDatos: ActivatedRoute,
     private _router:Router,
@@ -82,7 +82,8 @@ this.dataSource.data=this.datatable
       this.articulo.art_est=select.art_est;
       this.articulo.art_nom=select.art_nom;
       this.articulo.art_prec=select.art_prec;
-      this.articulo.car_cod=select.car_cod;
+      this.articulo.uni_cod=select.uni_cod;
+      this.articulo.art_nomcorto=select.art_nomcorto;
       this.articulo.emp_cod=select.emp_cod;
       }
 
@@ -104,8 +105,9 @@ OnAddusuario(Articulo:articulo):void{
   art_cod:this.articulo.art_cod,
   art_nom:this.articulo.art_nom,
   art_est:this.articulo.art_est,
-  car_cod:this.articulo.car_cod,
-  art_prec:this.articulo.art_prec
+  uni_cod:this.articulo.uni_cod,
+  art_prec:this.articulo.art_prec,
+  art_nomcorto:this.articulo.art_nomcorto
 }
 
 
@@ -128,8 +130,11 @@ OnAddusuario(Articulo:articulo):void{
       art_cod:this.articulo.art_cod,
       art_nom:this.articulo.art_nom,
       art_est:this.articulo.art_est,
-      car_cod:this.articulo.car_cod,
-      art_prec:this.articulo.art_prec
+      art_fkey:this.articulo.art_fkey,
+      art_treg:this.articulo.art_treg,
+      uni_cod:this.articulo.uni_cod,
+      art_prec:this.articulo.art_prec,
+      art_nomcorto:this.articulo.art_nomcorto
     })
     .subscribe((resultado)=>{
 
@@ -142,9 +147,8 @@ OnAddusuario(Articulo:articulo):void{
       ///Eliminar
       onDeleteArticulo(articulo:articulo):void{
         this.GlobalService
-        .metodoPut(`https://localhost:44381/Articulo/Delete?p_usr=`+this.gvariables.g_empid.id.id,{
-        art_cod:this.articulo.art_cod,
-      })
+        .metodoDelete('https://localhost:44381/Articulo/Delete?p_id='+articulo.art_cod+'&p_usr=' +
+        this.gvariables.g_empid.id.id,)
       .subscribe((resultado)=>{
 
         alert('ARTICULO ELIMINADO')
@@ -168,11 +172,13 @@ OnAddusuario(Articulo:articulo):void{
       }
 
 clear(){
+
   this.articulo.art_cod='',
   this.articulo.art_nom='',
   this.articulo.art_est='',
-  this.articulo.car_cod='',
-  this.articulo.art_prec=0
+  this.articulo.uni_cod='',
+  this.articulo.art_prec=0,
+  this.articulo.art_nomcorto=""
 
 
 }
