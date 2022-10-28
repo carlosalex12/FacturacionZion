@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   ///variable locales
 l_user='' ;
 l_pass='';
-
+datatable:any=[];
 //llamar al servicio de login y integrarlo al contructor
 
   constructor(
@@ -36,8 +36,8 @@ Contrasena:['',Validators.required]
 }
 
   ngOnInit(): void {
-    console.log('datos form')
-console.log(this.forms)
+
+
   }
 ingresar(){
 //llama al servicio
@@ -48,16 +48,14 @@ ingresar(){
     this.G_variables.g_user=(resultadoMetodoGet[0].usr_cod);
     this.G_variables.g_pass=(resultadoMetodoGet[0].usr_clv)
     this.G_variables.g_empid=(resultadoMetodoGet[0].usr_cod)
-
-    console.log('ID')
-    console.log( this.G_variables.g_user)
-
+    this.G_variables.g_nemp=(resultadoMetodoGet[0].emp_cod)
   if(this.l_user ==this.G_variables.g_user && this.l_pass==this.G_variables.g_pass){
+
+    console.log("nombre Empreza",this.G_variables.g_nemp)
 
   alert('Bienvenido:'+this.G_variables.g_user)
   this.router.navigate(
-
-   [`/home/`+ this.G_variables.g_empid]
+   [`/home/`+ this.G_variables.g_empid+'/'+ this.G_variables.g_nemp]
 
  )
 }else if(this.l_user  !== this.G_variables.g_user || this.l_pass !== this.G_variables.g_pass){
@@ -66,8 +64,7 @@ ingresar(){
 
 }
 
-/*
-*/
+
     });
 
 }

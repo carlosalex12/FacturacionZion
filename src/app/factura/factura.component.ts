@@ -17,17 +17,19 @@ export class FacturaComponent implements OnInit {
   Factura: facturas = new facturas();
   datatable: any = [];
   displayedColumns: string[] = [
-    'emp_cod',
-    'fac_doc',
+
     'fac_num',
+    'fac_doc',
     'fac_fec',
     'cli_cod',
     'fac_est',
+    'fac_ser',
+    'suc_cod',
     'fac_tot',
     'fac_sub0',
     'fac_sub1',
-    'fac_dscto',
-    'fac_dscto1'
+    'fac_dscto'
+
   ];
   constructor(
     private readonly _rutaDatos: ActivatedRoute,
@@ -41,6 +43,9 @@ export class FacturaComponent implements OnInit {
 
     this.gvariables.g_empid = {
       id: this._rutaDatos.snapshot.params,
+    };
+    this.gvariables.g_nemp = {
+      emp: this._rutaDatos.snapshot.params,
     };
     this.ondatatable();
   }
@@ -68,8 +73,5 @@ export class FacturaComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  regresar() {
-    console.log(this.gvariables.g_empid);
-    this._router.navigate([`/home/` + this.gvariables.g_empid.id.id]);
-  }
+
 }

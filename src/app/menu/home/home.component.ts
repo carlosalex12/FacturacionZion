@@ -25,51 +25,28 @@ l_Lemp=''
 this.l_Lemp=this.Gvariables.g_Lemp;
    this.Gvariables.g_empid= {
      id: this._rutaDatos.snapshot.params
+
   };
 
-    console.log("this.iduser");
-    console.log(this.Gvariables.g_empid);
-    console.log("id.id");
-    console.log( this.Gvariables.g_empid.id);
 
 
+    console.log('datos emp',this.Gvariables.g_nemp)
 
   }
 
 articulo(){
-  this.GlobalService
-
-  .metodoGet(`https://localhost:44373/Articulo/ConsultaArticulo?usuario=`+ this.Gvariables.g_empid.id.id)
-  .subscribe((resultadoMetodoGet:any) => {
-    console.log("resultadoMetodoGet");
-  console.log(resultadoMetodoGet)});
-
   this._router.navigate(
     [`/articulo/`+ this.Gvariables.g_empid.id.id]
   )
 
 }
 factura(){
-  this.GlobalService
-
-  .metodoGet(`https://localhost:44373/Cliente/Consultas?usuario=`+ this.Gvariables.g_empid.id.id)
-  .subscribe((resultadoMetodoGet:any) => {
-    console.log("resultadoMetodoGet");
-  console.log(resultadoMetodoGet)});
-
   this._router.navigate(
     [`/factura/`+ this.Gvariables.g_empid.id.id]
   )
 
 }
 cliente(){
-  this.GlobalService
-
-  .metodoGet(`https://localhost:44373/Factura/Consultas?usuario=`+ this.Gvariables.g_empid.id.id)
-  .subscribe((resultadoMetodoGet:any) => {
-    console.log("resultadoMetodoGet");
-  console.log(resultadoMetodoGet)});
-
   this._router.navigate(
     [`/cliente/`+ this.Gvariables.g_empid.id.id]
   )

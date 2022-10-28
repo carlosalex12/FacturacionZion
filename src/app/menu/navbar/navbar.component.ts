@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VariablesGlobalesService } from '../serviceMenu/variables-globales.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalService } from 'src/app/services/GserviceGPPD';
 @Component({
   selector: 'app-navbar',
@@ -8,24 +8,46 @@ import { GlobalService } from 'src/app/services/GserviceGPPD';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  articulo(){
 
-this.GlobalService
-    .metodoGet(`https://localhost:44373/Articulo/ConsultaArticulo?usuario=`+ this.Gvariables.g_empid.id.id)
-    .subscribe((resultadoMetodoGet:any) => {
-      console.log("resultadoMetodoGet");
-    console.log(resultadoMetodoGet)});
-
-    this._router.navigate(
-      [`/articulo/`+ this.Gvariables.g_empid.id.id]
-    )
-
-  }
-  constructor(private Gvariables:VariablesGlobalesService,private GlobalService:GlobalService,
-    private _router:Router,
+  constructor(private G_variables:VariablesGlobalesService,private GlobalService:GlobalService,
+    private _router:Router,private readonly _rutaDatos: ActivatedRoute,
     ) { }
 
   ngOnInit(): void {
+    this.G_variables.g_nemp = {
+      emp: this._rutaDatos.snapshot.params,
+    };
   }
+  articulo(){
+    this._router.navigate(
+      [`/articulo/`+ this.G_variables.g_empid.id.id+'/'+ this.G_variables.g_nemp.emp.emp]
+    )
 
+  }
+  factura(){
+    this._router.navigate(
+      [`/factura/`+ this.G_variables.g_empid.id.id+'/'+this.G_variables.g_nemp.emp.emp]
+    )
+
+  }
+  cliente(){
+    this._router.navigate(
+      [`/cliente/`+ this.G_variables.g_empid.id.id+'/'+ this.G_variables.g_nemp.emp.emp]
+    )
+
+
+
+  }
+  prueba(){
+    this._router.navigate(
+      [`/prueba/`]
+    )
+
+  }
+  facturacion(){
+
+    this._router.navigate(
+      [`/facturacion/`+ this.G_variables.g_empid.id.id+'/'+ this.G_variables.g_nemp.emp.emp]
+    )
+  }
 }

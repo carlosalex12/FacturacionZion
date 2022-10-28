@@ -18,12 +18,12 @@ import { ArticuloComponent } from './articulo/articulo.component';
 import { FacturaComponent } from './factura/factura.component';
 import { ClienteComponent } from './cliente/cliente.component';
 import { MenuModule } from './menu/menu.module';
-
+///pdf
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 //prime
 import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
 import {MenuItem} from 'primeng/api';
 import {ButtonModule} from 'primeng/button';
-import { TablaeditComponent } from './tablaedit/tablaedit.component';
 import {TableModule} from 'primeng/table';
 import {DialogModule} from 'primeng/dialog';
 import { PruebaComponent } from './prueba/prueba.component';
@@ -32,7 +32,9 @@ import { ClienteDialogoComponent } from './facturacion/cliente-dialogo/cliente-d
 import { ArticuloDialogoComponent } from './facturacion/articulo-dialogo/articulo-dialogo.component';
 import {FieldsetModule} from 'primeng/fieldset';
 import {MatSidenavModule} from '@angular/material/sidenav';
-
+import {CheckboxModule} from 'primeng/checkbox';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import { ExamplePdfViewerComponent } from './example-pdf-viewer/example-pdf-viewer.component';
 
 
 
@@ -48,11 +50,11 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     ArticuloComponent,
     FacturaComponent,
     ClienteComponent,
-    TablaeditComponent,
     PruebaComponent,
     FacturacionComponent,
     ClienteDialogoComponent,
     ArticuloDialogoComponent,
+    ExamplePdfViewerComponent,
 
 
 
@@ -72,8 +74,10 @@ TableModule,
 DialogModule,
 ReactiveFormsModule,
 FieldsetModule,
-MatSidenavModule
-
+MatSidenavModule,
+CheckboxModule,
+RadioButtonModule,
+NgxExtendedPdfViewerModule
 
 
 

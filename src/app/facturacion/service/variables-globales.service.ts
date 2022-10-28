@@ -12,7 +12,11 @@ g_clinom=""
 g_artcod=""
 g_artnom=""
 g_total=0
+g_iva=0
+g_dec=0
 gsubtotal=0
+gsubtotal1=0
+gsubtotal0=0
 public g_DatosCli = {
 emp_cod:"",
 cli_cod:"",
@@ -35,6 +39,7 @@ art_fkey:"",
 art_treg:"",
 uni_cod:"",
 art_prec:0,
+art_pimpto:0,
 art_nomcorto:"",
 emp_cod: ""
 

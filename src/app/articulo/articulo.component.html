@@ -1,25 +1,17 @@
+<app-navbar></app-navbar>
 <div class="container ">
-  <!--Navbar-->
-  <div class="row">
+<div class="row text-center mt-3">
+  <h1>ARTICULOS</h1>
+</div>
+<div class="row m-4">
+ <!--Filtro-->
+ <mat-form-field appearance="standard">
+  <mat-label>Busqueda</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input autocomplete="off">
+</mat-form-field>
+<!---->
+</div>
 
-    <div class="jumbotron jumbotron-fluid container-l">
-      <div class="container">
-        <h1 class="display-4">BENVENIDO</h1>
-        {{l_nombreEs}}
-      </div>
-      <button pButton type="button" label="REGRESAR" (click)="regresar()"></button>
-
-
-    </div>
-  </div>
-  <!---->
-
-  <!--Filtro-->
-  <mat-form-field appearance="standard">
-    <mat-label>Busqueda</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input autocomplete="off">
-  </mat-form-field>
-  <!---->
 
   <!--TABLA-->
   <div class="row">
@@ -32,45 +24,41 @@
           <td mat-cell *matCellDef="let element"> {{element.art_cod}} </td>
         </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="art_est">
-          <th mat-header-cell *matHeaderCellDef> art_est </th>
-          <td mat-cell *matCellDef="let element"> {{element.art_est}} </td>
-        </ng-container>
-
         <!-- Weight Column -->
         <ng-container matColumnDef="art_nom">
-          <th mat-header-cell *matHeaderCellDef> art_nom </th>
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
           <td mat-cell *matCellDef="let element"> {{element.art_nom}} </td>
         </ng-container>
 
+        <!-- Name Column -->
+        <ng-container matColumnDef="art_est">
+          <th mat-header-cell *matHeaderCellDef> Estado </th>
+          <td mat-cell *matCellDef="let element"> {{element.art_est}} </td>
+        </ng-container>
+
+
         <!-- Symbol Column -->
         <ng-container matColumnDef="art_prec">
-          <th mat-header-cell *matHeaderCellDef> art_prec </th>
+          <th mat-header-cell *matHeaderCellDef> Precio </th>
           <td mat-cell *matCellDef="let element"> {{element.art_prec}} </td>
         </ng-container>
         <ng-container matColumnDef="art_nomcorto">
-          <th mat-header-cell *matHeaderCellDef>art_nomcorto  </th>
+          <th mat-header-cell *matHeaderCellDef>Nombre Corto </th>
           <td mat-cell *matCellDef="let element"> {{element.art_nomcorto}} </td>
         </ng-container>
         <ng-container matColumnDef="uni_cod">
-          <th mat-header-cell *matHeaderCellDef> uni_cod </th>
+          <th mat-header-cell *matHeaderCellDef> Unidad </th>
           <td mat-cell *matCellDef="let element"> {{element.uni_cod}} </td>
         </ng-container>
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="emp_cod">
-          <th mat-header-cell *matHeaderCellDef> emp_cod </th>
-          <td mat-cell *matCellDef="let element"> {{element.emp_cod}} </td>
+        <ng-container matColumnDef="art_pimpto">
+          <th mat-header-cell *matHeaderCellDef> IVA </th>
+          <td mat-cell *matCellDef="let element"> {{element.art_pimpto}} </td>
         </ng-container>
-
-
         <!-- Symbol Column -->
         <ng-container matColumnDef="boton">
           <th mat-header-cell *matHeaderCellDef>Selecione </th>
           <td mat-cell *matCellDef="let element">
-            <button pButton type="button" class="p-button-raised p-button-rounded" icon="pi pi-check"
-              (click)="onSetData(element)"></button>
+            <p-checkbox name="groupname" id="checkid" value="1" (click)="onSetData(element)"></p-checkbox>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -82,156 +70,143 @@
   </div>
   <!---->
 
-  <!--boton ingresar-->
-
-  <div class="row m-3">
+  <!--BOTONES-->
+  <div class="row m-4">
 
     <div class="container text-center">
       <div class="row">
         <!--PRIMERO BOTON  INSERTAR-->
         <div class="col">
           <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            IngresarArticulo
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+            AGREGAR
           </button>
 
           <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+          <div class="modal fade1" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1"
             aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Ingresos De datos</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <h5 class="modal-title" id="exampleModalLabel1">ARTICULO</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)=" clear()"></button>
                 </div>
                 <div class="modal-body">
-
-
                   <div class="container text-center">
+                    <div class="row g-3 align-items-center">
 
-                    <div class="row">
-
-                      <div class="col">
-                        <label class="form-label">art_cod</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.art_cod" id="art_cod"
+                      <div class="col-3" ALIGN=left>
+                        <label class="form-label mt-2 ">CODIGO:</label>
+                        <input type="text" class="form-control styleinp" #art_cod  (focusout)="foucusArticulo(art_cod)"  [(ngModel)]="articulo.art_cod" id="idart_cod"
                           name="art_cod" aria-describedby="">
                       </div>
-                      <div class="col">
-                        <label class="form-label">art_est</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.art_est" id="art_est"
-                          name="art_est" aria-describedby="" maxlength="3">
+
+                      <div class="col-3" ALIGN=left>
+                        <label class="form-label mt-2 ">ESTADO:</label>
+                        <input type="text" class="form-control styleinp" [(ngModel)]="articulo.art_est" id="art_est"
+                          name="art_est" aria-describedby=""  maxlength="3">
                       </div>
-                      <div class="col">
-                        <label class="form-label">art_nom</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.art_nom" id="art_nom"
-                          name="art_nom" aria-describedby="">
+                      <div class="col-3" ALIGN=left>
+                        <label class="form-label mt-2">UNIDAD</label>
+                        <input type="text" class="form-control styleinp" [(ngModel)]="articulo.uni_cod" id="art_nom"
+                          name="art_nom" aria-describedby=""   maxlength="3">
                       </div>
-                      <div class="col">
-                        <label class="form-label">uni_cod</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.uni_cod" id="art_nom"
-                          name="art_nom" aria-describedby="" maxlength="3">
+                      <div class="col-3" ALIGN=left>
+                        <label class="form-label mt-2 ">PRECIO</label>
+                        <input type="number" class="form-control styleinp" [(ngModel)]="articulo.art_prec" id="art_prec"
+                          name="art_prec" aria-describedby="">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col">
-                        <label class="form-label">art_prec</label>
-                        <input type="number" class="form-control" [(ngModel)]="articulo.art_prec" id="art_prec"
-                          name="art_prec" aria-describedby="">
+                      <label class="form-label mt-2 ">IVA</label>
+                      <input type="number" class="form-control styleinp" [(ngModel)]="articulo.art_pimpto" id="art_pimpto"
+                        name="art_pimpto" aria-describedby="">
+                    </div>
+                    <div class="row">
+                      <div class="col-8">
+                        <label class="form-label mt-2">NOMBRE</label>
+                        <input type="text" class="form-control" #art_nom (focusout)="foucusArticulo(art_nom)"  [(ngModel)]="articulo.art_nom" id="idart_nom"
+                          name="idart_nom" aria-describedby="">
                       </div>
-                      <div class="col">
-                        <label class="form-label">art_nomcorto</label>
+                      <div class="col-4">
+                        <label class="form-label m-2">N-CORTO</label>
                         <input type="text" class="form-control" id="art_nomcorto" [(ngModel)]="articulo.art_nomcorto"
                           name="art_nomcorto" aria-describedby="">
-
-
-                      </div>
-                      <div class="col">
-                        <label class="form-label">emp_cod</label>
-                        <input type="text" class="form-control" id="emp_cod" [(ngModel)]="articulo.emp_cod"
-                          name="emp_cod" aria-describedby="" disabled>
                       </div>
                     </div>
-
                   </div>
-                  <div class="modal-footer">
+                  <div class="modal-footer mt-4">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-primary " (click)=" OnAddusuario(articulo)"
                       data-bs-dismiss="modal">Guardar</button>
                   </div>
-
                 </div>
-
-
               </div>
             </div>
           </div>
         </div>
-        <!--SEGUNDO BOTON-->
+        <!--SEGUNDO BOTON  ACTUALIZAR-->
         <div class="col">
-          <!-- Scrollable modal -->
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" [disabled]="this.SelecActualizar">
             ACTUALIZAR
           </button>
-
           <!-- Modal -->
           <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="staticBackdropLabel">ACTUALIZAR DATOS</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">ACTUALIZAR</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)=" clear()"></button>
                 </div>
                 <div class="modal-body">
                   <div class="container text-center">
                     <div class="row">
-                      <div class="col">
-                        <label class="form-label">art_cod</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.art_cod" id="art_cod"
+                      <div class="col-3">
+                        <label class="form-label mt-2">CODIGO</label>
+                        <input type="text" class="form-control styleinp" [(ngModel)]="articulo.art_cod" id="art_cod"
                           name="art_cod" aria-describedby="" disabled>
                       </div>
-                      <div class="col">
-                        <label class="form-label">art_est</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.art_est" id="art_est"
-                          name="art_est" aria-describedby="" disabled>
+                      <div class="col-3">
+                        <label class="form-label mt-2">ESTADO</label>
+                        <input type="text" class="form-control styleinp" [(ngModel)]="articulo.art_est" id="art_est"
+                          name="art_est" aria-describedby=""   disabled>
                       </div>
-                      <div class="col">
-                        <label class="form-label">art_nom</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.art_nom" id="art_nom"
-                          name="art_nom" aria-describedby="">
+                      <div class="col-3">
+                        <label class="form-label mt-2">UNIDAD</label>
+                        <input type="text" class="form-control styleinp" [(ngModel)]="articulo.uni_cod" id="art_nom"
+                          name="art_nom" aria-describedby=""   maxlength="3">
+                      </div>
+                      <div class="col-3">
+                        <label class="form-label mt-2">PRECIO</label>
+                        <input type="number" class="form-control styleinp" [(ngModel)]="articulo.art_prec" id="art_prec"
+                          name="art_prec" aria-describedby="">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col">
-                        <label class="form-label">art_prec</label>
-                        <input type="number" class="form-control" [(ngModel)]="articulo.art_prec" id="art_prec"
-                          name="art_prec" aria-describedby="">
+                      <label class="form-label mt-2 ">IVA</label>
+                      <input type="number" class="form-control styleinp" [(ngModel)]="articulo.art_pimpto" id="art_pimpto"
+                        name="art_pimpto" aria-describedby="" disabled>
+                    </div>
+                    <div class="row">
+
+                      <div class="col-8">
+                        <label class="form-label mt-2">NOMBRE</label>
+                        <input type="text" class="form-control" [(ngModel)]="articulo.art_nom" id="art_nom"
+                          name="art_nom" aria-describedby="">
                       </div>
-                      <div class="col">
-                        <label class="form-label">uni_cod</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.uni_cod" id="art_nom"
-                          name="art_nom" aria-describedby="" maxlength="3">
-                      </div>
-                      <div class="col">
-                        <label class="form-label">art_nomcorto</label>
+                      <div class="col-4">
+                        <label class="form-label mt-2">N-CORTO</label>
                         <input type="text" class="form-control" id="car_cod" [(ngModel)]="articulo.art_nomcorto"
                           name="car_cod" aria-describedby="">
                       </div>
-                      <div class="col">
-                        <label class="form-label">emp_cod</label>
-                        <input type="text" class="form-control" id="emp_cod" [(ngModel)]="articulo.emp_cod"
-                          name="emp_cod" aria-describedby="" disabled>
-                      </div>
-
                     </div>
-
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-primary" (click)="onUpdateArticulo(articulo)"
-                    data-bs-dismiss="modal">Actualizar</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelar()">Cancelar</button>
+                  <button type="button" class="btn btn-primary"
+                    data-bs-dismiss="modal" (click)="onUpdateArticulo(articulo)">Actualizar</button>
                 </div>
               </div>
             </div>
@@ -240,10 +215,9 @@
           <!-- Modal -->
 
         </div>
-        <!--TERCER  BOTON-->
+        <!--TERCER  BOTON ELIMINAR-->
         <div class="col">
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" [disabled]="this.SelecActualizar">
             ELIMINAR
           </button>
 
@@ -254,63 +228,59 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title fs-5" id="staticBackdropLabel">ARTICULO A ELIMINAR</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)=" clear()"></button>
                 </div>
                 <div class="modal-body">
                   <div class="container text-center">
                     <div class="row">
-                      <div class="col">
-                        <label class="form-label">art_cod</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.art_cod" id="art_cod"
+                      <div class="col-3">
+                        <label class="form-label mt-2">CODIGO</label>
+                        <input type="text" class="form-control styleinp" [(ngModel)]="articulo.art_cod" id="art_cod"
                           name="art_cod" aria-describedby="" disabled>
                       </div>
-                      <div class="col">
-                        <label class="form-label">art_est</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.art_est" id="art_est"
+                      <div class="col-3">
+                        <label class="form-label mt-2">ESTADO</label>
+                        <input type="text" class="form-control styleinp" [(ngModel)]="articulo.art_est" id="art_est"
                           name="art_est" aria-describedby="" disabled>
                       </div>
-                      <div class="col">
-                        <label class="form-label">art_nom</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.art_nom" id="art_nom"
-                          name="art_nom" aria-describedby="" disabled>
+                      <div class="col-3">
+                        <label class="form-label">UNIDAD</label>
+                        <input type="text" class="form-control mt-2 styleinp" id="car_cod" [(ngModel)]="articulo.uni_cod"
+                          name="car_cod" aria-describedby="" disabled>
+                      </div>
+                      <div class="col-3">
+                        <label class="form-label mt-2">PRECIO</label>
+                        <input type="text" class="form-control styleinp" [(ngModel)]="articulo.art_prec" id="art_prec"
+                          name="art_prec" aria-describedby="" disabled>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col">
-                        <label class="form-label">art_prec</label>
-                        <input type="text" class="form-control" [(ngModel)]="articulo.art_prec" id="art_prec"
-                          name="art_prec" aria-describedby="" disabled>
+                      <label class="form-label mt-2 ">IVA</label>
+                      <input type="number" class="form-control styleinp" [(ngModel)]="articulo.art_pimpto" id="art_pimpto"
+                        name="art_pimpto" aria-describedby="" disabled>
+                    </div>
+                    <div class="row">
+                      <div class="col-8">
+                        <label class="form-label mt-2">NOMBRE</label>
+                        <input type="text" class="form-control " id="art_nom"
+                          name="art_nom" aria-describedby=""[(ngModel)]="articulo.art_nom" disabled>
                       </div>
-                      <div class="col">
-                        <label class="form-label">art_nomcorto</label>
-                        <input type="text" class="form-control" id="car_cod" [(ngModel)]="articulo.art_nomcorto"
+                      <div class="col-4">
+                        <label class="form-label mt-2">NOMBRE-CORTO</label>
+                        <input type="text" class="form-control mt-2" id="car_cod" [(ngModel)]="articulo.art_nomcorto"
                           name="car_cod" aria-describedby="" disabled>
-                      </div>
-                      <div class="col">
-                        <label class="form-label">uni_cod</label>
-                        <input type="text" class="form-control" id="car_cod" [(ngModel)]="articulo.uni_cod"
-                          name="car_cod" aria-describedby="" disabled>
-                      </div>
-                      <div class="col">
-                        <label class="form-label">emp_cod</label>
-                        <input type="text" class="form-control" id="emp_cod" [(ngModel)]="articulo.emp_cod"
-                          name="emp_cod" aria-describedby="" disabled>
                       </div>
                     </div>
-
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CACELAR</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)=" cancelar()">CACELAR</button>
                   <button type="button" class="btn btn-primary" (click)="onDeleteArticulo(articulo)"
                     data-bs-dismiss="modal">ELIMINAR</button>
                 </div>
               </div>
             </div>
           </div>
-
-
-
         </div>
       </div>
     </div>

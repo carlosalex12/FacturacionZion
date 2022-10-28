@@ -1,6 +1,6 @@
-import { getLocaleDateTimeFormat } from '@angular/common';
-import { Component, OnInit, ViewChild, ɵɵqueryRefresh } from '@angular/core';
-import { ActivatedRoute, Router, TitleStrategy } from '@angular/router';
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute,  } from '@angular/router';
 import { __values } from 'tslib';
 import { VariablesGlobalesService } from '../menu/serviceMenu/variables-globales.service';
 import { Facturacion } from '../model/Facturacion';
@@ -9,40 +9,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ClienteDialogoComponent } from './cliente-dialogo/cliente-dialogo.component';
 import { VariablesGlobalesBusqueda } from './service/variables-globales.service';
 import { ArticuloDialogoComponent } from './articulo-dialogo/articulo-dialogo.component';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  FormGroupDirective,
-  NgForm,
-  Validators,
-} from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { keyframes } from '@angular/animations';
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-}
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-facturacion',
   templateUrl: './facturacion.component.html',
   styleUrls: ['./facturacion.component.css'],
 })
 export class FacturacionComponent implements OnInit {
-  ////tabla
-  clientecontrol = new FormControl('', [Validators.required]);
-
-  matcher = new MyErrorStateMatcher();
-
   products: any = [];
   /////factura
   l_serieFAc = '';
@@ -81,41 +54,42 @@ export class FacturacionComponent implements OnInit {
   datatable: any = [];
   NunFAc: any = [];
   clientes: any = [];
-  idclientes: any = [];
-  idarticulo: any = [];
+  idarticulocod: any;
+  idarticulonom: any;
   datostabla: any;
   ///dialogo variable
   dialogRef: any;
   dialogRef1: any;
   factura: Facturacion = new Facturacion();
-  DArt: FormGroup;
-  prueba: FormGroup;
   datocli: any;
   datosart: any;
   vertable = false;
   //facturacion
-  l_fdt_sec=0
-
-  constructor(
+  l_fdt_sec = 0;
+  fIVA = 0;
+  F_Bagregar=false
+  constructor
+  (
     private readonly _rutaDatos: ActivatedRoute,
     private GlobalService: GlobalService,
     private gvariables: VariablesGlobalesService,
     public gvariablesBus: VariablesGlobalesBusqueda,
     public dialog: MatDialog,
     public dialog1: MatDialog,
-    private fb: FormBuilder,
-    private _router: Router
-  ) {
-    this.DArt = this.fb.group({
-      artcod: ['', Validators.required],
-      Contrasena: ['', Validators.required],
-    });
+  ) {}
 
-    this.prueba = this.fb.group({
-      prueba: ['', Validators.required],
-    });
+  ngOnInit(): void {
+    this.gvariables.g_empid = {
+      id: this._rutaDatos.snapshot.params,
+    };
+    this.gvariables.g_nemp = {
+      emp: this._rutaDatos.snapshot.params,
+    };
+
+    //console.log(this.gvariables.g_nemp);
+
   }
-
+//funciones para abrir los dialogos
   openDialogcli() {
     this.dialogRef1 = this.dialog1.open(ClienteDialogoComponent);
     this.dialogRef1.afterClosed().subscribe((result: any) => {
@@ -128,110 +102,135 @@ export class FacturacionComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  regresar() {
-    console.log(this.gvariables.g_empid);
-    this._router.navigate([`/home/` + this.gvariables.g_empid.id.id]);
-  }
-  ngOnInit(): void {
-    this.gvariables.g_empid = {
-      id: this._rutaDatos.snapshot.params,
-    };
-  }
-
-  ngAfterViewInit() {}
-  //añaddir articulo
+  // funcion para agregar articulo
   agregarArt() {
-    this.l_fdt_sec=this.l_fdt_sec+1
-   this.datocli=document.getElementById('idcli_cod')
-    this.factura.cli_cod=this.datocli.value
-    console.log("si esta guardandoclicod",this.factura.cli_cod,"global variable",this.gvariablesBus.g_clicod)
-    if (this.fart_cod == '' && this.fart_nom == '') {
-      if (this.fart_cant == 0) {
-        this.factura.Detalles.push({
-          id: (this.l_id = this.l_id + 1),
-          emp_cod: 'P01',
-          fac_doc: 'FAC',
-          fac_num: this.factura.fac_num,
-          fdt_sec:this.l_fdt_sec,
-          art_cod: this.gvariablesBus.g_DatosArt.art_cod,
-          art_nom: this.gvariablesBus.g_DatosArt.art_nom,
-          fdt_cant: 1,
-          fdt_prec: this.gvariablesBus.g_DatosArt.art_prec,
-          fdt_sub: this.gvariablesBus.g_DatosArt.art_prec,
-        });
-        this.gvariablesBus.gsubtotal =
-          1 * this.gvariablesBus.g_DatosArt.art_prec;
-        console.log('datos subtotal', this.gvariablesBus.gsubtotal);
-        this.gvariablesBus.g_total =
-          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
-        this.clear();
-      } else {
-        this.factura.Detalles.push({
-          id: (this.l_id = this.l_id + 1),
-          emp_cod: 'P01',
-          fac_doc: 'FAC',
-          fac_num: this.factura.fac_num,
-          fdt_sec:this.l_fdt_sec,
-          art_cod: this.gvariablesBus.g_DatosArt.art_cod,
-          art_nom: this.gvariablesBus.g_DatosArt.art_nom,
-          fdt_cant: this.fart_cant,
-          fdt_prec: this.gvariablesBus.g_DatosArt.art_prec,
-          fdt_sub: this.fart_cant * this.gvariablesBus.g_DatosArt.art_prec,
-        });
-        this.gvariablesBus.gsubtotal =
-          this.fart_cant * this.gvariablesBus.g_DatosArt.art_prec;
-        console.log('datos subtotal', this.gvariablesBus.gsubtotal);
-        this.gvariablesBus.g_total =
-          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
-        this.clear();
+
+    this.idarticulocod=document.getElementById('idart_cod')
+    this.idarticulonom=document.getElementById('idart_nom')
+      this.l_fdt_sec = this.l_fdt_sec + 1;
+      this.datocli = document.getElementById('idcli_cod');
+      this.factura.cli_cod = this.datocli.value;
+      this.factura.emp_cod=this.gvariables.g_nemp.emp.emp
+
+      if(this.idarticulocod.value==""&&this.idarticulonom.value==""){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'LLENE LOS CAMPOS ',
+          footer: ''
+        })
+      }else{
+        if (this.fart_cod == '' && this.fart_nom == '') {
+          if (this.fart_cant == 0) {
+            this.factura.Detalles.push({
+              id: (this.l_id = this.l_id + 1),
+              emp_cod: this.gvariables.g_nemp.emp.emp,
+              fac_doc: 'FAC',
+              fac_num: this.factura.fac_num,
+              fdt_sec: this.l_fdt_sec,
+              art_cod: this.gvariablesBus.g_DatosArt.art_cod,
+              art_nom: this.gvariablesBus.g_DatosArt.art_nom,
+              fdt_cant: 1,
+              fdt_prec: this.gvariablesBus.g_DatosArt.art_prec,
+              fdt_iva: this.gvariablesBus.g_DatosArt.art_pimpto,
+              fdt_desc: 0,
+              fdt_sub: this.gvariablesBus.g_DatosArt.art_prec,
+            });
+
+          } else {
+            this.factura.Detalles.push({
+              id: (this.l_id = this.l_id + 1),
+              emp_cod: this.gvariables.g_nemp.emp.emp,
+              fac_doc: 'FAC',
+              fac_num: this.factura.fac_num,
+              fdt_sec: this.l_fdt_sec,
+              art_cod: this.gvariablesBus.g_DatosArt.art_cod,
+              art_nom: this.gvariablesBus.g_DatosArt.art_nom,
+              fdt_cant: this.fart_cant,
+              fdt_prec: this.gvariablesBus.g_DatosArt.art_prec,
+              fdt_iva: this.gvariablesBus.g_DatosArt.art_pimpto,
+              fdt_desc: 0,
+              fdt_sub: this.fart_cant * this.gvariablesBus.g_DatosArt.art_prec,
+            });
+
+          }
+        } else {
+          if (this.fart_cant == 0) {
+            //this.factura.cli_cod=this.gvariablesBus.g_DatosCli.cli_cod
+            this.factura.Detalles.push({
+              id: (this.l_id = this.l_id + 1),
+              emp_cod: this.gvariables.g_nemp.emp.emp,
+              fac_doc: 'FAC',
+              fac_num: this.factura.fac_num,
+              fdt_sec: this.l_fdt_sec,
+              art_cod: this.fart_cod,
+              art_nom: this.l_art_nom,
+              fdt_cant: 1,
+              fdt_prec: this.l_art_prec,
+              fdt_iva: this.fIVA,
+              fdt_desc: 0,
+              fdt_sub: this.l_art_prec,
+            });
+
+          } else {
+            this.factura.cli_cod = this.gvariablesBus.g_clicod;
+            // this.factura.cli_cod=this.gvariablesBus.g_DatosCli.cli_cod
+            this.factura.Detalles.push({
+              id: (this.l_id = this.l_id + 1),
+              emp_cod: this.gvariables.g_nemp.emp.emp,
+              fac_doc: 'FAC',
+              fac_num: this.factura.fac_num,
+              fdt_sec: this.l_fdt_sec,
+              art_cod: this.fart_cod,
+              art_nom: this.l_art_nom,
+              fdt_cant: this.fart_cant,
+              fdt_prec: this.l_art_prec,
+              fdt_iva: this.fIVA,
+              fdt_desc: 0,
+              fdt_sub: this.fart_cant * this.l_art_prec,
+            });
+
+          }
+        }
+
+        if (this.factura.Detalles.length != 0) {
+          this.vertable = true;
+     return this.sacarSub();
+        }
+
+
       }
-    } else {
-      if (this.fart_cant == 0) {
-        //this.factura.cli_cod=this.gvariablesBus.g_DatosCli.cli_cod
-        this.factura.Detalles.push({
-          id: (this.l_id = this.l_id + 1),
-          emp_cod: 'P01',
-          fac_doc: 'FAC',
-          fac_num: this.factura.fac_num,
-          fdt_sec:this.l_fdt_sec,
-          art_cod: this.fart_cod,
-          art_nom: this.l_art_nom,
-          fdt_cant: 1,
-          fdt_prec: this.l_art_prec,
-          fdt_sub: this.l_art_prec,
-        });
-        this.gvariablesBus.gsubtotal = 1 * this.l_art_prec;
-        console.log('datos total', this.gvariablesBus.gsubtotal);
-        this.gvariablesBus.g_total =
-          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
-        console.log('los datos agregados', this.factura);
-      } else {
-        this.factura.cli_cod = this.gvariablesBus.g_clicod;
-       // this.factura.cli_cod=this.gvariablesBus.g_DatosCli.cli_cod
-        this.factura.Detalles.push({
-          id: (this.l_id = this.l_id + 1),
-          emp_cod: 'P01',
-          fac_doc: 'FAC',
-          fac_num: this.factura.fac_num,
-          fdt_sec:this.l_fdt_sec,
-          art_cod: this.fart_cod,
-          art_nom: this.l_art_nom,
-          fdt_cant: this.fart_cant,
-          fdt_prec: this.l_art_prec,
-          fdt_sub: this.fart_cant * this.l_art_prec,
-        });
-        this.gvariablesBus.gsubtotal = this.fart_cant * this.l_art_prec;
-        this.gvariablesBus.g_total =
-          this.gvariablesBus.g_total + this.gvariablesBus.gsubtotal;
-        console.log('datos total', this.gvariablesBus.gsubtotal);
-        console.log('los datos agregados', this.factura);
-      }
-    }
-    if (this.factura.Detalles.length != 0) {
-      this.vertable = true;
-    }
+
+
   }
 
+///funcion para el subtotal y iva y total
+  sacarSub() {
+    this.gvariablesBus.gsubtotal0=0
+    this.gvariablesBus.gsubtotal1 =0
+    this.gvariablesBus.g_iva =0
+    for (var i = 0, element; (element = this.factura.Detalles[i++]); ) {
+      if (element.fdt_iva == 0) {
+        this.gvariablesBus.gsubtotal=element.fdt_sub
+        this.gvariablesBus.gsubtotal0 = this.gvariablesBus.gsubtotal0+this.gvariablesBus.gsubtotal;
+        console.log(this.gvariablesBus.gsubtotal0);
+      } else if(element.fdt_iva==12){
+        this.gvariablesBus.gsubtotal=element.fdt_sub
+        this.gvariablesBus.gsubtotal1 =
+          this.gvariablesBus.gsubtotal1 + this.gvariablesBus.gsubtotal;
+          this.gvariablesBus.g_iva = (this.gvariablesBus.gsubtotal1 * 12) / 100;
+        console.log(this.gvariablesBus.gsubtotal1);
+
+      }
+    }
+    this.gvariablesBus.g_total =
+      this.gvariablesBus.gsubtotal0 +
+      this.gvariablesBus.gsubtotal1 +
+      this.gvariablesBus.g_iva +
+      this.gvariablesBus.g_dec;
+    console.log('total :', this.gvariablesBus.g_total);
+
+  }
   //funcion de la teclas f4 ,esc,eliminar
   precionarTecla(event: any, id: any, idinput: any) {
     if (
@@ -310,33 +309,40 @@ export class FacturacionComponent implements OnInit {
     console.log(ideli);
 
     this.factura.Detalles.splice(ideli, 1);
-    this.gvariablesBus.g_total = this.gvariablesBus.g_total - ids.fdt_sub;
+    return this.sacarSub();
   }
   //focus del input de la tabla
   fousTable(dato: any, valor: any) {
     const ideli = this.factura.Detalles.findIndex((elemto) => {
       return elemto.id === dato.id;
     });
-    console.log();
+
+    console.log(dato);
     this.factura.Detalles.splice(ideli, 1, {
       id: dato.id,
-      emp_cod: 'G01',
-      fac_doc:'FAC',
+      emp_cod: this.gvariables.g_nemp.emp.emp,
+      fac_doc: 'FAC',
       fac_num: dato.fac_num,
-      fdt_sec:0,
+      fdt_sec: dato.fdt_sec,
       art_cod: dato.art_cod,
       art_nom: dato.art_nom,
       fdt_cant: valor,
       fdt_prec: dato.fdt_prec,
+      fdt_iva: dato.fdt_iva ,
+      fdt_desc: 0,
       fdt_sub: valor * dato.fdt_prec,
     });
-    this.gvariablesBus.g_total = 0;
-    for (var i = 0, element; (element = this.factura.Detalles[i++]); ) {
-      this.gvariablesBus.g_total = this.gvariablesBus.g_total + element.fdt_sub;
-      console.log('datos total ', this.gvariablesBus.gsubtotal);
-    }
+    //alert('dato cambiado');
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'DATO  CAMBIADO',
+      showConfirmButton: false,
+      timer: 1500,
+    });
+return this.sacarSub();
 
-    alert('dato cambiado');
+
 
     console.log(this.factura.Detalles);
   }
@@ -350,7 +356,7 @@ export class FacturacionComponent implements OnInit {
       } else {
         this.GlobalService.metodoGet(
           `https://localhost:44381/Cliente/GetExistencia?p_id=` +
-          this.gvariablesBus.g_clicod +
+            this.gvariablesBus.g_clicod +
             `&p_nom=` +
             this.gvariablesBus.g_clinom +
             `&p_usr=` +
@@ -359,15 +365,17 @@ export class FacturacionComponent implements OnInit {
           this.l_BusCientes = res;
           //console.log(this.l_BusCientes);
           if (this.l_BusCientes.length == 0) {
-            alert('EL CODIDO DEL CLIENTE NO EXISTE');
+            //alert('EL CODIDO DEL CLIENTE NO EXISTE');
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'EL CODIDO DEL CLIENTE NO EXISTE',
+              footer: ''
+            })
             this.l_tmpCli_cod = this.gvariablesBus.g_clicod;
-            // console.log(this.l_tmpCli_cod);
-            //this.Fcli_cod = l_tmp;
             this.gvariablesBus.g_clicod = '';
             let id = document.getElementById('idcli_cod');
             id?.focus();
-          } else if (this.l_BusCientes.length > 1) {
-            alert('mas de un resultado pulse f4');
           } else {
             this.l_cli_nom = this.l_BusCientes[0].cli_nom;
             this.l_Cli_est = this.l_BusCientes[0].cli_est;
@@ -389,20 +397,34 @@ export class FacturacionComponent implements OnInit {
       } else {
         this.GlobalService.metodoGet(
           `https://localhost:44381/Cliente/GetExistencia?p_id=` +
-          this.gvariablesBus.g_clicod+
+            this.gvariablesBus.g_clicod +
             `&p_nom=` +
-            this.gvariablesBus.g_clinom+
+            this.gvariablesBus.g_clinom +
             `&p_usr=` +
             this.gvariables.g_empid.id.id
         ).subscribe((res: any) => {
           this.l_BusCientes = res;
           //console.log(this.l_BusCientes);
           if (this.l_BusCientes.length == 0) {
-            alert('Cliente No Existe');
+           // alert('Cliente No Existe');
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'EL CLIENTE NO EXISTE',
+              footer: ''
+            })
             this.l_tmpCli_nom = this.gvariablesBus.g_clinom;
             this.gvariablesBus.g_clinom = '';
             let id = document.getElementById('idcli_nom');
             id?.focus();
+          } else if (this.l_BusCientes.length > 0) {
+            //alert('mas de un resultado pulse f4');
+            Swal.fire(
+              'MAS DE UN RESULTADO',
+              'Presione f4 pare ver todos los Resultados',
+              'question'
+            )
+
           } else {
             this.l_cli_cod = this.l_BusCientes[0].cli_cod;
             this.l_Cli_est = this.l_BusCientes[0].cli_est;
@@ -437,19 +459,28 @@ export class FacturacionComponent implements OnInit {
           this.l_Buscarticulo = res;
           console.log(this.l_Buscarticulo);
           if (this.l_Buscarticulo.length == 0) {
-            alert('EL ARTICULO NO EXISTE ');
+           // alert('EL ARTICULO NO EXISTE ');
+           Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'EL ARTICULO  NO EXISTE',
+            footer: ''
+          })
             this.l_tmpart_cod = this.fart_cod;
             this.fart_cod = '';
             let id = document.getElementById('idart_cod');
             id?.focus();
-          } else {
+          }else {
             this.l_art_nom = this.l_Buscarticulo[0].art_nom;
             this.l_art_prec = this.l_Buscarticulo[0].art_prec;
+            this.fIVA= this.l_Buscarticulo[0].art_pimpto
             this.datosart = document.getElementById('idart_nom');
             this.datosart.value = this.l_art_nom;
             this.gvariablesBus.g_DatosArt.art_prec = this.l_art_prec;
             this.datosart = document.getElementById('idart_sub');
             this.datosart.value = this.fart_cant * this.l_art_prec;
+            console.log(this.l_Buscarticulo);
+
           }
         });
       }
@@ -470,14 +501,27 @@ export class FacturacionComponent implements OnInit {
           this.l_Buscarticulo = res;
           console.log(this.l_Buscarticulo);
           if (this.l_Buscarticulo.length == 0) {
-            alert('EL ARTICULO NO EXISTE ');
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'EL ARTICULO  NO EXISTE',
+              footer: ''
+            })
             this.l_tmpart_cod = this.fart_cod;
             this.fart_cod = '';
             let id = document.getElementById('idart_cod');
             id?.focus();
-          } else {
+          } else if (this.l_Buscarticulo.length > 0) {
+            //alert('mas de un resultado pulse f4');
+            Swal.fire(
+              'MAS DE UN RESULTADO',
+              'Presione f4 pare ver todos los Resultados',
+              'question'
+            )
+          }else {
             this.l_art_cod = this.l_Buscarticulo[0].art_cod;
             this.l_art_prec = this.l_Buscarticulo[0].art_prec;
+            this.fIVA= this.l_Buscarticulo[0].art_pimpto
             this.datosart = document.getElementById('idart_cod');
             this.datosart.value = this.l_art_cod;
             this.datosart = document.getElementById('idart_prec');
@@ -489,8 +533,7 @@ export class FacturacionComponent implements OnInit {
       }
     }
   }
-
-
+//funcion para limpiar los campos
   clear() {
     this.fart_cod = '';
     this.fart_nom = '';
@@ -498,14 +541,24 @@ export class FacturacionComponent implements OnInit {
     this.l_art_prec = 0;
     this.gvariablesBus.gsubtotal = 0;
   }
+  //funcion para  enviar la factura
   Guardar() {
     //this.facturacion.Detalle=this.facturacion.Detalle;
-let factura= JSON.stringify(this.factura)
-console.log(factura)
+    let factura = JSON.stringify(this.factura);
+    console.log(factura);
     this.GlobalService.metodoPost(
-      'https://localhost:44381/Facturacion/Add?p_usr=' + this.gvariables.g_empid.id.id,this.factura
+      'https://localhost:44381/Facturacion/Add?p_usr=' +
+        this.gvariables.g_empid.id.id,
+      this.factura
     ).subscribe((resultado) => {
-      alert('FACTURA  AÑADIDA');
+      //alert('FACTURA  AÑADIDA');
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'FACTURA  AÑADIDA',
+        showConfirmButton: false,
+        timer: 1500,
+      });
     });
   }
 }

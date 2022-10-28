@@ -1,12 +1,8 @@
-<div class="container ">
-  <div class="row">
 
-    <div class="jumbotron jumbotron-fluid container-l">
-      <div class="container">
-        <h1 class="display-4">BENVENIDO</h1>
-      </div>
-      <button (click)="regresar()">REGRESAR</button>
-    </div>
+<app-navbar></app-navbar>
+<div class="container ">
+  <div class="row text-center mt-3">
+    <h1>FACTURAS</h1>
   </div>
   <!--Filtro-->
   <mat-form-field appearance="standard">
@@ -19,61 +15,62 @@
     <div class="mat-elevation-z8">
 
       <table mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="emp_cod">
-          <th mat-header-cell *matHeaderCellDef> emp_cod </th>
-          <td mat-cell *matCellDef="let element"> {{element.emp_cod}} </td>
-        </ng-container>
+
 
         <!-- Name Column -->
         <ng-container matColumnDef="fac_doc">
-          <th mat-header-cell *matHeaderCellDef> fac_doc </th>
+          <th mat-header-cell *matHeaderCellDef> DOCUMENTO </th>
           <td mat-cell *matCellDef="let element"> {{element.fac_doc}} </td>
         </ng-container>
 
         <!-- Weight Column -->
         <ng-container matColumnDef="fac_num">
-          <th mat-header-cell *matHeaderCellDef> fac_num </th>
+          <th mat-header-cell *matHeaderCellDef> NUMERO </th>
           <td mat-cell *matCellDef="let element"> {{element.fac_num}} </td>
         </ng-container>
-
+        <ng-container matColumnDef="fac_ser">
+          <th mat-header-cell *matHeaderCellDef> SERIE </th>
+          <td mat-cell *matCellDef="let element"> {{element.fac_ser}} </td>
+        </ng-container>
+        <ng-container matColumnDef="suc_cod">
+          <th mat-header-cell *matHeaderCellDef> SUCURSAL </th>
+          <td mat-cell *matCellDef="let element"> {{element.suc_cod}} </td>
+        </ng-container>
         <!-- Symbol Column -->
         <ng-container matColumnDef="fac_fec">
-          <th mat-header-cell *matHeaderCellDef> fac_fec </th>
+          <th mat-header-cell *matHeaderCellDef> FECHA </th>
           <td mat-cell *matCellDef="let element"> {{element.fac_fec}} </td>
         </ng-container>
         <ng-container matColumnDef="cli_cod">
-          <th mat-header-cell *matHeaderCellDef> cli_cod. </th>
+          <th mat-header-cell *matHeaderCellDef> CLIENTE </th>
           <td mat-cell *matCellDef="let element"> {{element.cli_cod}} </td>
         </ng-container>
         <ng-container matColumnDef="fac_est">
-          <th mat-header-cell *matHeaderCellDef> fac_est. </th>
+          <th mat-header-cell *matHeaderCellDef> ESTADO </th>
           <td mat-cell *matCellDef="let element"> {{element.fac_est}} </td>
         </ng-container>
         <!-- Name Column -->
         <ng-container matColumnDef="fac_tot">
-          <th mat-header-cell *matHeaderCellDef> fac_tot </th>
+          <th mat-header-cell *matHeaderCellDef> TOTAL </th>
           <td mat-cell *matCellDef="let element"> {{element.fac_tot}} </td>
         </ng-container>
 
         <!-- Weight Column -->
         <ng-container matColumnDef="fac_sub0">
-          <th mat-header-cell *matHeaderCellDef> fac_sub0 </th>
+          <th mat-header-cell *matHeaderCellDef> SUB-TOTAL </th>
           <td mat-cell *matCellDef="let element"> {{element.fac_sub0}} </td>
         </ng-container>
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="fac_sub1">
-          <th mat-header-cell *matHeaderCellDef> fac_sub1 </th>
+          <th mat-header-cell *matHeaderCellDef> SUB-TOTAL 1 </th>
           <td mat-cell *matCellDef="let element"> {{element.fac_sub1}} </td>
         </ng-container>
         <ng-container matColumnDef="fac_dscto">
-          <th mat-header-cell *matHeaderCellDef> fac_dscto. </th>
+          <th mat-header-cell *matHeaderCellDef> DESCUENTO </th>
           <td mat-cell *matCellDef="let element"> {{element.fac_dscto}} </td>
         </ng-container>
-        <ng-container matColumnDef="fac_dscto1">
-          <th mat-header-cell *matHeaderCellDef> fac_dscto1. </th>
-          <td mat-cell *matCellDef="let element"> {{element.fac_dscto1}} </td>
-        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>

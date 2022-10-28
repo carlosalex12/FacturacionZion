@@ -9,6 +9,7 @@ import { FacturaComponent } from './factura/factura.component';
 import { ClienteComponent } from './cliente/cliente.component';
 import { PruebaComponent } from './prueba/prueba.component';
 import { FacturacionComponent } from './facturacion/facturacion.component';
+import { ExamplePdfViewerComponent } from './example-pdf-viewer/example-pdf-viewer.component';
 //import { HomeModule } from './components/home/home.module';
 
 const routes: Routes = [
@@ -28,23 +29,23 @@ const routes: Routes = [
   },
 
   {
-    path: 'facturacion/:id',
+    path: 'facturacion/:id/:emp',
     component: FacturacionComponent,
   },
   {
-    path: 'home/:id',
+    path: 'home/:id/:emp',
     component: HomeComponent,
   },
   {
-    path: 'articulo/:id',
+    path: 'articulo/:id/:emp',
     component: ArticuloComponent,
   },
   {
-    path: 'factura/:id',
+    path: 'factura/:id/:emp',
     component: FacturaComponent,
   },
   {
-    path: 'cliente/:id',
+    path: 'cliente/:id/:emp',
     component: ClienteComponent,
   },
   {

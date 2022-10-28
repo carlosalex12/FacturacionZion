@@ -41,9 +41,11 @@ cliSelect(DatosArtSelc:any){
     art_est:DatosArtSelc.art_est,
     art_nom:DatosArtSelc.art_nom,
     art_prec:DatosArtSelc.art_prec,
+    art_pimpto:DatosArtSelc.art_pimpto,
     art_fkey:DatosArtSelc.art_fkey,
     art_treg:DatosArtSelc.art_treg,
     uni_cod:DatosArtSelc.uni_cod,
+
     art_nomcorto:DatosArtSelc.art_nomcorto,
     }
 
