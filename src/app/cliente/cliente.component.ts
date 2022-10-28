@@ -303,5 +303,7 @@ export class ClienteComponent implements OnInit {
     this.cliente.cli_tlf1 = 0;
     this.cliente.cli_tlf2 = 0;
     this.cliente.cli_email = '';
+    this.ondatatable();
+    this.SelecActualizar = true;
   }
 }

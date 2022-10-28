@@ -95,18 +95,18 @@
                   <div class="container text-center">
                     <div class="row g-3 align-items-center">
 
-                      <div class="col-3" ALIGN=left>
+                      <div class="col-2" ALIGN=left>
                         <label class="form-label mt-2 ">CODIGO:</label>
                         <input type="text" class="form-control styleinp" #art_cod  (focusout)="foucusArticulo(art_cod)"  [(ngModel)]="articulo.art_cod" id="idart_cod"
                           name="art_cod" aria-describedby="">
                       </div>
 
-                      <div class="col-3" ALIGN=left>
+                      <div class="col-2" ALIGN=left>
                         <label class="form-label mt-2 ">ESTADO:</label>
                         <input type="text" class="form-control styleinp" [(ngModel)]="articulo.art_est" id="art_est"
                           name="art_est" aria-describedby=""  maxlength="3">
                       </div>
-                      <div class="col-3" ALIGN=left>
+                      <div class="col-2" ALIGN=left>
                         <label class="form-label mt-2">UNIDAD</label>
                         <input type="text" class="form-control styleinp" [(ngModel)]="articulo.uni_cod" id="art_nom"
                           name="art_nom" aria-describedby=""   maxlength="3">
@@ -116,12 +116,13 @@
                         <input type="number" class="form-control styleinp" [(ngModel)]="articulo.art_prec" id="art_prec"
                           name="art_prec" aria-describedby="">
                       </div>
+                      <div class="col-3">
+                        <label class="form-label mt-2 ">IVA</label>
+                        <input type="number" class="form-control styleinp" [(ngModel)]="articulo.art_pimpto" id="art_pimpto"
+                          name="art_pimpto" aria-describedby="">
+                      </div>
                     </div>
-                    <div class="row">
-                      <label class="form-label mt-2 ">IVA</label>
-                      <input type="number" class="form-control styleinp" [(ngModel)]="articulo.art_pimpto" id="art_pimpto"
-                        name="art_pimpto" aria-describedby="">
-                    </div>
+
                     <div class="row">
                       <div class="col-8">
                         <label class="form-label mt-2">NOMBRE</label>
@@ -157,22 +158,22 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title fs-5" id="staticBackdropLabel">ACTUALIZAR</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)=" clear()"></button>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clear()"></button>
                 </div>
                 <div class="modal-body">
                   <div class="container text-center">
                     <div class="row">
-                      <div class="col-3">
+                      <div class="col-2">
                         <label class="form-label mt-2">CODIGO</label>
                         <input type="text" class="form-control styleinp" [(ngModel)]="articulo.art_cod" id="art_cod"
                           name="art_cod" aria-describedby="" disabled>
                       </div>
-                      <div class="col-3">
+                      <div class="col-2">
                         <label class="form-label mt-2">ESTADO</label>
                         <input type="text" class="form-control styleinp" [(ngModel)]="articulo.art_est" id="art_est"
                           name="art_est" aria-describedby=""   disabled>
                       </div>
-                      <div class="col-3">
+                      <div class="col-2">
                         <label class="form-label mt-2">UNIDAD</label>
                         <input type="text" class="form-control styleinp" [(ngModel)]="articulo.uni_cod" id="art_nom"
                           name="art_nom" aria-describedby=""   maxlength="3">
@@ -182,12 +183,13 @@
                         <input type="number" class="form-control styleinp" [(ngModel)]="articulo.art_prec" id="art_prec"
                           name="art_prec" aria-describedby="">
                       </div>
+                      <div class="col-3">
+                        <label class="form-label mt-2 ">IVA</label>
+                        <input type="number" class="form-control styleinp" [(ngModel)]="articulo.art_pimpto" id="art_pimpto"
+                          name="art_pimpto" aria-describedby="" disabled>
+                      </div>
                     </div>
-                    <div class="row">
-                      <label class="form-label mt-2 ">IVA</label>
-                      <input type="number" class="form-control styleinp" [(ngModel)]="articulo.art_pimpto" id="art_pimpto"
-                        name="art_pimpto" aria-describedby="" disabled>
-                    </div>
+
                     <div class="row">
 
                       <div class="col-8">

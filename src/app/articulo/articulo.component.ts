@@ -81,6 +81,7 @@ export class ArticuloComponent implements OnInit {
     this.articulo.art_nom = select.art_nom;
     this.articulo.art_est = select.art_est;
     this.articulo.art_prec = select.art_prec;
+    this.articulo.art_pimpto = select.art_pimpto;
     this.articulo.uni_cod = select.uni_cod;
     this.articulo.art_nomcorto = select.art_nomcorto;
     this.articulo.emp_cod = select.emp_cod;
@@ -209,6 +210,8 @@ export class ArticuloComponent implements OnInit {
     this.articulo.art_prec = 0,
     this.articulo.uni_cod = "",
     this.articulo.art_nomcorto = "";
+    this.ondatatable();
+    this.SelecActualizar = true;
   }
 
   foucusArticulo(idCamp: any) {

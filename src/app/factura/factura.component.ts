@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { VariablesGlobalesService } from '../menu/serviceMenu/variables-globales.service';
 import { facturas } from '../model/factura';
 import { GlobalService } from '../services/GserviceGPPD';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { FacturacionComponent } from '../facturacion/facturacion.component';
+import { DetalleFacturaComponent } from '../detalle-factura/detalle-factura.component';
 
 @Component({
   selector: 'app-factura',
@@ -16,6 +19,8 @@ import { GlobalService } from '../services/GserviceGPPD';
 export class FacturaComponent implements OnInit {
   Factura: facturas = new facturas();
   datatable: any = [];
+
+  dialogRef1: any;
   displayedColumns: string[] = [
 
     'fac_num',
@@ -28,16 +33,23 @@ export class FacturaComponent implements OnInit {
     'fac_tot',
     'fac_sub0',
     'fac_sub1',
-    'fac_dscto'
+    'fac_dscto',
+    'selecionar'
 
   ];
   constructor(
     private readonly _rutaDatos: ActivatedRoute,
     private _router: Router,
     private GlobalService: GlobalService,
-    private gvariables: VariablesGlobalesService
+    private gvariables: VariablesGlobalesService,
+    public dialog1: MatDialog
   ) {}
-
+  openDialogcli() {
+    this.dialogRef1 = this.dialog1.open(DetalleFacturaComponent);
+    this.dialogRef1.afterClosed().subscribe((result: any) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
   ngOnInit(): void {
     console.log('nombre');
 

@@ -35,6 +35,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {CheckboxModule} from 'primeng/checkbox';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import { ExamplePdfViewerComponent } from './example-pdf-viewer/example-pdf-viewer.component';
+import { DetalleFacturaComponent } from './detalle-factura/detalle-factura.component';
 
 
 
@@ -55,6 +56,7 @@ import { ExamplePdfViewerComponent } from './example-pdf-viewer/example-pdf-view
     ClienteDialogoComponent,
     ArticuloDialogoComponent,
     ExamplePdfViewerComponent,
+    DetalleFacturaComponent,
 
 
 
