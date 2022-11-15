@@ -7,9 +7,11 @@ import { NoEncontradoComponent } from './no-encontrado/no-encontrado.component';
 import { ArticuloComponent } from './articulo/articulo.component';
 import { FacturaComponent } from './factura/factura.component';
 import { ClienteComponent } from './cliente/cliente.component';
-import { PruebaComponent } from './prueba/prueba.component';
 import { FacturacionComponent } from './facturacion/facturacion.component';
-import { ExamplePdfViewerComponent } from './example-pdf-viewer/example-pdf-viewer.component';
+import { PruebaComponent } from './prueba/prueba.component';
+import { VigilanteGuard } from './vigilante.guard';
+import { EmpresaComponent } from './empresa/empresa.component';
+
 //import { HomeModule } from './components/home/home.module';
 
 const routes: Routes = [
@@ -25,32 +27,43 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    //canActivate:[AuthGuard]
+    canActivate:[VigilanteGuard]
   },
 
   {
     path: 'facturacion/:id/:emp',
     component: FacturacionComponent,
+   // canActivate:[VigilanteGuard]
+  },
+  {
+    path: 'empresa/:id/:emp',
+    component: EmpresaComponent,
+    //canActivate:[VigilanteGuard]
   },
   {
     path: 'home/:id/:emp',
     component: HomeComponent,
+    //canActivate:[VigilanteGuard]
   },
   {
     path: 'articulo/:id/:emp',
     component: ArticuloComponent,
+    //canActivate:[VigilanteGuard]
   },
   {
     path: 'factura/:id/:emp',
     component: FacturaComponent,
+    //canActivate:[VigilanteGuard]
   },
   {
     path: 'cliente/:id/:emp',
     component: ClienteComponent,
+    //canActivate:[VigilanteGuard]
   },
   {
     path: 'prueba',
     component: PruebaComponent,
+    //canActivate:[VigilanteGuard]
   },
   {
     path: '**',

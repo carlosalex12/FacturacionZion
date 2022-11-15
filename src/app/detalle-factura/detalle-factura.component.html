@@ -1,1 +1,124 @@
-<p>detalle-factura works!</p>
+<mat-dialog-content class="mat-typography">
+  <div class="container">
+    <p-fieldset legend="DETALLE">
+      <mat-card>
+        <mat-card-title>
+          FACTURA
+        </mat-card-title>
+        <div class="row">
+          <div class="col">
+            <label class="form-label">N Factura</label>
+            <input type="number" class="form-control" value="{{this.l_BuscaDetslleFact[0].fac_num}}" disabled />
+          </div>
+          <div class="col">
+            <label class="form-label">FECHA</label>
+            <input type="text" class="form-control" value="{{this.l_BuscaDetslleFact[0].fac_fec | date:'dd-MM-yyyy' }}" disabled />
+          </div>
+          <div class="col">
+            <label class="form-label">TIPO</label>
+            <input type="text" class="form-control" value="{{this.l_BuscaDetslleFact[0].fac_tpag}}" disabled />
+          </div>
+          <div class="col">
+            <label class="form-label">SERIE</label>
+            <input type="text" class="form-control" value="{{this.l_BuscaDetslleFact[0].fac_ser}}" disabled />
+          </div>
+          <div class="col">
+            <label class="form-label">SUCURSAL</label>
+            <input type="text" class="form-control" value="{{this.l_BuscaDetslleFact[0].suc_cod}}" disabled />
+          </div>
+        </div>
+      </mat-card>
+      <mat-card>
+        <mat-card-title>
+          CLIENTE
+        </mat-card-title>
+        <div class="row">
+          <div class="col">
+            <label class="form-label">CODIGO</label>
+            <input type="text" class="form-control" value="{{this.l_BuscaDetslleFact[0].cli_cod}}" disabled />
+          </div>
+          <div class="col">
+            <label class="form-label">NOMBRE</label>
+            <input type="text" class="form-control" value="{{this.l_BuscaDetslleFact[0].cli_nom}}" disabled />
+          </div>
+          <div class="col">
+            <label class="form-label">ESTADO</label>
+            <input type="text" class="form-control" value="{{this.l_BuscaDetslleFact[0].cli_est}}" disabled />
+          </div>
+          <div class="col">
+            <label class="form-label">CORREO</label>
+            <input type="text" class="form-control" value="{{this.l_BuscaDetslleFact[0].cli_email}}" disabled />
+          </div>
+        </div>
+      </mat-card>
+      <mat-card>
+        <mat-card-title>
+          ARTICULOS
+        </mat-card-title>
+        <div class="row m-4 hscroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">N-FACTURA</th>
+                <th scope="col">CODIGO ART</th>
+                <th scope="col">NOMBRE ART</th>
+                <th scope="col">CANTIDAD</th>
+                <th scope="col">PRECIO</th>
+                <th scope="col">IVA</th>
+                <th scope="col">DESCUENTO</th>
+                <th scope="col">SUBTOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of l_BuscaDetslleFact ">
+                <th>{{ item.fac_num }}</th>
+                <th>{{ item.art_cod }}</th>
+                <th>{{ item.art_nom }}</th>
+                <th>{{ item.fdt_cant }}</th>
+                <th>{{ item.fdt_prec }}</th>
+                <th>{{ item.art_pimpto }}</th>
+                <th>{{ item.fdt_desc }}</th>
+                <th>{{ item.fdt_sub }}</th>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="row mt-4 m-4" >
+          <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2">
+            <h3>Total</h3>
+          </div>
+          <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2 ">
+            <label>
+              SUB0:{{this.gvbus.gsubtotal0}}
+            </label>
+          </div>
+          <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2 ">
+            <label>
+              SUB1:{{this.gvbus.gsubtotal1}}
+            </label>
+          </div>
+          <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2 ">
+            <label>
+              DESC:{{this.gvbus.g_dec}}
+            </label>
+          </div>
+          <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2 ">
+            <label>
+              IVA:{{this.gvbus.g_iva}}
+            </label>
+          </div>
+          <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2 ">
+
+            <label>
+              TOTAL:{{this.gvbus.g_total}}
+            </label>
+          </div>
+        </div>
+      </mat-card>
+      <button mat-raised-button class="m-3" color="danger" (click)="cerrar()">Cerrar</button>
+      <button mat-raised-button class="m-3" color="primary" (click)="imprimir()">IMPRIMIR</button>
+    </p-fieldset>
+
+  </div>
+</mat-dialog-content>

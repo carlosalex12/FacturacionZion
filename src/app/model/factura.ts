@@ -9,6 +9,7 @@ export class facturas {
   fac_est: string = '';
   fac_tot: number = 0;
   fac_sub0: number = 0;
+  fac_impto: string = '';
   fac_sub1: number = 0;
   fac_dscto: number = 0;
   fac_dscto1: number = 0;

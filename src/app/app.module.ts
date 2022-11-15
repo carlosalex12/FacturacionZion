@@ -10,6 +10,15 @@ import { MaterialModule } from './NgMaterial/material/material.module';
 import { tablaComponent } from './Usuario/tabla.component';
 import { NavbarComponent } from './menu/navbar/navbar.component';
 import { FooterComponent } from './menu/footer/footer.component';
+import { FacturacionComponent } from './facturacion/facturacion.component';
+import { ClienteDialogoComponent } from './facturacion/cliente-dialogo/cliente-dialogo.component';
+import { ArticuloDialogoComponent } from './facturacion/articulo-dialogo/articulo-dialogo.component';
+import { ExamplePdfViewerComponent } from './example-pdf-viewer/example-pdf-viewer.component';
+import { DetalleFacturaComponent } from './detalle-factura/detalle-factura.component';
+import { UnidaDialogoComponent } from './articulo/unida-dialogo/unida-dialogo.component'
+import { CategoriaDialogoComponent } from './articulo/categoria-dialogo/categoria-dialogo.component';
+import { ZzapplService } from './FuncionesGlobales/zzappl.service';
+import { EmpresaComponent } from './empresa/empresa.component';
 //importar HttpClientModule
 import {  HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,16 +35,28 @@ import {MenuItem} from 'primeng/api';
 import {ButtonModule} from 'primeng/button';
 import {TableModule} from 'primeng/table';
 import {DialogModule} from 'primeng/dialog';
-import { PruebaComponent } from './prueba/prueba.component';
-import { FacturacionComponent } from './facturacion/facturacion.component';
-import { ClienteDialogoComponent } from './facturacion/cliente-dialogo/cliente-dialogo.component';
-import { ArticuloDialogoComponent } from './facturacion/articulo-dialogo/articulo-dialogo.component';
 import {FieldsetModule} from 'primeng/fieldset';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {CheckboxModule} from 'primeng/checkbox';
 import {RadioButtonModule} from 'primeng/radiobutton';
-import { ExamplePdfViewerComponent } from './example-pdf-viewer/example-pdf-viewer.component';
-import { DetalleFacturaComponent } from './detalle-factura/detalle-factura.component';
+import { PruebaComponent } from './prueba/prueba.component';
+import {MessagesModule} from 'primeng/messages';
+import {ToastModule} from 'primeng/toast';
+import {ChartModule} from 'primeng/chart';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {SplitButtonModule} from 'primeng/splitbutton';
+
+//material
+import {MatGridListModule} from '@angular/material/grid-list';
+///cookies
+import { CookieService } from 'ngx-cookie-service';
+
+
+//report
+//import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
+//notiflix
+import * as printJS from 'print-js';
+
 
 
 
@@ -51,15 +72,15 @@ import { DetalleFacturaComponent } from './detalle-factura/detalle-factura.compo
     ArticuloComponent,
     FacturaComponent,
     ClienteComponent,
-    PruebaComponent,
     FacturacionComponent,
     ClienteDialogoComponent,
     ArticuloDialogoComponent,
     ExamplePdfViewerComponent,
     DetalleFacturaComponent,
-
-
-
+    PruebaComponent,
+    EmpresaComponent,
+    CategoriaDialogoComponent,
+    UnidaDialogoComponent,
 
   ],
   imports: [
@@ -79,12 +100,22 @@ FieldsetModule,
 MatSidenavModule,
 CheckboxModule,
 RadioButtonModule,
-NgxExtendedPdfViewerModule
+NgxExtendedPdfViewerModule,
+ToastModule,
+MessagesModule,
+ChartModule,
+MatGridListModule,
+InputTextareaModule,
+SplitButtonModule,
+
+//BoldReportViewerModule
+
+
 
 
 
   ],
-  providers: [],
+  providers: [CookieService,ZzapplService,],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,26 +1,24 @@
 <app-navbar></app-navbar>
-<div class="container ">
+<header>
   <div class="row text-center mt-3">
     <h1>CLIENTES</h1>
   </div>
-  <!--Filtro-->
-  <mat-form-field appearance="standard">
-    <mat-label>Busqueda</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input autocomplete="off">
-  </mat-form-field>
-
-  <!--TABLA-->
-  <div class="row">
-    <!--Tabla-->
-    <div class="mat-elevation-z8">
-
+</header>
+<section class="consulta" id="Consulta" *ngIf="this.MostrarConsulta">
+  <header class="Filtro  row m-4">
+    <mat-form-field appearance="standard">
+      <mat-label>Busqueda</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input autocomplete="off">
+    </mat-form-field>
+  </header>
+  <body class="tabla m-4">
+    <div class=" row mat-elevation-z8 m-4">
       <table mat-table [dataSource]="dataSource">
         <!-- Name Column -->
         <ng-container matColumnDef="cli_cod">
           <th mat-header-cell *matHeaderCellDef> CODIGO </th>
           <td mat-cell *matCellDef="let element"> {{element.cli_cod}} </td>
         </ng-container>
-
         <!-- Weight Column -->
         <ng-container matColumnDef="cli_nom">
           <th mat-header-cell *matHeaderCellDef> NOMBRE </th>
@@ -57,291 +55,74 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-
     </div>
-  </div>
-  <!--botones -->
-  <div class="row m-3">
+    <footer class="abs-center">
+      <button type="button" class="btn btn-primary m-3" (click)="Nuevo()">NUEVO</button>
+      <button type="button" class="btn btn-primary m-3" (click)="Actualizar()">ACTUALIZAR</button>
+      <button type="button" class="btn btn-primary m-3">ELIMINAR</button>
+    </footer>
 
-    <div class="container text-center">
+  </body>
+</section>
+<section class="crud" id="Crud" *ngIf="this.MostrarCrud">
+  <header></header>
+  <body class="abs-center" id="idbody">
+    <mat-card class="card">
       <div class="row">
-        <!--PRIMERO BOTON  INSERTAR-->
-        <div class="col">
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Ingresar
-          </button>
-
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">CLIENTE</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="container text-center">
-                    <div class="row g-3 align-items-center">
-                      <div class="col-4" ALIGN="left">
-                        <label class="form-label mt-2">CODIGO:</label>
-                        <input type="text" class="form-control styleinp" #idcli_cod [(ngModel)]="cliente.cli_cod"
-                          id="idcli_cod" name="idcli_cod" aria-describedby="" (focusout)="foucuscliente(idcli_cod)">
-                      </div>
-                      <div class="col-3" ALIGN="left">
-                        <label class="form-label">TIPO:</label>
-                        <input type="text" class="form-control styleinp" [(ngModel)]="cliente.cli_tid" id="cli_tid"
-                          name="cli_tid" aria-describedby="" maxlength="1">
-                      </div>
-                      <div class="col-5">
-                        <label class="form-label mt-2">NUMERO:</label>
-                        <input type="text" class="form-control" id="idcli_ni" #idcli_ni
-                          (focusout)="foucuscliente(idcli_ni)" [(ngModel)]="cliente.cli_nid" name="idcli_ni"
-                          aria-describedby="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12">
-
-                        <label class="form-label mt-2">NOMBRE</label>
-                        <input type="text" class="form-control" [(ngModel)]="cliente.cli_nom" id="idcli_nom"
-                          name="idcli_nom" aria-describedby="">
-                      </div>
-
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <label class="form-label mt-2">DIRECCION</label>
-                        <input type="text" class="form-control" id="cli_dir" [(ngModel)]="cliente.cli_dir"
-                          name="cli_dir" aria-describedby="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <label class="form-label mt-2">TELEFONO</label>
-                        <input type="number" class="form-control" [(ngModel)]="cliente.cli_tlf1" id="cli_tlf1"
-                          name="cli_tlf1" aria-describedby="">
-                      </div>
-                      <div class="col">
-                        <label class="form-label mt-2">CELULAR</label>
-                        <input type="number" class="form-control" id="cli_tlf2" [(ngModel)]="cliente.cli_tlf2"
-                          name="cli_tlf2" aria-describedby="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <label class="form-label mt-2">CORREO</label>
-                        <input type="email" class="form-control" [(ngModel)]="cliente.cli_email" id="cli_email"
-                          name="cli_email" aria-describedby="">
-                      </div>
-                    </div>
-
-                  </div>
-                  <div class="modal-footer mt-3">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary " (click)=" OnAddCliente(cliente)"
-                      data-bs-dismiss="modal">Guardar</button>
-                  </div>
-
-                </div>
-
-
-              </div>
-            </div>
-          </div>
+        <div class="col-4" ALIGN="left">
+          <label class="form-label mt-2">CODIGO:</label>
+          <input type="text" #idcli_cod class="form-control"  tag="cpru" [(ngModel)]="cliente.cli_cod" id="cli_cod"
+            name="CODIGO" aria-describedby="" disabled>
         </div>
-        <!--SEGUNDO BOTON ACTUALIZAR-->
-        <div class="col">
-          <!-- Scrollable modal -->
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-            [disabled]="this.SelecActualizar">
-            ACTUALIZAR
-          </button>
-
-          <!-- Modal -->
-          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="staticBackdropLabel">ACTUALIZAR</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"(click)="clear()"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="container text-center">
-                    <div class="row">
-
-                      <div class="col-4">
-                        <label class="form-label mt-2">CODIGO</label>
-                        <input type="text" class="form-control" [(ngModel)]="cliente.cli_cod" id="cli_cod"
-                          name="cli_cod" aria-describedby="" disabled>
-                      </div>
-                      <div class="col-4">
-                        <label class="form-label mt-2">ESTADO</label>
-                        <input type="text" class="form-control" [(ngModel)]="cliente.cli_est" id="cli_cod"
-                          name="cli_cod" aria-describedby="">
-                      </div>
-                      <div class="col-4">
-                        <label class="form-label mt-2">TIPO</label>
-                        <input type="text" class="form-control" id="cli_tid" [(ngModel)]="cliente.cli_tid"
-                          name="cli_tid" aria-describedby="" maxlength="1">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-6">
-                        <label class="form-label mt-2">NOMBRE</label>
-                        <input type="text" class="form-control" [(ngModel)]="cliente.cli_nom" id="cli_nom"
-                          name="cli_nom" aria-describedby="">
-                      </div>
-                      <div class="col-6">
-                        <label class="form-label mt-2">NUMERO</label>
-                        <input type="text" class="form-control" [(ngModel)]="cliente.cli_nid" id="idcli_ni"
-                          name="idcli_ni" aria-describedby="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <label class="form-label mt-2">DIRECCION</label>
-                        <input type="text" class="form-control" [(ngModel)]="cliente.cli_dir" id="cli_dir"
-                          name="cli_dir" aria-describedby="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <label class="form-label mt-2">TELEFONO</label>
-                        <input type="number" class="form-control" id="cli_tlf1" [(ngModel)]="cliente.cli_tlf1"
-                          name="cli_tlf1" aria-describedby="">
-                      </div>
-                      <div class="col">
-                        <label class="form-label mt-2">CELULAR</label>
-                        <input type="number" class="form-control" [(ngModel)]="cliente.cli_tlf2" id="cli_tlf2"
-                          name="cli_tlf2" aria-describedby="">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <label class="form-label">CORREO</label>
-                        <input type="email" class="form-control" id="cli_email" [(ngModel)]="cliente.cli_email"
-                          name="cli_email" aria-describedby="">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                    (click)=" cancelar()">Cancelar</button>
-                  <button type="button" class="btn btn-primary" (click)="onUpdateCliente(cliente)"
-                    data-bs-dismiss="modal">Actualizar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Modal -->
-
+        <div class="col-3" ALIGN="left">
+          <label class="form-label">TIPO:</label>
+          <input type="text" class="form-control styleinp"  tag="cpru" [(ngModel)]="cliente.cli_tid" id="cli_tid" name="TIPO"
+            aria-describedby="" maxlength="1">
         </div>
-        <div class="col">
-          <button type="button" class="btn btn-primary"
-          [disabled]="this.SelecActualizar" (click)="onDeleteCliente(cliente)">
-          ELIMINAR
-        </button>
+        <div class="col-5">
+          <label class="form-label mt-2">NUMERO:</label>
+          <input type="number" class="form-control" id="cli_nid" tag="cpru"  #idcli_ni (focusout)="foucuscliente(idcli_ni.id)"
+            [(ngModel)]="cliente.cli_nid" name="NUMERO" aria-describedby="">
         </div>
-        <!--TERCER  BOTON ELIMINAR-->
-        <!-- <div class="col">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
-            [disabled]="this.SelecActualizar">
-            ELIMINAR
-          </button>
-
-           Modal -->
-          <!-- <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="staticBackdropLabel">ELIMINAR</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="container text-center">
-                    <div class="row">
-                      <div class="col-4">
-                        <label class="form-label mt-2">CODIGO</label>
-                        <input type="text" class="form-control" [(ngModel)]="cliente.cli_cod" id="cli_cod"
-                          name="cli_cod" aria-describedby="" disabled>
-                      </div>
-                      <div class="col-4">
-                        <label class="form-label mt-2">ESTADO</label>
-                        <input type="text" class="form-control" [(ngModel)]="cliente.cli_est" id="cli_est"
-                          name="cli_est" aria-describedby="" disabled>
-                      </div>
-                      <div class="col-4">
-                        <label class="form-label mt-2">TIPO</label>
-                        <input type="text" class="form-control" id="cli_tid" [(ngModel)]="cliente.cli_tid"
-                          name="cli_tid" aria-describedby="" maxlength="1" disabled>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-6">
-                        <label class="form-label mt-2">NOMBRE</label>
-                        <input type="text" class="form-control" [(ngModel)]="cliente.cli_nom" id="cli_nom"
-                          name="cli_nom" aria-describedby="" disabled>
-                      </div>
-                      <div class="col-6">
-                        <label class="form-label mt-2">NUMERO</label>
-                        <input type="number" class="form-control" [(ngModel)]="cliente.cli_nid" id="cli_nid"
-                          name="cli_nid" aria-describedby="" disabled>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col">
-                        <label class="form-label mt-2">DIRECCION</label>
-                        <input type="text" class="form-control" [(ngModel)]="cliente.cli_dir" id="cli_dir"
-                          name="cli_dir" aria-describedby="" disabled>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <label class="form-label mt-2">TELEFONO</label>
-                        <input type="number" class="form-control" id="cli_tlf1" [(ngModel)]="cliente.cli_tlf1"
-                          name="cli_tlf1" aria-describedby="" disabled>
-                      </div>
-                      <div class="col">
-                        <label class="form-label mt-2">CELULAR</label>
-                        <input type="number" class="form-control" [(ngModel)]="cliente.cli_tlf2" id="cli_tlf2"
-                          name="cli_tlf2" aria-describedby="" disabled>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <label class="form-label mt-2">CORREO</label>
-                        <input type="email" class="form-control" id="cli_email" [(ngModel)]="cliente.cli_email"
-                          name="cli_email" aria-describedby="" disabled>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-                <div class="modal-footer mt-3">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelar()">CACELAR</button>
-                  <button type="button" class="btn btn-primary" (click)="onDeleteCliente(cliente)"
-                    data-bs-dismiss="modal">ELIMINAR</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
-    </div>
-  </div>
-
-
-
-
-
-
-
-</div>
+      <div class="row">
+        <div class="col-12">
+          <label class="form-label mt-2">NOMBRE</label>
+          <input type="text" class="form-control"  tag="cnnn" [(ngModel)]="cliente.cli_nom" id="cli_nom" name="NOMBRE"
+            aria-describedby="">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label class="form-label mt-2">DIRECCION</label>
+          <input type="text" class="form-control" id="cli_dir"  tag="cnnn" [(ngModel)]="cliente.cli_dir" name="DIRECCION"
+            aria-describedby="">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label class="form-label mt-2">TELEFONO</label>
+          <input type="text" class="form-control"  tag="cnnn" [(ngModel)]="cliente.cli_tlf1" id="cli_tlf1" name="TELEFONO"
+            aria-describedby="">
+        </div>
+        <div class="col">
+          <label class="form-label mt-2">CELULAR</label>
+          <input type="text" class="form-control" id="cli_tlf2"  tag="cnru" [(ngModel)]="cliente.cli_tlf2" name="CELULAR"
+            aria-describedby="">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label class="form-label mt-2">CORREO</label>
+          <input type="email" class="form-control"  tag="cnru" [(ngModel)]="cliente.cli_email" id="cli_email" name="CORREO"
+            aria-describedby="">
+        </div>
+      </div>
+    </mat-card>
+  </body>
+  <footer class="abs-center">
+    <button type="button" class="btn btn-primary m-5" (click)="Guardar(this)">GUARDAR</button>
+    <button type="button" class="btn btn-primary" (click)="Cancelar()">CANCELAR</button>
+  </footer>
+</section>
+<footer></footer>

@@ -1,15 +1,20 @@
-
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute,  } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { __values } from 'tslib';
 import { VariablesGlobalesService } from '../menu/serviceMenu/variables-globales.service';
 import { Facturacion } from '../model/Facturacion';
 import { GlobalService } from '../services/GserviceGPPD';
 import { MatDialog } from '@angular/material/dialog';
 import { ClienteDialogoComponent } from './cliente-dialogo/cliente-dialogo.component';
-import { VariablesGlobalesBusqueda } from './service/variables-globales.service';
+import { VariablesFacturacion } from './service/Variables-Facturacion';
 import { ArticuloDialogoComponent } from './articulo-dialogo/articulo-dialogo.component';
 import Swal from 'sweetalert2';
+import { ZzglobService } from '../FuncionesGlobales/zzglob.service';
+import { ZzapplService } from '../FuncionesGlobales/zzappl.service';
+import * as Notiflix from 'notiflix';
+import * as printJS from 'print-js';
+import * as es6printJS from 'print-js';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-facturacion',
   templateUrl: './facturacion.component.html',
@@ -18,10 +23,13 @@ import Swal from 'sweetalert2';
 export class FacturacionComponent implements OnInit {
   products: any = [];
   /////factura
+  scampo: any;
+  svalor: any;
   l_serieFAc = '';
   l_sucursalFAc = '';
   Ffac_num = 0;
-  l_facfec = '';
+  l_facfec: any;
+  F_fac_obs = '';
   ////cliente
   Fcli_nom = '';
   Fcli_cod = '';
@@ -29,19 +37,20 @@ export class FacturacionComponent implements OnInit {
   l_cli_nom = '';
   l_cli_cod = '';
   l_Cli_est = '';
-  l_Cli_cat = '';
+  l_Cli_email: any;
+  l_cli_nid = '';
   l_alert = false;
   l_tmpCli_cod = '';
   l_tmpCli_nom = '';
   ////articulo///
   fart_cod = '';
   fart_nom = '';
-  fart_cant = 0;
+  fart_cant = 1;
   fdt_cant = 0;
   ////
   l_Buscarticulo: any;
   l_datosArt: any = [];
-  l_art_cant = 0;
+  l_art_cant = 1;
   l_art_cod = '';
   l_art_nom = '';
   l_art_total = 0;
@@ -67,15 +76,17 @@ export class FacturacionComponent implements OnInit {
   //facturacion
   l_fdt_sec = 0;
   fIVA = 0;
-  F_Bagregar=false
-  constructor
-  (
+  F_Bagregar = false;
+  path = '';
+  constructor(
     private readonly _rutaDatos: ActivatedRoute,
     private GlobalService: GlobalService,
     private gvariables: VariablesGlobalesService,
-    public gvariablesBus: VariablesGlobalesBusqueda,
+    public gvariablesBus: VariablesFacturacion,
     public dialog: MatDialog,
     public dialog1: MatDialog,
+    private Zzappl: ZzapplService,
+    private zzglob: ZzglobService
   ) {}
 
   ngOnInit(): void {
@@ -85,142 +96,75 @@ export class FacturacionComponent implements OnInit {
     this.gvariables.g_nemp = {
       emp: this._rutaDatos.snapshot.params,
     };
+    this.InicializarCampos();
 
+    let fec = new DatePipe('en-US');
+    this.l_facfec = fec.transform(Date.now(), 'dd-MM-yyyy');
     //console.log(this.gvariables.g_nemp);
-
   }
-//funciones para abrir los dialogos
+  //funciones para abrir los dialogos
   openDialogcli() {
     this.dialogRef1 = this.dialog1.open(ClienteDialogoComponent);
     this.dialogRef1.afterClosed().subscribe((result: any) => {
+      let id = document.getElementById('cli_cod');
+      id?.focus();
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogArt() {
     this.dialogRef = this.dialog.open(ArticuloDialogoComponent);
     this.dialogRef.afterClosed().subscribe((result: any) => {
+      let id = document.getElementById('idart_cod');
+      id?.focus();
       console.log(`Dialog result: ${result}`);
     });
   }
   // funcion para agregar articulo
   agregarArt() {
-
-    this.idarticulocod=document.getElementById('idart_cod')
-    this.idarticulonom=document.getElementById('idart_nom')
+    if (this.gvariablesBus.g_DatosArt.art_cod == '' && this.fart_nom == '') {
+      this.zzglob.mensaje('error', 'Debe LLenar Los Campos');
+    } else {
       this.l_fdt_sec = this.l_fdt_sec + 1;
-      this.datocli = document.getElementById('idcli_cod');
-      this.factura.cli_cod = this.datocli.value;
-      this.factura.emp_cod=this.gvariables.g_nemp.emp.emp
+      this.factura.cli_cod = this.l_cli_cod;
+      this.factura.Detalles.push({
+        id: (this.l_id = this.l_id + 1),
+        emp_cod: this.gvariables.g_nemp.emp.emp,
+        fac_doc: this.factura.fac_doc,
+        fac_num: this.factura.fac_num,
+        fdt_sec: this.l_fdt_sec,
+        art_cod: this.gvariablesBus.g_DatosArt.art_cod,
+        art_nom: this.gvariablesBus.g_DatosArt.art_nom,
+        fdt_cant: this.fart_cant,
+        fdt_prec: this.gvariablesBus.g_DatosArt.art_prec,
+        fdt_iva: this.gvariablesBus.g_DatosArt.art_pimpto,
+        fdt_desc: 0,
+        fdt_sub: this.gvariablesBus.g_DatosArt.art_prec * this.fart_cant,
+        art_descrip: this.gvariablesBus.g_DatosArt.art_descrip,
+      });
 
-      if(this.idarticulocod.value==""&&this.idarticulonom.value==""){
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'LLENE LOS CAMPOS ',
-          footer: ''
-        })
-      }else{
-        if (this.fart_cod == '' && this.fart_nom == '') {
-          if (this.fart_cant == 0) {
-            this.factura.Detalles.push({
-              id: (this.l_id = this.l_id + 1),
-              emp_cod: this.gvariables.g_nemp.emp.emp,
-              fac_doc: 'FAC',
-              fac_num: this.factura.fac_num,
-              fdt_sec: this.l_fdt_sec,
-              art_cod: this.gvariablesBus.g_DatosArt.art_cod,
-              art_nom: this.gvariablesBus.g_DatosArt.art_nom,
-              fdt_cant: 1,
-              fdt_prec: this.gvariablesBus.g_DatosArt.art_prec,
-              fdt_iva: this.gvariablesBus.g_DatosArt.art_pimpto,
-              fdt_desc: 0,
-              fdt_sub: this.gvariablesBus.g_DatosArt.art_prec,
-            });
-
-          } else {
-            this.factura.Detalles.push({
-              id: (this.l_id = this.l_id + 1),
-              emp_cod: this.gvariables.g_nemp.emp.emp,
-              fac_doc: 'FAC',
-              fac_num: this.factura.fac_num,
-              fdt_sec: this.l_fdt_sec,
-              art_cod: this.gvariablesBus.g_DatosArt.art_cod,
-              art_nom: this.gvariablesBus.g_DatosArt.art_nom,
-              fdt_cant: this.fart_cant,
-              fdt_prec: this.gvariablesBus.g_DatosArt.art_prec,
-              fdt_iva: this.gvariablesBus.g_DatosArt.art_pimpto,
-              fdt_desc: 0,
-              fdt_sub: this.fart_cant * this.gvariablesBus.g_DatosArt.art_prec,
-            });
-
-          }
-        } else {
-          if (this.fart_cant == 0) {
-            //this.factura.cli_cod=this.gvariablesBus.g_DatosCli.cli_cod
-            this.factura.Detalles.push({
-              id: (this.l_id = this.l_id + 1),
-              emp_cod: this.gvariables.g_nemp.emp.emp,
-              fac_doc: 'FAC',
-              fac_num: this.factura.fac_num,
-              fdt_sec: this.l_fdt_sec,
-              art_cod: this.fart_cod,
-              art_nom: this.l_art_nom,
-              fdt_cant: 1,
-              fdt_prec: this.l_art_prec,
-              fdt_iva: this.fIVA,
-              fdt_desc: 0,
-              fdt_sub: this.l_art_prec,
-            });
-
-          } else {
-            this.factura.cli_cod = this.gvariablesBus.g_clicod;
-            // this.factura.cli_cod=this.gvariablesBus.g_DatosCli.cli_cod
-            this.factura.Detalles.push({
-              id: (this.l_id = this.l_id + 1),
-              emp_cod: this.gvariables.g_nemp.emp.emp,
-              fac_doc: 'FAC',
-              fac_num: this.factura.fac_num,
-              fdt_sec: this.l_fdt_sec,
-              art_cod: this.fart_cod,
-              art_nom: this.l_art_nom,
-              fdt_cant: this.fart_cant,
-              fdt_prec: this.l_art_prec,
-              fdt_iva: this.fIVA,
-              fdt_desc: 0,
-              fdt_sub: this.fart_cant * this.l_art_prec,
-            });
-
-          }
-        }
-
-        if (this.factura.Detalles.length != 0) {
-          this.vertable = true;
-     return this.sacarSub();
-        }
-
-
+      if (this.factura.Detalles.length != 0) {
+        this.vertable = true;
+        return this.sacarSub();
       }
-
-
+    }
   }
-
-///funcion para el subtotal y iva y total
+  ///funcion para el subtotal y iva y total
   sacarSub() {
-    this.gvariablesBus.gsubtotal0=0
-    this.gvariablesBus.gsubtotal1 =0
-    this.gvariablesBus.g_iva =0
+    this.gvariablesBus.gsubtotal0 = 0;
+    this.gvariablesBus.gsubtotal1 = 0;
+    this.gvariablesBus.g_iva = 0;
     for (var i = 0, element; (element = this.factura.Detalles[i++]); ) {
       if (element.fdt_iva == 0) {
-        this.gvariablesBus.gsubtotal=element.fdt_sub
-        this.gvariablesBus.gsubtotal0 = this.gvariablesBus.gsubtotal0+this.gvariablesBus.gsubtotal;
+        this.gvariablesBus.gsubtotal = element.fdt_sub;
+        this.gvariablesBus.gsubtotal0 =
+          this.gvariablesBus.gsubtotal0 + this.gvariablesBus.gsubtotal;
         console.log(this.gvariablesBus.gsubtotal0);
-      } else if(element.fdt_iva==12){
-        this.gvariablesBus.gsubtotal=element.fdt_sub
+      } else if (element.fdt_iva == 12) {
+        this.gvariablesBus.gsubtotal = element.fdt_sub;
         this.gvariablesBus.gsubtotal1 =
           this.gvariablesBus.gsubtotal1 + this.gvariablesBus.gsubtotal;
-          this.gvariablesBus.g_iva = (this.gvariablesBus.gsubtotal1 * 12) / 100;
+        this.gvariablesBus.g_iva = (this.gvariablesBus.gsubtotal1 * 12) / 100;
         console.log(this.gvariablesBus.gsubtotal1);
-
       }
     }
     this.gvariablesBus.g_total =
@@ -229,79 +173,36 @@ export class FacturacionComponent implements OnInit {
       this.gvariablesBus.g_iva +
       this.gvariablesBus.g_dec;
     console.log('total :', this.gvariablesBus.g_total);
-
   }
   //funcion de la teclas f4 ,esc,eliminar
   precionarTecla(event: any, id: any, idinput: any) {
-    if (
-      this.fart_cod != '' &&
-      this.fart_nom != '' &&
-      this.gvariablesBus.g_clicod != '' &&
-      this.gvariablesBus.g_clinom != ''
-    ) {
-      if (event.keyCode == 115) {
-        if (id == 'divCliente') {
-          this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
-          return this.openDialogcli();
-        } else if (id == 'divArticulo') {
-          this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
-          this.gvariablesBus.g_artcod = this.fart_cod;
-          this.gvariablesBus.g_artnom = this.fart_nom;
-          return this.openDialogArt();
-        }
-      } else if (event.keyCode == 27) {
-        this.dialogRef.afterClosed().subscribe((result: any) => {
-          console.log(`Dialog result: ${result}`);
-        });
-      } else if (event.keyCode == 8) {
-        if (idinput == 'idcli_cod') {
-          this.datocli = document.getElementById('idcli_nom');
-          this.datocli.value = '';
-        } else if (idinput == 'idcli_nom') {
-          this.datocli = document.getElementById('idcli_cod');
-          this.datocli.value = '';
-        } else if (idinput == 'idart_cod') {
-          this.datosart = document.getElementById('idart_nom');
-          this.datosart.value = '';
-        } else if (idinput == 'idart_nom') {
-          this.datosart = document.getElementById('idart_cod');
-          this.datosart.value = '';
-        }
+    if (event.keyCode == 115) {
+      if (id == 'divCliente') {
+        this.scampo = document.getElementById('' + idinput + '');
+        this.svalor = this.scampo.value;
+        this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
+        this.gvariablesBus.g_IdEmp = this.gvariables.g_nemp.emp.emp;
+        this.gvariablesBus.g_cli_tid = idinput;
+        this.gvariablesBus.g_cli_dato = this.svalor;
+        return this.openDialogcli();
+      } else if (id == 'divArticulo') {
+        this.scampo = document.getElementById('' + idinput + '');
+        this.svalor = this.scampo.value;
+        console.log('campo', idinput, 'valor', this.svalor);
+        this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
+        this.gvariablesBus.g_IdEmp = this.gvariables.g_nemp.emp.emp;
+        this.gvariablesBus.gart_campo = idinput;
+        this.gvariablesBus.gart_valor = this.svalor;
+        return this.openDialogArt();
       }
-    } else {
-      if (event.keyCode == 115) {
-        if (id == 'divCliente') {
-          this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
-          return this.openDialogcli();
-        } else if (id == 'divArticulo') {
-          this.gvariablesBus.g_idU = this.gvariables.g_empid.id.id;
-          this.gvariablesBus.g_artcod = this.fart_cod;
-          this.gvariablesBus.g_artnom = this.fart_nom;
-          return this.openDialogArt();
-        }
-      } else if (event.keyCode == 27) {
-        this.dialogRef.afterClosed().subscribe((result: any) => {
-          console.log(`Dialog result: ${result}`);
-        });
-      } else if (event.keyCode == 8) {
-        if (idinput == 'idcli_cod') {
-          this.datocli = document.getElementById('idcli_nom');
-          this.datocli.value = '';
-        } else if (idinput == 'idcli_nom') {
-          this.datocli = document.getElementById('idcli_cod');
-          this.datocli.value = '';
-        } else if (idinput == 'idart_cod') {
-          this.datosart = document.getElementById('idart_nom');
-          this.datosart.value = '';
-        } else if (idinput == 'idart_nom') {
-          this.datosart = document.getElementById('idart_cod');
-          this.datosart.value = '';
-        }
-      }
+    } else if (event.keyCode == 27) {
+      this.dialogRef.afterClosed().subscribe((result: any) => {
+        console.log(`Dialog result: ${result}`);
+      });
+    } else if (event.keyCode == 8) {
     }
   }
-
-  //eliminar articulos
+  //eliminar articulos tabla
   eliminar(ids: any) {
     const ideli = this.factura.Detalles.findIndex((elemto) => {
       return elemto.id === ids.id;
@@ -321,244 +222,196 @@ export class FacturacionComponent implements OnInit {
     this.factura.Detalles.splice(ideli, 1, {
       id: dato.id,
       emp_cod: this.gvariables.g_nemp.emp.emp,
-      fac_doc: 'FAC',
+      fac_doc: dato.fac_doc,
       fac_num: dato.fac_num,
       fdt_sec: dato.fdt_sec,
       art_cod: dato.art_cod,
       art_nom: dato.art_nom,
       fdt_cant: valor,
       fdt_prec: dato.fdt_prec,
-      fdt_iva: dato.fdt_iva ,
+      fdt_iva: dato.fdt_iva,
       fdt_desc: 0,
       fdt_sub: valor * dato.fdt_prec,
+      art_descrip: dato.art_descrip,
     });
     //alert('dato cambiado');
     Swal.fire({
-      position: 'top-end',
+      position: 'top',
       icon: 'success',
       title: 'DATO  CAMBIADO',
       showConfirmButton: false,
       timer: 1500,
     });
-return this.sacarSub();
-
-
 
     console.log(this.factura.Detalles);
+    return this.sacarSub();
   }
-  //focus de cliente
-  foucuscliente(idCamp: any) {
-    if (idCamp.id == 'idcli_cod') {
-      if (this.gvariablesBus.g_clicod == '') {
-        this.datocli = document.getElementById('idcli_cod');
-        this.datocli.placeholder = this.l_tmpCli_cod;
-        //this.Fcli_cod = this.l_tmpCli_cod;
-      } else {
-        this.GlobalService.metodoGet(
-          `https://localhost:44381/Cliente/GetExistencia?p_id=` +
-            this.gvariablesBus.g_clicod +
-            `&p_nom=` +
-            this.gvariablesBus.g_clinom +
-            `&p_usr=` +
-            this.gvariables.g_empid.id.id
-        ).subscribe((res: any) => {
-          this.l_BusCientes = res;
-          //console.log(this.l_BusCientes);
-          if (this.l_BusCientes.length == 0) {
-            //alert('EL CODIDO DEL CLIENTE NO EXISTE');
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'EL CODIDO DEL CLIENTE NO EXISTE',
-              footer: ''
-            })
-            this.l_tmpCli_cod = this.gvariablesBus.g_clicod;
-            this.gvariablesBus.g_clicod = '';
-            let id = document.getElementById('idcli_cod');
-            id?.focus();
-          } else {
-            this.l_cli_nom = this.l_BusCientes[0].cli_nom;
-            this.l_Cli_est = this.l_BusCientes[0].cli_est;
-            this.l_Cli_cat = this.l_BusCientes[0].cli_email;
-            this.datocli = document.getElementById('idcli_nom');
-            this.datocli.value = this.l_cli_nom;
-            this.datocli = document.getElementById('idcli_est');
-            this.datocli.value = this.l_Cli_est;
-            this.datocli = document.getElementById('idcli_ccl_cod');
-            this.datocli.value = this.l_Cli_cat;
-          }
-        });
+  //focus
+  foucusOut(idCamp: any, iddiv: string) {
+    this.scampo = document.getElementById('' + idCamp + '');
+    this.svalor = this.scampo.value;
+    var lparam =
+      'p_Emp=' +
+      this.gvariables.g_nemp.emp.emp +
+      '&p_Campo=' +
+      idCamp +
+      '&p_Valor=' +
+      this.svalor +
+      '&p_Usr=' +
+      this.gvariables.g_empid.id.id;
+    if (iddiv == 'divCliente') {
+      if (idCamp == 'cli_cod' || idCamp == 'cli_nid') {
+        if (this.svalor == '') {
+          this.scampo = document.getElementById('' + idCamp + '');
+          this.scampo.placeholder = this.l_tmpCli_cod;
+        } else {
+          this.GlobalService.metodoGet(
+            'https://localhost:7232/Cliente/ExistenciaCliente?' + lparam
+          ).subscribe((res: any) => {
+            this.l_BusCientes = res.result;
+            //console.log(this.l_BusCientes);
+            if (res.success == false) {
+              this.zzglob.mensaje(
+                'error',
+                'El ' + this.scampo.name + ' No Existe'
+              );
+              this.l_tmpCli_cod = this.svalor;
+              this.l_cli_cod = '';
+              this.scampo = document.getElementById('' + idCamp + '');
+              this.scampo.focus();
+            }
+            this.gvariablesBus.g_DatosCli.cli_cod =
+              this.l_BusCientes[0].cli_cod;
+            this.gvariablesBus.g_DatosCli.cli_nom =
+              this.l_BusCientes[0].cli_nom;
+            this.gvariablesBus.g_DatosCli.cli_est =
+              this.l_BusCientes[0].cli_est;
+            this.gvariablesBus.g_DatosCli.cli_nid =
+              this.l_BusCientes[0].cli_nid;
+            this.gvariablesBus.g_DatosCli.cli_email =
+              this.l_BusCientes[0].cli_email;
+          });
+        }
       }
-    } else if (idCamp.id == 'idcli_nom') {
-      if (this.gvariablesBus.g_clinom == '') {
-        this.datocli = document.getElementById('idcli_nom');
-        this.datocli.placeholder = this.l_tmpCli_nom;
-        //this.Fcli_nom = this.l_tmpCli_nom;
+    } else {
+      if (this.svalor == '') {
+        this.scampo = document.getElementById('' + idCamp + '');
+        this.scampo.placeholder = this.l_tmpart_cod;
       } else {
         this.GlobalService.metodoGet(
-          `https://localhost:44381/Cliente/GetExistencia?p_id=` +
-            this.gvariablesBus.g_clicod +
-            `&p_nom=` +
-            this.gvariablesBus.g_clinom +
-            `&p_usr=` +
-            this.gvariables.g_empid.id.id
+          'https://localhost:7232/Articulo/ExistenciaArticulo?' + lparam
         ).subscribe((res: any) => {
-          this.l_BusCientes = res;
-          //console.log(this.l_BusCientes);
-          if (this.l_BusCientes.length == 0) {
-           // alert('Cliente No Existe');
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'EL CLIENTE NO EXISTE',
-              footer: ''
-            })
-            this.l_tmpCli_nom = this.gvariablesBus.g_clinom;
-            this.gvariablesBus.g_clinom = '';
-            let id = document.getElementById('idcli_nom');
-            id?.focus();
-          } else if (this.l_BusCientes.length > 0) {
-            //alert('mas de un resultado pulse f4');
-            Swal.fire(
-              'MAS DE UN RESULTADO',
-              'Presione f4 pare ver todos los Resultados',
-              'question'
-            )
+          this.l_Buscarticulo = res.result;
+          //console.log(res);
 
-          } else {
-            this.l_cli_cod = this.l_BusCientes[0].cli_cod;
-            this.l_Cli_est = this.l_BusCientes[0].cli_est;
-            this.l_Cli_cat = this.l_BusCientes[0].cli_email;
-            this.datocli = document.getElementById('idcli_cod');
-            this.datocli.value = this.l_cli_cod;
-            this.datocli = document.getElementById('idcli_est');
-            this.datocli.value = this.l_Cli_est;
-            this.datocli = document.getElementById('idcli_ccl_cod');
-            this.datocli.value = this.l_Cli_cat;
+          if (this.l_Buscarticulo.length == 0) {
+            this.zzglob.mensaje(
+              'error',
+              'El ' + this.scampo.name + ' No Existe'
+            );
+            this.l_tmpart_cod = this.svalor;
+            this.gvariablesBus.g_DatosArt.art_cod = '';
+            this.scampo = document.getElementById('' + idCamp + '');
+            this.scampo.focus();
           }
+          this.gvariablesBus.g_DatosArt.art_nom =
+            this.l_Buscarticulo[0].art_nom;
+          this.gvariablesBus.g_DatosArt.art_pimpto =
+            this.l_Buscarticulo[0].art_pimpto;
+          this.gvariablesBus.g_DatosArt.art_prec =
+            this.l_Buscarticulo[0].art_prec;
+          //console.log(this.l_Buscarticulo);
         });
       }
     }
   }
-  //focus de Articulo
-  foucusArticulo(idCamp: any) {
-    if (idCamp.id == 'idart_cod') {
-      if (this.fart_cod == '') {
-        this.datosart = document.getElementById('idart_cod');
-        this.datosart.placeholder = this.l_tmpart_cod;
-        //this.fart_cod = this.l_tmpart_cod;
-      } else {
-        this.GlobalService.metodoGet(
-          `https://localhost:44381/Articulo/GetExistencia?p_id=` +
-            this.fart_cod +
-            `&p_nom=` +
-            this.fart_nom +
-            `&p_usr=` +
-            this.gvariables.g_empid.id.id
-        ).subscribe((res: any) => {
-          this.l_Buscarticulo = res;
-          console.log(this.l_Buscarticulo);
-          if (this.l_Buscarticulo.length == 0) {
-           // alert('EL ARTICULO NO EXISTE ');
-           Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'EL ARTICULO  NO EXISTE',
-            footer: ''
-          })
-            this.l_tmpart_cod = this.fart_cod;
-            this.fart_cod = '';
-            let id = document.getElementById('idart_cod');
-            id?.focus();
-          }else {
-            this.l_art_nom = this.l_Buscarticulo[0].art_nom;
-            this.l_art_prec = this.l_Buscarticulo[0].art_prec;
-            this.fIVA= this.l_Buscarticulo[0].art_pimpto
-            this.datosart = document.getElementById('idart_nom');
-            this.datosart.value = this.l_art_nom;
-            this.gvariablesBus.g_DatosArt.art_prec = this.l_art_prec;
-            this.datosart = document.getElementById('idart_sub');
-            this.datosart.value = this.fart_cant * this.l_art_prec;
-            console.log(this.l_Buscarticulo);
-
-          }
-        });
-      }
-    } else if (idCamp.id == 'idart_nom') {
-      if (this.fart_nom == '') {
-        this.datosart = document.getElementById('idart_nom');
-        this.datosart.placeholder = this.l_tmpart_nom;
-        //this.fart_nom = this.l_tmpart_nom;
-      } else {
-        this.GlobalService.metodoGet(
-          `https://localhost:44381/Articulo/GetExistencia?p_id=` +
-            this.fart_cod +
-            `&p_nom=` +
-            this.fart_nom +
-            `&p_usr=` +
-            this.gvariables.g_empid.id.id
-        ).subscribe((res: any) => {
-          this.l_Buscarticulo = res;
-          console.log(this.l_Buscarticulo);
-          if (this.l_Buscarticulo.length == 0) {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'EL ARTICULO  NO EXISTE',
-              footer: ''
-            })
-            this.l_tmpart_cod = this.fart_cod;
-            this.fart_cod = '';
-            let id = document.getElementById('idart_cod');
-            id?.focus();
-          } else if (this.l_Buscarticulo.length > 0) {
-            //alert('mas de un resultado pulse f4');
-            Swal.fire(
-              'MAS DE UN RESULTADO',
-              'Presione f4 pare ver todos los Resultados',
-              'question'
-            )
-          }else {
-            this.l_art_cod = this.l_Buscarticulo[0].art_cod;
-            this.l_art_prec = this.l_Buscarticulo[0].art_prec;
-            this.fIVA= this.l_Buscarticulo[0].art_pimpto
-            this.datosart = document.getElementById('idart_cod');
-            this.datosart.value = this.l_art_cod;
-            this.datosart = document.getElementById('idart_prec');
-            this.datosart.value = this.l_art_prec;
-            this.datosart = document.getElementById('idart_sub');
-            this.datosart.value = this.fart_cant * this.l_art_prec;
-          }
-        });
-      }
+  //funcion para limpiar los campos
+  clear(id: string) {
+    if (id === 'divCliente') {
+      this.datocli = document.getElementById('cli_cod');
+      this.datocli.value = '';
+      this.datocli = document.getElementById('cli_nom');
+      this.datocli.value = '';
+      this.datocli = document.getElementById('cli_est');
+      this.datocli.value = '';
+      this.datocli = document.getElementById('cli_email');
+      this.datocli.value = '';
+    } else {
+      this.datosart = document.getElementById('idart_cod');
+      this.datosart.value = '';
+      this.datosart = document.getElementById('idart_nom');
+      this.datosart.value = '';
+      this.fart_cant = 0;
+      this.datosart = document.getElementById('idart_prec');
+      this.datosart.value = '';
+      this.datosart = document.getElementById('idart_pimpto');
+      this.datosart.value = '';
     }
   }
-//funcion para limpiar los campos
-  clear() {
-    this.fart_cod = '';
-    this.fart_nom = '';
-    this.fart_cant = 0;
-    this.l_art_prec = 0;
-    this.gvariablesBus.gsubtotal = 0;
-  }
-  //funcion para  enviar la factura
-  Guardar() {
-    //this.facturacion.Detalle=this.facturacion.Detalle;
-    let factura = JSON.stringify(this.factura);
-    console.log(factura);
-    this.GlobalService.metodoPost(
-      'https://localhost:44381/Facturacion/Add?p_usr=' +
-        this.gvariables.g_empid.id.id,
-      this.factura
-    ).subscribe((resultado) => {
-      //alert('FACTURA  AÑADIDA');
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'FACTURA  AÑADIDA',
-        showConfirmButton: false,
-        timer: 1500,
-      });
+  obCont() {
+    this.GlobalService.metodoGet(
+      'https://localhost:7232/Factura/Select/contador?p_Usr=' +
+        this.gvariables.g_empid.id.id
+    ).subscribe((res: any) => {
+      console.log(res.result[0].cnt_val);
+      this.factura.fac_num = res.result[0].cnt_val;
     });
+  }
+  InicializarCampos() {
+    this.obCont();
+    this.factura.fac_doc = 'FAC';
+    this.factura.fac_est = 'DIG';
+    this.factura.fac_ser = '001-001';
+    this.factura.suc_cod = 'S01';
+    this.factura.fac_tpag = 'E';
+    this.factura.emp_cod = this.gvariables.g_nemp.emp.emp;
+  }
+  EnviarEmail() {
+    console.log('numero factura ', this.l_Cli_email);
+
+    if (this.l_Cli_email == this.factura.fac_num) {
+      Notiflix.Loading.standard('ENVIANDO...');
+      this.GlobalService.metodoGet(
+        'https://localhost:7232/Select?p_FacN=' +
+          this.l_Cli_email +
+          '&p_Usr=' +
+          this.gvariables.g_empid.id.id
+      ).subscribe((res: any) => {
+        Notiflix.Loading.remove(1923);
+      });
+    }
+  } //funcion para  enviar la factura
+  Guardar(documen: any): any {
+    this.factura.fac_sub0 = this.gvariablesBus.gsubtotal0;
+    this.factura.fac_sub1 = this.gvariablesBus.gsubtotal1;
+    this.factura.fac_impto = this.gvariablesBus.g_iva;
+    this.factura.fac_tot = this.gvariablesBus.g_total;
+    this.factura.cli_cod = this.l_cli_cod;
+    //console.log(this.factura);
+    if (this.Zzappl.gGuardar(documen) == false) {return false;}
+    this.GlobalService.metodoPost('https://localhost:7232/Facturacion/Facturacion?p_Usr=' +this.gvariables.g_empid.id.id,this.factura
+    ).subscribe((res: any) => {
+      console.log('resultado bak', res);
+      if (res.success==true) {
+        this.l_Cli_email = this.factura.fac_num;
+        this.zzglob.mensaje('success', 'OK, '+res.message+'');
+      }else{
+        this.zzglob.mensaje('error', res.message);
+      }
+      //console.log('el resultado ', resultado, 'la factura  ',this.factura);
+    });
+  }
+  refresh(): void {
+    window.location.reload();
+  }
+  textarea() {
+    console.log(this.F_fac_obs);
+  }
+  lAntesGuardar(val: any) {
+    return true;
+  }
+  imprimir() {
+    this.path = './assets/2.pdf';
+    printJS(this.path);
   }
 }

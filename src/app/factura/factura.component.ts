@@ -10,6 +10,8 @@ import { GlobalService } from '../services/GserviceGPPD';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { FacturacionComponent } from '../facturacion/facturacion.component';
 import { DetalleFacturaComponent } from '../detalle-factura/detalle-factura.component';
+import { VariablesFacturacion } from '../facturacion/service/Variables-Facturacion';
+import { ZzglobService } from '../FuncionesGlobales/zzglob.service';
 
 @Component({
   selector: 'app-factura',
@@ -42,17 +44,12 @@ export class FacturaComponent implements OnInit {
     private _router: Router,
     private GlobalService: GlobalService,
     private gvariables: VariablesGlobalesService,
-    public dialog1: MatDialog
+    public dialog1: MatDialog,
+    public gvbus:VariablesFacturacion,
+    private zzgob:ZzglobService
   ) {}
-  openDialogcli() {
-    this.dialogRef1 = this.dialog1.open(DetalleFacturaComponent);
-    this.dialogRef1.afterClosed().subscribe((result: any) => {
-      console.log(`Dialog result: ${result}`);
-    });
-  }
-  ngOnInit(): void {
-    console.log('nombre');
 
+  ngOnInit(): void {
     this.gvariables.g_empid = {
       id: this._rutaDatos.snapshot.params,
     };
@@ -63,18 +60,29 @@ export class FacturaComponent implements OnInit {
   }
 
   ondatatable() {
-    this.GlobalService.metodoGet(
-      `https://localhost:44381/Factura/GetAll?p_usr=` +
-        this.gvariables.g_empid.id.id
+    this.GlobalService.metodoGet(this.zzgob.creaurl('Factura',this.zzgob.metodo.Select)+this.gvariables.g_empid.id.id
     ).subscribe((res: any) => {
-      this.datatable = res;
-
+      this.datatable = res.result;
       ///datasource si iguala ala respuesta del get para imprimir los datos
       this.dataSource.data = this.datatable;
       console.log(res.Data);
     });
   }
+  openDialogDetalle(id:any) {
+    this.gvbus.g_fac_num=id.fac_num
+this.gvbus.g_fac_doc=id.fac_doc
+console.log(this.gvbus.g_fac_num);
 
+    this.gvbus.gsubtotal0=id.fac_sub0
+    this.gvbus.gsubtotal1=id.fac_sub1
+    this.gvbus.g_fac_desc=id.fac_dscto
+    this.gvbus.g_total=id.fac_tot
+    this.gvbus.g_iva=id.fac_impto
+    this.dialogRef1 = this.dialog1.open(DetalleFacturaComponent);
+    this.dialogRef1.afterClosed().subscribe((result: any) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
   dataSource = new MatTableDataSource<articulo>(this.datatable.Data);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 

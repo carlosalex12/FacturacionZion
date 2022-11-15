@@ -1,15 +1,103 @@
+
+<nav class="navbar navbar-expand-lg navar-color">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="div" id="home" #home></div>
+    <a  mat-button  class="navbar-brand text-white" (click)="buscar(home.id)"> <h4>
+      Zion Sistemas
+    </h4></a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"  id="empresa" #empresa>
+          <a mat-button class="text-white" (click)="buscar(empresa.id)">
+            <h4>
+              Empresa
+            </h4>
+          </a>
+        </li>
+        <li class="nav-item"  id="articulo" #articulo>
+          <a mat-button class="text-white" (click)="buscar(articulo.id)">
+            <h4>
+              Articulos
+            </h4>
+          </a>
+        </li>
+        <li class="nav-item" id="cliente" #idcliente>
+          <a mat-button class="text-white"  id="cliente"   (click)="buscar(idcliente.id)">
+            <h4>
+              Cliente
+            </h4>
+          </a>
+        </li>
+        <li class="nav-item"id=factura #factura>
+          <a mat-button class="text-white" (click)="buscar(factura.id)">
+            <h4>
+              Factura
+            </h4>
+          </a>
+        </li>
+        <li class="nav-item" id="facturacion" #facturacion>
+          <a mat-button class="text-white" (click)="buscar(facturacion.id)">
+            <h4>
+              Facturacion
+            </h4>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a mat-button class="text-white" (click)="prueba()">
+            <h4>
+            prueba
+            </h4>
+          </a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" #idbusq>
+        <button class="btn btn-outline-success" (click)="buscar(idbusq.value)">Search</button>
+      </form>
+    </div>
+
+  </div>
+  <div class="col navbar-brand">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" >
+      <button mat-menu-item  (click)="login()">
+        <!-- //<mat-icon>dialpad</mat-icon> -->
+        <span>Cerrar Sesion</span>
+      </button>
+
+    </mat-menu>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
 <!--navar-->
-<mat-toolbar class="navar-color">
+<!--
+<nav class="navbar navbar-expand-lg navar-color">
   <div class="logo mb-3">
 
   </div>
 
-  <a mat-button class="text-white">
+  <a mat-button class="text-white" (click)="home()">
     <h3>
       Zion Sistemas
     </h3>
 
-  </a><a mat-button class="text-white" (click)="articulo()">
+  </a>
+  <a mat-button class="text-white" (click)="articulo()">
     <h3>
       Articulos
     </h3>
@@ -42,7 +130,7 @@
     </form>
   </div>
 
-  <div class="row justify-content-md-center ">
+  <div class="row justify-content-md-center p-3">
     <div class="col">
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -55,7 +143,9 @@
       </div>
     </div>
   </div>
-</mat-toolbar>
+</nav> -->
+
+
 
 <!--navar-->
 <!--grafico estadistico-->

@@ -1,121 +1,129 @@
 <app-navbar></app-navbar>
-<div class="container color text-center mt-5">
-  <p-fieldset legend="FACTURACION">
-    <div class="row m-4">
-      <mat-card>
-        <div class="container text-center">
-          <div class="row">
-            <div class="col">
-              <label class="form-label">N Factura</label>
-              <input type="number" class="form-control" [(ngModel)]="factura.fac_num" id="fac_num" name="fac_num" />
-            </div>
-            <div class="col">
-              <label class="form-label">FECHA FACTURA</label>
-              <input type="datetime" class="form-control" [(ngModel)]="factura.fac_fec" id="fac_fec" name="fac_fec" />
-            </div>
-            <div class="col">
-              <label class="form-label">TIPO DE PAGO</label>
-              <input type="text" class="form-control" [(ngModel)]="factura.fac_tpag" id="fac_tpag" maxlength="1"
-                name="fac_tpag" />
-            </div>
-            <div class="col">
-              <label class="form-label">SERIE</label>
-              <input type="text" class="form-control" [(ngModel)]="factura.fac_ser " id="" name=""
-                aria-describedby="" />
-            </div>
-            <div class="col">
-              <label class="form-label">SUCURSAL</label>
-              <input type="text" class="form-control" [(ngModel)]="factura.suc_cod" id="" maxlength="3" name=""
-                aria-describedby="" />
-            </div>
-          </div>
-        </div>
-      </mat-card>
-    </div>
-    <div class="row m-2">
-      <mat-card>
-        <mat-card-title>
-          CLIENTE
-        </mat-card-title>
-        <div class="container text-center">
-          <div class="row" #divCliente id="divCliente">
-            <div class="col">
-              <label class="form-label">CODIGO</label>
+<header class="row text-center mt-3">
+  <h3>FACTURACION</h3>
+</header>
+<section class="Crud m-2" id="Crud">
+  <header></header>
 
-              <input type="text" class="form-control" #idcli_cod id="idcli_cod"
-                [(ngModel)]="this.gvariablesBus.g_clicod" (focusout)="foucuscliente(idcli_cod)"
-                value="{{ this.gvariablesBus.g_DatosCli.cli_cod }}"
-                (keydown)="precionarTecla($event , divCliente.id,idcli_cod.id)" placeholder="" />
-            </div>
-            <div class="alert alert-danger" role="alert" *ngIf="false">
-              A simple danger alert—check it out!
-            </div>
-            <div class="col" id="div_cli_nom">
-              <label class="form-label">NOMBRE</label>
-              <input type="text" class="form-control" #idcli_nom
-                (keydown)="precionarTecla($event , divCliente.id,idcli_nom.id)" id="idcli_nom"
-                [(ngModel)]="this.gvariablesBus.g_clinom" value="{{ this.gvariablesBus.g_DatosCli.cli_nom }}"
-                (focusout)="foucuscliente(idcli_nom)" autocomplete="false" />
-            </div>
+  <body id="idbody">
+    <mat-card class="m-3">
+      <div class="container text-center">
+        <div class="row">
+          <div class="col">
+            <label class="form-label">N Factura</label>
+            <input type="number" class="form-control" [(ngModel)]="factura.fac_num" tag="cpru" id="fac_num"
+              name="N FACTURA" disabled/>
+          </div>
+          <div class="col">
+            <label class="form-label">FECHA FACTURA</label>
+            <input type="datetime" class="form-control" [(ngModel)]="this.l_facfec" tag="cnrn" id="fac_fec"
+              name="FECHA FACTURA" disabled />
+          </div>
+          <div class="col">
+            <label class="form-label">TIPO DE PAGO</label>
+            <input type="text" class="form-control" [(ngModel)]="factura.fac_tpag" id="fac_tpag" tag="cnrn"
+              maxlength="1" name="TIPO DE PAGO" />
+          </div>
+          <div class="col">
+            <label class="form-label">SERIE</label>
+            <input type="text" class="form-control" [(ngModel)]="factura.fac_ser " id="fac_ser" tag="cnrn" name="SERIE"
+              aria-describedby="" />
+          </div>
+          <div class="col">
+            <label class="form-label">SUCURSAL</label>
+            <input type="text" class="form-control" [(ngModel)]="factura.suc_cod" id="suc_cod" tag="cnrn" maxlength="3"
+              name="SUCURSAL" aria-describedby="" />
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="m-3">
+      <mat-card-title>
+        CLIENTE
+      </mat-card-title>
+      <div class="container text-center" #divCliente id="divCliente">
+        <div class="row">
+          <div class="col">
+            <label class="form-label text-center">COD</label>
+            <input type="text" class="form-control styleinp " #cli_cod id="cli_cod" name="Codigo Cliente" tag="cpru"
+              [(ngModel)]="this.l_cli_cod"
+              (focusout)="foucusOut(cli_cod.id ,divCliente.id)"
+              placeholder="" maxlength="5" value="{{this.gvariablesBus.g_DatosCli.cli_cod}}"/>
+          </div>
+          <div class="col">
+            <label class="form-label">CI</label>
+            <input type="text" class="form-control" #cli_nid name="CI" tag="cnrn"
+            [(ngModel)]="this.l_cli_nid" id="cli_nid"
+            (focusout)="foucusOut(cli_nid.id,divCliente.id )"
+              autocomplete="false" value="{{this.gvariablesBus.g_DatosCli.cli_nid}}" />
+          </div>
+          <div class="col">
+            <label class="form-label">NOMBRE</label>
+            <input type="text" class="form-control" #cli_nom name="Nombre Cliente " tag="cnrn"
+            [(ngModel)]="this.l_cli_nom"
+              (keydown)="precionarTecla($event , divCliente.id,cli_nom.id)" id="cli_nom"
+              autocomplete="false" value="{{this.gvariablesBus.g_DatosCli.cli_nom}}"/>
+          </div>
+          <div class="col ">
+            <label>Estado</label>
+            <input   class="form-control"  id="cli_est" tag="cnnn" disabled value="{{this.gvariablesBus.g_DatosCli.cli_est}}" />
+          </div>
+          <div class="col ">
+            <label>Correo</label>
+            <input  class="form-control"  id="cli_email" tag="cnnn" disabled value="{{this.gvariablesBus.g_DatosCli.cli_email}}" />
+          </div>
+        </div>
+      </div>
+    </mat-card>
 
-            <div class="col">
-              <label class="form-label">ESTADO</label>
-              <input type="text" class="form-control" id="idcli_est" value="{{this.gvariablesBus.g_DatosCli.cli_est}}"
-                disabled />
-            </div>
-            <div class="col">
-              <label class="form-label">CORREO</label>
-              <input type="text" class="form-control" id="idcli_ccl_cod"
-                value="{{this.gvariablesBus.g_DatosCli.cli_email}}" disabled />
-            </div>
+    <mat-card class="m-3">
+      <mat-card-title>
+        ARTICULO
+      </mat-card-title>
+      <div class="container text-center">
+        <div class="row" #divArticulo id="divArticulo">
+          <div class="col">
+            <label class="form-label">CODIGO </label>
+            <input type="text" class="form-control" #art_cod id="art_cod" tag="cpru" name="Codigo Articulo"
+              [(ngModel)]="this.gvariablesBus.g_DatosArt.art_cod"
+              value="{{this.gvariablesBus.g_DatosArt.art_cod}}" (focusout)="foucusOut(art_cod.id,divArticulo.id)" />
+          </div>
+          <div class="col">
+            <label class="form-label">NOMBRE</label>
+            <input type="text" class="form-control" #art_nom
+              (keydown)="precionarTecla($event ,divArticulo.id,art_nom.id)" name="Nombre Articulo" tag="cnrn"
+              [(ngModel)]="this.fart_nom" id="art_nom"
+              value="{{this.gvariablesBus.g_DatosArt.art_nom}}"/>
+          </div>
+          <div class="col">
+            <label class="form-label">CANTIDAD </label>
+            <input type="number" class="form-control" [(ngModel)]="this.fart_cant" tag="cnrn" name="Cantidad " #idfcant id="art_cant" />
+          </div>
+          <div class="col">
+            <label class="form-label">Precio</label>
+            <input type="number" class="form-control"
+            value="{{this.gvariablesBus.g_DatosArt.art_prec}}" tag="cnnn" id="art_prec" name="" disabled />
+          </div>
+          <div class="col">
+            <label class="form-label">IVA</label>
+            <input type="number" class="form-control" tag="cnnn" id="art_pimpto"
+              value="{{this.gvariablesBus.g_DatosArt.art_pimpto}}"  disabled="" />
+          </div>
+          <div class="col mt-4">
+            <button type="button" class="btn btn-primary" (click)="agregarArt()" data-bs-dismiss="modal"
+              [disabled]="this.F_Bagregar">
+              AGREGAR
+            </button>
           </div>
         </div>
-      </mat-card>
-    </div>
-    <div class="row m-4">
-      <mat-card>
-        <mat-card-title>
-          ARTICULO
-        </mat-card-title>
-        <div class="container text-center">
-          <div class="row" #divArticulo id="divArticulo">
-            <div class="col" name="div_art_cod" id="div_art_cod">
-              <label class="form-label">CODIGO </label>
-              <input type="text" class="form-control" #idart_cod id="idart_cod" [(ngModel)]="this.fart_cod"
-                (keydown)="precionarTecla($event , divArticulo.id, idart_cod.id)"
-                value="{{this.gvariablesBus.g_DatosArt.art_cod}}" (focusout)="foucusArticulo(idart_cod)" />
-            </div>
-            <div class="col" id="div_art_nom">
-              <label class="form-label">NOMBRE</label>
-              <input type="text" class="form-control" #idart_nom
-                (keydown)="precionarTecla($event , divArticulo.id,idart_nom.id)" [(ngModel)]="this.fart_nom"
-                id="idart_cod" id="idart_nom" (focusout)="foucusArticulo(idart_nom)"
-                value="{{this.gvariablesBus.g_DatosArt.art_nom}}" />
-            </div>
-            <div class="col">
-              <label class="form-label">CANTIDAD </label>
-              <input type="number" class="form-control" [(ngModel)]="fart_cant" #idfcant id="idfcant" />
-            </div>
-            <div class="col">
-              <label class="form-label">Precio</label>
-              <input type="number" class="form-control" [(ngModel)]="this.gvariablesBus.g_DatosArt.art_prec"
-                id="idart_prec" name="" disabled />
-            </div>
-            <div class="col">
-              <label class="form-label">IVA</label>
-              <input type="number" class="form-control"  value="{{this.gvariablesBus.g_DatosArt.art_pimpto}}" [(ngModel)]="this.fIVA "
-                  disabled=""/>
-            </div>
-            <div class="col mt-4">
-              <button type="button" class="btn btn-primary" (click)="agregarArt()" data-bs-dismiss="modal" [disabled]="this.F_Bagregar">
-                AGREGAR
-              </button>
-            </div>
-          </div>
-        </div>
-      </mat-card>
-    </div>
-    <div class="row m-4 hscroll" *ngIf="this.vertable">
+      </div>
+    </mat-card>
+  </body>
+</section>
+<section class="detalle">
+  <header></header>
+  <body class="tabla" *ngIf="this.vertable">
+    <div class=" row mat-elevation-z8 m-4">
       <table class="table">
         <thead>
           <tr>
@@ -127,6 +135,7 @@
             <th scope="col">IVA</th>
             <th scope="col">DESCUENTO</th>
             <th scope="col">SUBTOTAL</th>
+            <th scope="col">DESCRIPCION</th>
             <th scope="col">eliminar</th>
           </tr>
         </thead>
@@ -144,6 +153,13 @@
             <th>{{ item.fdt_desc }}</th>
             <th>{{ item.fdt_sub }}</th>
             <th>
+              <div class="form-floating">
+                <textarea class="form-control" #idart_descrip id="idart_descrip"
+                  [(ngModel)]="item.art_descrip" (focusout)="fousTable(item,idart_descrip.value)"></textarea>
+                <label for="floatingTextarea">Descripcion</label>
+              </div>
+            </th>
+            <th>
               <button mat-raised-button color="warn" (click)="eliminar(item)">
                 -
               </button>
@@ -151,43 +167,50 @@
           </tr>
         </tbody>
       </table>
-
     </div>
-    <div class="row">
-      <div class="col-2">
+  </body>
+  <footer class=" totales y ob" >
+    <div class="row mt-4 m-4" *ngIf="this.vertable">
+      <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2">
         <h3>Total</h3>
       </div>
+      <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2 ">
+        <label>
+          SUB0: {{this.gvariablesBus.gsubtotal0}}
+        </label>
+      </div>
+      <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2 ">
+        <label>
+          SUB1: {{this.gvariablesBus.gsubtotal1}}
+        </label>
+      </div>
+      <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2 ">
+        <label>
+          DESC: {{this.gvariablesBus.g_dec}}
+        </label>
+      </div>
+      <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2 ">
+        <label>
+          IVA: {{this.gvariablesBus.g_iva}}
+        </label>
+      </div>
+      <div class="col-xs-12  col-sm-3 col-md-3 col-lg-2 mt-2 ">
 
-      <div class="col-10 " ALIGN=left>
         <label>
-          SUB0:    {{this.gvariablesBus.gsubtotal0}}
-        </label>
-        <br>
-        <label>
-          SUB1:   {{this.gvariablesBus.gsubtotal1}}
-        </label>
-        <br>
-        <label>
-          DESC:   {{this.gvariablesBus.g_dec}}
-        </label>
-        <br>
-        <label>
-          IVA:    {{this.gvariablesBus.g_iva}}
-        </label>
-        <br>
-        <label>
-          TOTAL:    {{this.gvariablesBus.g_total}}
+          TOTAL: {{this.gvariablesBus.g_total}}
         </label>
       </div>
     </div>
-    <div class="row m-4 text-center ">
+    <div class="row m-4">
+      <label>OBSERVACIONES</label>
+      <textarea pInputTextarea [(ngModel)]="this.F_fac_obs"></textarea>
     </div>
-    <button mat-raised-button color="accent" (click)="Guardar()">
-      Nueva factura
-    </button>
-
-  </p-fieldset>
-
-
-
-</div>
+  </footer>
+</section>
+<footer class="abs-center">
+  <button pButton pRipple type="button" label="Anular" class="p-button-info m-2"></button>
+  <button pButton pRipple type="button" label="Procesar" class="p-button-info m-2" (click)="Guardar(this)"> </button>
+  <button pButton pRipple type="button" label="Nueva" class="p-button-info m-2"  (click)=" refresh()"></button>
+  <button pButton pRipple type="button" label="Imprimir" class="p-button-info m-2" (click)="imprimir()"></button>
+  <button pButton pRipple type="button" label="Emviar Email" class="p-button-info " (click)="EnviarEmail()"></button>
+</footer>

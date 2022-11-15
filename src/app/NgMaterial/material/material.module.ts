@@ -14,6 +14,7 @@ import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatMenuModule} from '@angular/material/menu';
 @NgModule({
   declarations: [],
   imports: [
@@ -31,7 +32,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatBottomSheetModule,
     MatCardModule,
     MatSelectModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatMenuModule
   ],
   exports:[
     MatToolbarModule,
@@ -47,7 +49,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatBottomSheetModule,
     MatCardModule,
     MatSelectModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule { }

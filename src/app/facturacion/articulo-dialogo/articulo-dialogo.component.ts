@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { VariablesGlobalesService } from 'src/app/menu/serviceMenu/variables-globales.service';
-import { Facturacion } from 'src/app/model/Facturacion';
 import { GlobalService } from 'src/app/services/GserviceGPPD';
-import { VariablesGlobalesBusqueda } from '../service/variables-globales.service';
+import { VariablesFacturacion } from '../service/Variables-Facturacion';
 import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-articulo-dialogo',
@@ -11,30 +9,33 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class ArticuloDialogoComponent implements OnInit {
   l_Buscarticulo:any
-  factura:Facturacion = new Facturacion();
+
   constructor
   (
     public dialoRef:MatDialogRef<ArticuloDialogoComponent>,
     private GlobalService:GlobalService,
-    private gvariables:VariablesGlobalesService,
-    public gvariablesBus:VariablesGlobalesBusqueda,
+    public gvariablesBus:VariablesFacturacion,
   ) { }
 
   ngOnInit(): void {
+    var param='p_Emp='+
+    this.gvariablesBus.g_IdEmp
+    +'&p_Valor=' +
+    this.gvariablesBus.gart_valor
+    +'&p_Campo=' +
+    this.gvariablesBus.gart_campo
+    +'&p_Usr=' +
+    this.gvariablesBus.g_idU
 
     this.GlobalService
 
-    .metodoGet(`https://localhost:44381/Articulo/GetId?p_id=`+this.gvariablesBus.g_artcod+`&p_nom=`+this.gvariablesBus.g_artnom+`&p_usr=`+this.gvariablesBus.g_idU)
-    .subscribe((res:any) => {
-      this.l_Buscarticulo=res;
+    .metodoGet('https://localhost:7232/Articulo/BuscarArticulo?'+param).subscribe((res:any) => {
+      this.l_Buscarticulo=res.result;
       console.log(this.l_Buscarticulo)
     });
 
   }
 cliSelect(DatosArtSelc:any){
-
-
-
   this.gvariablesBus.g_DatosArt={
     emp_cod:DatosArtSelc.emp_cod,
     art_cod:DatosArtSelc.art_cod,
@@ -45,8 +46,8 @@ cliSelect(DatosArtSelc:any){
     art_fkey:DatosArtSelc.art_fkey,
     art_treg:DatosArtSelc.art_treg,
     uni_cod:DatosArtSelc.uni_cod,
-
     art_nomcorto:DatosArtSelc.art_nomcorto,
+    art_descrip:DatosArtSelc.art_descrip
     }
 
 console.log(this.gvariablesBus.g_DatosArt)

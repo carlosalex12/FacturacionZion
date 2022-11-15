@@ -1,16 +1,17 @@
 export class Facturacion {
   emp_cod: string = '';
-  fac_doc: string = 'FAC';
+  fac_doc: string = '';
   fac_num: number = 0;
-  fac_est: string = 'DIG';
-  fac_fec: string = '';
+  fac_est: string = '';
+  fac_fec:Date=new Date()
   fac_ser: string = '';
   suc_cod: string = '';
   cli_cod: string = '';
   fac_tpag: string = '';
   fac_sub0:number=0
   fac_sub1:number=0
-
+  fac_tot:number=0
+  fac_impto:number=0
   Detalles: DEtalles[] = [];
 }
 class DEtalles {
@@ -21,9 +22,10 @@ class DEtalles {
   fdt_sec:number = 1;
   art_cod: string = '';
   art_nom: string = '';
+  art_descrip:string=''
   fdt_cant: number = 0;
   fdt_prec: number = 0;
-  fdt_iva: number = 12;
+  fdt_iva: number = 0;
   fdt_desc: number = 0;
   fdt_sub: number = 0;
 }

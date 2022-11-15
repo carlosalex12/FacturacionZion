@@ -14,3 +14,14 @@ table {
   width: 70px;
   height: 60px;
 }
+.card{
+  width: 600px;
+  height: 400px;
+  justify-content: center;
+}
+.abs-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* min-height: 100vh; */
+}

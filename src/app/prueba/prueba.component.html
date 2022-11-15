@@ -1,53 +1,32 @@
-<!-- <app-navbar></app-navbar>
-<mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="side">
-    <p>Auto-resizing sidenav</p>
-    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
-    <button (click)="showFiller = !showFiller" mat-raised-button>
-      Toggle extra text
-    </button>
-  </mat-drawer>
+<!-- <p>prueba works!</p>
+prueb
+<div class="container">
 
-  <div class="example-sidenav-content">
-    <button type="button" mat-button (click)="drawer.toggle()">
-      Toggle sidenav
-    </button>
+  <mat-card>
+    <p-chart type="line" [data]="data"></p-chart>
+  </mat-card>
+
+</div>
+<div class="container text-center">
+  <div class="row row-cols-2">
+    <div class="col">
+      <mat-card>
+
+        <div class="card">
+          <h5>Vertical</h5>
+          <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+      </div>
+      </mat-card>
+    </div>
+    <div class="col">Column</div>
+    <div class="col">Column</div>
+    <div class="col">Column</div>
+    [src]="'file:///C:/ZZION/FACTURAS/factura.pdf'"
   </div>
-
-</mat-drawer-container>
-
- <div class="container">
-
-  <form method="post"    (ngSubmit)="guardar()" id="datosform" >
-    <div class="col">
-      <label>camp1</label>
-      <input type="text"   class="form-control"  id="camp1" name="camp1" tag="cpru">
-    </div>
-
-    <div class="col">
-      <label>camp2</label>
-      <input type="text" name="camp2"  id="camp2" class="form-control" tag="cpru">
-    </div>
-    <div class="col">
-      <label>camp3</label>
-      <input type="text" name="camp3" id="camp3" class="form-control" tag="cpru">
-    </div>
-    <div class="col">
-      <button type="submit" class="btn btn-primary mb-3 ">Confirm identity</button>
-    </div>
-  </form>
-
 </div> -->
-
-
-<!--  <ngx-extended-pdf-viewer
-[src]="'src\assets\example..pdf'"
-[height]="'95%'"
-[useBrowserLocale]="true"
-[textLayer]="true"
-[showHandToolButton]="true">
-</ngx-extended-pdf-viewer>  -->
-
-<app-example-pdf-viewer></app-example-pdf-viewer>
-
-
+<button (click)="imprimir()">url</button>
+<ngx-extended-pdf-viewer
+[src]="'\\E:HOME\\VCarlos\\pdf\\factura.pdf'"
+  [useBrowserLocale]="true"
+  [showDownloadButton]="false"
+  > </ngx-extended-pdf-viewer>

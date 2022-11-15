@@ -3,12 +3,20 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class VariablesGlobalesBusqueda {
+export class VariablesFacturacion {
 g_idU=""
+g_IdEmp=""
+//factura
+g_fac_num=0
+g_fac_doc=""
+g_fac_desc=0
+g_fac_iva=0
 //Cliente//
-g_clicod=""
-g_clinom=""
+g_cli_dato=""
+g_cli_tid=""
 //Articulo
+gart_campo=""
+gart_valor=""
 g_artcod=""
 g_artnom=""
 g_total=0
@@ -17,6 +25,7 @@ g_dec=0
 gsubtotal=0
 gsubtotal1=0
 gsubtotal0=0
+
 public g_DatosCli = {
 emp_cod:"",
 cli_cod:"",
@@ -41,7 +50,8 @@ uni_cod:"",
 art_prec:0,
 art_pimpto:0,
 art_nomcorto:"",
-emp_cod: ""
+emp_cod: "",
+art_descrip:""
 
   };
 

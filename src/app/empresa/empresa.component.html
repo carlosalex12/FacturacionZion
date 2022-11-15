@@ -1,0 +1,130 @@
+<app-navbar></app-navbar>
+<header class="row text-center mt-3">
+  <h1>EMPRESA</h1>
+</header>
+<section class="Consulta" id="Consulta" *ngIf="this.MostrarConsulta">
+  <header class="Filtro  row m-4"></header>
+  <body class="tabla">
+    <div class=" row mat-elevation-z8 m-4">
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="emp_cod">
+          <th mat-header-cell *matHeaderCellDef> codigo </th>
+          <td mat-cell *matCellDef="let element"> {{element.emp_cod}} </td>
+        </ng-container>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="emp_nom">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.emp_nom}} </td>
+        </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="emp_est">
+          <th mat-header-cell *matHeaderCellDef> Estado </th>
+          <td mat-cell *matCellDef="let element"> {{element.emp_est}} </td>
+        </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="emp_ruc">
+          <th mat-header-cell *matHeaderCellDef> Ruc </th>
+          <td mat-cell *matCellDef="let element"> {{element.emp_ruc}} </td>
+        </ng-container>
+        <ng-container matColumnDef="emp_dir">
+          <th mat-header-cell *matHeaderCellDef>Direccion </th>
+          <td mat-cell *matCellDef="let element"> {{element.emp_dir}} </td>
+        </ng-container>
+        <ng-container matColumnDef="emp_tlf1">
+          <th mat-header-cell *matHeaderCellDef> Telefono1 </th>
+          <td mat-cell *matCellDef="let element"> {{element.emp_tlf1}} </td>
+        </ng-container>
+        <ng-container matColumnDef="emp_tlf2">
+          <th mat-header-cell *matHeaderCellDef> Telefono2 </th>
+          <td mat-cell *matCellDef="let element"> {{element.emp_tlf2}} </td>
+        </ng-container>
+        <ng-container matColumnDef="emp_fax">
+          <th mat-header-cell *matHeaderCellDef> Fax </th>
+          <td mat-cell *matCellDef="let element"> {{element.emp_fax}} </td>
+        </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="emp_email">
+          <th mat-header-cell *matHeaderCellDef> Correo </th>
+          <td mat-cell *matCellDef="let element"> {{element.emp_email}} </td>
+        </ng-container>
+        <ng-container matColumnDef="boton">
+          <th mat-header-cell *matHeaderCellDef>Selecione </th>
+          <td mat-cell *matCellDef="let element">
+            <p-checkbox name="groupname" id="checkid" value="1" (click)="onSetData(element)"></p-checkbox>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+  </body>
+  <footer class="abs-center">
+    <button type="button" class="btn btn-primary m-3" (click)="Nuevo()">NUEVO</button>
+    <button type="button" class="btn btn-primary m-3" (click)="Actualizar()">ACTUALIZAR</button>
+    <button type="button" class="btn btn-primary m-3">ELIMINAR</button>
+  </footer>
+</section>
+<section class="Crud" id="Crud" *ngIf="this.MostrarCrud">
+  <header></header>
+  <body class="abs-center" id="idbody">
+    <mat-card class="card">
+      <div class="row">
+        <div class="col-4" ALIGN=left>
+          <label class="form-label mt-2 ">CODIGO:</label>
+          <input type="text" class="form-control styleinp" tag="cpru" #emp_cod [(ngModel)]="empresa.emp_cod"
+            id="emp_cod" value="" name="CODIGO" aria-describedby="">
+        </div>
+        <div class="col-4" ALIGN=left>
+          <label class="form-label mt-2">ESTADO</label>
+          <input type="text" class="form-control styleinp" value="" tag="cnnn" [(ngModel)]="empresa.emp_est"
+            id="emp_est" name="emp_est" aria-describedby="" maxlength="3" disabled>
+        </div>
+        <div class="col-4" ALIGN=left>
+          <label class="form-label mt-2 ">RUC</label>
+          <input type="text" class="form-control styleinp" value="" tag="cnru" [(ngModel)]="empresa.emp_ruc"
+            id="emp_ruc" name="emp_ruc" aria-describedby="">
+        </div>
+        <div class="col-12" ALIGN=left>
+          <label class="form-label mt-2 ">NOMBRE:</label>
+          <input type="text" class="form-control styleinp" value="" tag="cnnn" #emp_nom [(ngModel)]="empresa.emp_nom"
+            id="emp_nom" name="NOMBRE" aria-describedby="">
+        </div>
+        <div class="col-12">
+          <label class="form-label mt-2 ">DIRECCION</label>
+          <input type="text" class="form-control styleinp" tag="cnru" [(ngModel)]="empresa.emp_dir" id="emp_dir"
+            name="emp_dir" aria-describedby="">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <label class="form-label mt-2 ">TELF 1</label>
+          <input type="text" class="form-control styleinp" value="" tag="cnru" [(ngModel)]="empresa.emp_tlf1"
+            id="emp_tlf1" name="emp_tlf1" aria-describedby="">
+        </div>
+        <div class="col-6">
+          <label class="form-label mt-2">TEFL 2</label>
+          <input type="text" class="form-control" tag="cnnn" value="" [(ngModel)]="empresa.emp_tlf2" id="emp_tlf2"
+            name="emp_tlf2" aria-describedby="">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <label class="form-label m-2">N-FAX</label>
+          <input type="text" class="form-control" id="emp_fax" value="" tag="cnnn" [(ngModel)]="empresa.emp_fax"
+            name="emp_fax" aria-describedby="">
+        </div>
+        <div class="col-8">
+          <label class="form-label m-2">N-CORREO</label>
+          <input type="text" class="form-control" id="emp_email" value="" tag="cnnn" [(ngModel)]="empresa.emp_email"
+            name="emp_email" aria-describedby="">
+        </div>
+      </div>
+    </mat-card>
+  </body>
+  <footer class="abs-center">
+    <button type="button" class="btn btn-primary m-5" (click)="Guardar(this)">GUARDAR</button>
+    <button type="button" class="btn btn-primary" (click)="Cancelar()">CANCELAR</button>
+  </footer>
+</section>
+<footer></footer>

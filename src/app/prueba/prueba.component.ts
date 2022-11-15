@@ -1,85 +1,72 @@
-import { Component, OnInit,Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { recorrerformulario } from '../menu/serviceMenu/Recorreformulario';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, OnInit } from '@angular/core';
+import {MessageService} from 'primeng/api';
+import { ZzglobService } from '../FuncionesGlobales/zzglob.service';
 import { GlobalService } from '../services/GserviceGPPD';
-import { formatDate } from '@angular/common';
-import { ChangeDetectionStrategy } from '@angular/core';
-import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
-import { HttpClient } from '@angular/common/http';
+import  {  PdfViewerModule  }  from  'ng2-pdf-viewer';
 @Component({
   selector: 'app-prueba',
   templateUrl: './prueba.component.html',
-  styleUrls: ['./prueba.component.css'],
-  changeDetection:ChangeDetectionStrategy.OnPush
+  styleUrls: ['./prueba.component.css']
 })
 export class PruebaComponent implements OnInit {
+  msgs="holaaaa"
+  data:any
+  basicData: any;
+  basicOptions: any;
+  path:any
+  constructor(
+    public servicio:GlobalService,
+   private zzglob:ZzglobService
+  ) {
 
-  showFiller = false;
+    this.basicData = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+          {
+              label: 'My First dataset',
+              backgroundColor: '#42A5F5',
+              data: [65, 59, 80, 81, 56, 55, 40]
+          },
+          {
+              label: 'My Second dataset',
+              backgroundColor: '#FFA726',
+              data: [28, 48, 40, 19, 86, 27, 90]
+          }
+      ]
+  };
 
-  pdfSource: any;
-
-  constructor
-  (
-
-    private http:HttpClient,
-    private router: Router,
-    private fb:FormBuilder,
-    private _snackBar: MatSnackBar,
-    private gservice:GlobalService,
-    private armarinser:recorrerformulario
-
-  )
-  {
-    pdfDefaultOptions.assetsFolder = 'bleeding-edge';
-    // this.datosforms=this.fb.group({
-    //   camp1:new FormControl(''),
-    //   camp2:[''],
-    //   camp3:[''],
-    //   tag:[''],
-    //   })
+    this.data = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+          {
+              label: 'First Dataset',
+              data: [65, 59, 80, 81, 56, 55, 40]
+          },
+          {
+              label: 'Second Dataset',
+              data: [28, 48, 40, 19, 86, 27, 90]
+          }
+      ]
   }
 
-tabla="cliente"
-urlin=""
-datos:any
+
+
+   }
+
   ngOnInit(): void {
-    this.gservice.url("cliente",this.gservice.metodo.Insert)
-    this.pdfSource=['src\assets\example.pdf']
+    this.path="file:///E:/HOME/VCarlos/pdf/factura.pdf"
   }
-  // elements:any
-  // $scope.ExcelReport=function()
-  // {
-  //     $window.open("Home/ExportExcel", "_blank");
-  // }
-  // $scope.PdfReport = function () {
-  //     $window.open("Home/ExportPdf", "_blank");
-  // }
-//let valores:any[]=[{
-  //name:element.name,
- // id:element.id,
-//value:element.value
- //}]
+imprimir(){
 
-// mostrarForm(){
+}
+url(){
+//this.servicio.url('Prueba');
+console.log(this.zzglob.creaurl('Articulo',this.zzglob.metodo.Select))
 
-// }
-//   guardar(){
-//     this.elements = document.getElementById("camp1")
-//    this.datos=this.armarinser.armarinsert(this.elements)
-// this.elements.value
+//this.path="file:///E:/HOME/VCarlos/pdf/1.pdf"
 
-// console.log('datos form')
-// console.log(this.datos)
-// console.log('url insert')
+}
 
-// this.urlin=this.gservice
-// .creaURLInsert(this.tabla)
-
-// console.log(this.urlin)
-
-//   }
-
+  //http://localhost:8080/url?impresora=POS58&urlPdf=localhost/archivos/mi_pdf.pdf
 
 }

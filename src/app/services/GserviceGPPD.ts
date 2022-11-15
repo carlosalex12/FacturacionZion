@@ -8,12 +8,14 @@ export class GlobalService {
 
   constructor(private http:HttpClient) { }
 
-
   metodoGet(url: string, ) {
     return this.http.get(url);
   }
   metodoPost(url:string,datos:any) {
-    return this.http.post(url,datos);
+   // return this.http.post(url,datos);
+    return this.http.post(url,datos)
+
+
   }
   metodoPut(url:string,datos:any) {
     return this.http.put(url,datos);
@@ -24,23 +26,23 @@ export class GlobalService {
     return this.http.delete(url);
 
   }
-  metodo={
-    Select:"/GetAll?p_usr=",
-    Insert:"/Add?p_usr=",
-    Update:"/Put?p_usr=",
-    Delete:"/Delete?p_id="
-  }
+  // metodo={
+  //   Select:"/BuscarArticulos?p_Usr=",
+  //   Insert:"/Add?p_usr=",
+  //   Update:"/Put?p_usr=",
+  //   Delete:"/Delete?p_id="
+  // }
+  // server="https://localhost:7232/"
+  // url(tabla:any){
+  //   return this.server+tabla
+  // }
 
-  url(tabla:any,metodo:any){
-    return this.server+tabla+metodo
-  }
+  // server:string='https://localhost:7232/api/';
+  // inser:string='/Insertar/'
 
-  server:string='https://localhost:44381/';
-  inser:string='/Add?p_usr='
-
-  creaURLInsert(tabala:string){
-    return this.server+tabala+this.inser
-  }
+  // creaURLInsert(tabala:string){
+  //   return this.server+tabala+this.inser
+  // }
 
 
 }

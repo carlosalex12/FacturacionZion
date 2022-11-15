@@ -1,11 +1,17 @@
-.spacer{
-    flex: 1 1 auto;
+.color1{
+  color: coral;
 }
-.navar-color{
+.color2{
+  color: cadetblue;
+}
+.color3{
+  color: darkkhaki;
+}
+.color4{
+  color: darkseagreen;
+}
+.card{
+  height: 11cm;
+  justify-content: center;
 
-    background-color: #F27E03;
-}
-.container-style{
-justify-content: center;
-margin-top: 2rem;
 }
