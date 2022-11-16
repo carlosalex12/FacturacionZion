@@ -139,7 +139,7 @@ export class FacturacionComponent implements OnInit {
         fdt_iva: this.gvariablesBus.g_DatosArt.art_pimpto,
         fdt_desc: 0,
         fdt_sub: this.gvariablesBus.g_DatosArt.art_prec * this.fart_cant,
-        art_descrip: this.gvariablesBus.g_DatosArt.art_descrip,
+        fdt_obs: this.gvariablesBus.g_DatosArt.art_descrip,
       });
 
       if (this.factura.Detalles.length != 0) {
@@ -214,37 +214,73 @@ export class FacturacionComponent implements OnInit {
   }
   //focus del input de la tabla
   fousTable(dato: any, valor: any) {
-    const ideli = this.factura.Detalles.findIndex((elemto) => {
-      return elemto.id === dato.id;
-    });
+    if(valor.id=="idTcant"){
+      const ideli = this.factura.Detalles.findIndex((elemto) => {
+        return elemto.id === dato.id;
+      });
 
-    console.log(dato);
-    this.factura.Detalles.splice(ideli, 1, {
-      id: dato.id,
-      emp_cod: this.gvariables.g_nemp.emp.emp,
-      fac_doc: dato.fac_doc,
-      fac_num: dato.fac_num,
-      fdt_sec: dato.fdt_sec,
-      art_cod: dato.art_cod,
-      art_nom: dato.art_nom,
-      fdt_cant: valor,
-      fdt_prec: dato.fdt_prec,
-      fdt_iva: dato.fdt_iva,
-      fdt_desc: 0,
-      fdt_sub: valor * dato.fdt_prec,
-      art_descrip: dato.art_descrip,
-    });
-    //alert('dato cambiado');
-    Swal.fire({
-      position: 'top',
-      icon: 'success',
-      title: 'DATO  CAMBIADO',
-      showConfirmButton: false,
-      timer: 1500,
-    });
+      console.log(dato);
+      this.factura.Detalles.splice(ideli, 1, {
+        id: dato.id,
+        emp_cod: this.gvariables.g_nemp.emp.emp,
+        fac_doc: dato.fac_doc,
+        fac_num: dato.fac_num,
+        fdt_sec: dato.fdt_sec,
+        art_cod: dato.art_cod,
+        art_nom: dato.art_nom,
+        fdt_cant: valor.value,
+        fdt_prec: dato.fdt_prec,
+        fdt_iva: dato.fdt_iva,
+        fdt_desc: 0,
+        fdt_sub: valor.value * dato.fdt_prec,
+        fdt_obs: dato.art_descrip,
+      });
+      //alert('dato cambiado');
+      Swal.fire({
+        position: 'top',
+        icon: 'success',
+        title: 'DATO  CAMBIADO',
+        showConfirmButton: false,
+        timer: 1500,
+      });
 
-    console.log(this.factura.Detalles);
-    return this.sacarSub();
+      console.log(this.factura.Detalles);
+      return this.sacarSub();
+    }else if(valor.id=="art_descrip"){
+      const ideli = this.factura.Detalles.findIndex((elemto) => {
+        return elemto.id === dato.id;
+      });
+
+      console.log(dato);
+      this.factura.Detalles.splice(ideli, 1, {
+        id: dato.id,
+        emp_cod: this.gvariables.g_nemp.emp.emp,
+        fac_doc: dato.fac_doc,
+        fac_num: dato.fac_num,
+        fdt_sec: dato.fdt_sec,
+        art_cod: dato.art_cod,
+        art_nom: dato.art_nom,
+        fdt_cant: dato.fdt_cant,
+        fdt_prec: dato.fdt_prec,
+        fdt_iva: dato.fdt_iva,
+        fdt_desc: 0,
+        fdt_sub: dato.fdt_sub,
+        fdt_obs: valor.value,
+      });
+      //alert('dato cambiado');
+      Swal.fire({
+        position: 'top',
+        icon: 'success',
+        title: 'Descripcion Agregada',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      console.log(this.factura.Detalles);
+      return this.sacarSub();
+
+    }
+
   }
   //focus
   foucusOut(idCamp: any, iddiv: string) {
@@ -387,14 +423,16 @@ export class FacturacionComponent implements OnInit {
     this.factura.fac_impto = this.gvariablesBus.g_iva;
     this.factura.fac_tot = this.gvariablesBus.g_total;
     this.factura.cli_cod = this.l_cli_cod;
+    this.factura.fac_obs=this.F_fac_obs
     //console.log(this.factura);
     if (this.Zzappl.gGuardar(documen) == false) {return false;}
     this.GlobalService.metodoPost('https://localhost:7232/Facturacion/Facturacion?p_Usr=' +this.gvariables.g_empid.id.id,this.factura
     ).subscribe((res: any) => {
-      console.log('resultado bak', res);
+     // console.log('resultado bak', res);
       if (res.success==true) {
         this.l_Cli_email = this.factura.fac_num;
         this.zzglob.mensaje('success', 'OK, '+res.message+'');
+       // console.log('el resultado ', res, 'la factura  ',this.factura)
       }else{
         this.zzglob.mensaje('error', res.message);
       }

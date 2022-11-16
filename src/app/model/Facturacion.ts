@@ -12,6 +12,7 @@ export class Facturacion {
   fac_sub1:number=0
   fac_tot:number=0
   fac_impto:number=0
+  fac_obs:string=""
   Detalles: DEtalles[] = [];
 }
 class DEtalles {
@@ -22,7 +23,7 @@ class DEtalles {
   fdt_sec:number = 1;
   art_cod: string = '';
   art_nom: string = '';
-  art_descrip:string=''
+  fdt_obs:string=''
   fdt_cant: number = 0;
   fdt_prec: number = 0;
   fdt_iva: number = 0;

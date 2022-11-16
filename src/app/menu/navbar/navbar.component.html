@@ -1,44 +1,91 @@
-
 <nav class="navbar navbar-expand-lg navar-color">
   <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+      aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="div" id="home" #home></div>
-    <a  mat-button  class="navbar-brand text-white" (click)="buscar(home.id)"> <h4>
-      Zion Sistemas
-    </h4></a>
+    <a mat-button class="navbar-brand text-white" (click)="buscar(home.id)">
+      <h4>
+        Zion Sistemas
+      </h4>
+    </a>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"  id="empresa" #empresa>
-          <a mat-button class="text-white" (click)="buscar(empresa.id)">
-            <h4>
-              Empresa
-            </h4>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a mat-button class="text-white">
+              <h4>
+                CATALOGO
+              </h4>
+            </a>
           </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" id="empresa" #empresa (click)="buscar(empresa.id)">EMPRESA</a></li>
+            <li><a class="dropdown-item">BODEGA</a></li>
+            <li><a class="dropdown-item">UNIDAD</a></li>
+            <li><a class="dropdown-item">SUCURSAL</a></li>
+          </ul>
         </li>
-        <li class="nav-item"  id="articulo" #articulo>
-          <a mat-button class="text-white" (click)="buscar(articulo.id)">
-            <h4>
-              Articulos
-            </h4>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a mat-button class="text-white">
+
+              <h4>
+                FACTURACION
+              </h4>
+
+            </a>
           </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" id="cliente" #idcliente (click)="buscar(idcliente.id)">CLIENTE</a></li>
+            <li><a class="dropdown-item" id="articulo" #articulo (click)="buscar(articulo.id)">ARTICULO</a></li>
+            <li><a class="dropdown-item" id=factura #factura (click)="buscar(factura.id)">FACTURA</a></li>
+            <li><a class="dropdown-item" id="facturacion" #facturacion (click)="buscar(facturacion.id)">GENERAR
+                FACTURA</a></li>
+
+            <li><a class="dropdown-item">LISTA FACTURA</a></li>
+          </ul>
         </li>
-        <li class="nav-item" id="cliente" #idcliente>
-          <a mat-button class="text-white"  id="cliente"   (click)="buscar(idcliente.id)">
-            <h4>
-              Cliente
-            </h4>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a mat-button class="text-white">
+
+              <h4>
+                INVENTARIO
+              </h4>
+
+            </a>
           </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" id="cliente">CLASE</a></li>
+            <li><a class="dropdown-item" id="articulo" #articulo (click)="buscar(articulo.id)">ARTICULO</a></li>
+            <li><a class="dropdown-item">INGRESOS</a></li>
+            <li><a class="dropdown-item">EGRESOS</a></li>
+            <li><a class="dropdown-item">EGRESOS</a></li>
+            <li><a class="dropdown-item">TRANSFERENCIA</a></li>
+            <li><a class="dropdown-item">REPORTE CADEX</a></li>
+          </ul>
         </li>
-        <li class="nav-item"id=factura #factura>
-          <a mat-button class="text-white" (click)="buscar(factura.id)">
-            <h4>
-              Factura
-            </h4>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a mat-button class="text-white">
+
+              <h4>
+                ESPECIALES
+              </h4>
+
+            </a>
           </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item">CAMBIAR CONTRASEÑA</a></li>
+            <li><a class="dropdown-item">EXPORTAR BASE</a></li>
+            <li><a class="dropdown-item">MANUAL</a></li>
+            <li><a class="dropdown-item"></a></li>
+            <li><a class="dropdown-item"></a></li>
+          </ul>
         </li>
-        <li class="nav-item" id="facturacion" #facturacion>
+        <!-- <li class="nav-item" id="facturacion" #facturacion>
           <a mat-button class="text-white" (click)="buscar(facturacion.id)">
             <h4>
               Facturacion
@@ -51,7 +98,7 @@
             prueba
             </h4>
           </a>
-        </li>
+        </li> -->
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" #idbusq>
@@ -64,8 +111,8 @@
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
       <mat-icon>more_vert</mat-icon>
     </button>
-    <mat-menu #menu="matMenu" >
-      <button mat-menu-item  (click)="login()">
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="login()">
         <!-- //<mat-icon>dialpad</mat-icon> -->
         <span>Cerrar Sesion</span>
       </button>

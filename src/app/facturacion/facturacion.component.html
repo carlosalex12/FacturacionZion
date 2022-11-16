@@ -146,7 +146,7 @@
             <th>{{ item.art_nom }}</th>
             <th>
               <input type="number" class="form-control" #idTcant id="idTcant" [(ngModel)]="item.fdt_cant"
-                placeholder="{{ item.fdt_cant }}" (focusout)="fousTable(item ,idTcant.value)" />
+                placeholder="{{ item.fdt_cant }}" (focusout)="fousTable(item ,idTcant)" />
             </th>
             <th>{{ item.fdt_prec }}</th>
             <th>{{ item.fdt_iva }}</th>
@@ -154,8 +154,8 @@
             <th>{{ item.fdt_sub }}</th>
             <th>
               <div class="form-floating">
-                <textarea class="form-control" #idart_descrip id="idart_descrip"
-                  [(ngModel)]="item.art_descrip" (focusout)="fousTable(item,idart_descrip.value)"></textarea>
+                <textarea class="form-control" #art_descrip id="art_descrip"
+                  [(ngModel)]="item.fdt_obs" (focusout)="fousTable(item,art_descrip)"></textarea>
                 <label for="floatingTextarea">Descripcion</label>
               </div>
             </th>
