@@ -59,7 +59,8 @@ import * as printJS from 'print-js';
 import { UnidadComponent } from './Catalogo/unidad/unidad.component';
 import { SucursalComponent } from './Catalogo/sucursal/sucursal.component';
 import { BodegaComponent } from './Catalogo/bodega/bodega.component';
-
+//servidor
+import { HashLocationStrategy,LocationStrategy } from "@angular/common";
 
 
 
@@ -124,7 +125,7 @@ CalendarModule,
 
 
   ],
-  providers: [CookieService,ZzapplService,],
+  providers: [CookieService,ZzapplService,{provide:LocationStrategy,useClass:HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -44,41 +44,39 @@ ingresar(){
 //llama al servicio
   this.GlobalService
     .metodoGet(`https://localhost:7232/Login/GetLogin?p_usr=`+this.l_user+`&p_clv=`+this.l_pass)
+   // http://185.245.183.163:88/
     .subscribe((resultadoMetodoGet:any) => {
-    console.log(resultadoMetodoGet)
-    this.G_variables.g_user=(resultadoMetodoGet[0].usr_cod);
-    this.G_variables.g_pass=(resultadoMetodoGet[0].usr_clv)
-    this.G_variables.g_empid=(resultadoMetodoGet[0].usr_cod)
-    this.G_variables.g_nemp=(resultadoMetodoGet[0].emp_cod)
+      if(resultadoMetodoGet.result==0){
+        this.G_variables.g_user=(resultadoMetodoGet.result[0].usr_cod);
+        this.G_variables.g_pass=(resultadoMetodoGet.result[0].usr_clv)
+        this.G_variables.g_empid=(resultadoMetodoGet.result[0].usr_cod)
+        this.G_variables.g_nemp=(resultadoMetodoGet.result[0].emp_cod)
+        if(this.l_user ===this.G_variables.g_user && this.l_pass===this.G_variables.g_pass){
+          console.log("resultadoooo",resultadoMetodoGet);
+          console.log("nombre Empreza",this.G_variables.g_nemp)
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Bienvenido  '+this.G_variables.g_user,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        this.router.navigate(
+         [`/home/`+ this.G_variables.g_empid+'/'+ this.G_variables.g_nemp]
+       )
+      }
+      }else if(resultadoMetodoGet.error==false) {
+        Swal.fire({
+          position: 'top',
+          icon: 'error',
+          title: 'Usuario o Contraseña Incorrectas',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        //alert('Usuario o contraseña no existentes')
 
-  if(this.l_user ===this.G_variables.g_user && this.l_pass===this.G_variables.g_pass){
-
-    console.log("nombre Empreza",this.G_variables.g_nemp)
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'Bienvenido  '+this.G_variables.g_user,
-      showConfirmButton: false,
-      timer: 1500,
-    });
-    let cokie=this.cookiesService.set('empresa',resultadoMetodoGet[0].emp_cod,4,'/')
-  //alert('Bienvenido:'+cokie)
-  this.router.navigate(
-   [`/home/`+ this.G_variables.g_empid+'/'+ this.G_variables.g_nemp]
-
- )
-}else if(resultadoMetodoGet.length<0){
-  Swal.fire({
-    position: 'top',
-    icon: 'success',
-    title: 'Usuario o contraseña no existentes',
-    showConfirmButton: false,
-    timer: 1500,
-  });
-  //alert('Usuario o contraseña no existentes')
-
-}
-
+      }
+    //console.log(resultadoMetodoGet)
 
     });
 
