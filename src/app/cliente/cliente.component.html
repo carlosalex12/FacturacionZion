@@ -57,7 +57,7 @@
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     </div>
     <footer class="abs-center">
-      <button type="button" class="btn btn-primary m-3" (click)="Nuevo()">NUEVO</button>
+      <button type="button" class="btn btn-primary m-3"  id="Nuevo" (click)="Nuevo()">NUEVO</button>
       <button type="button" class="btn btn-primary m-3" (click)="Actualizar()">ACTUALIZAR</button>
       <button type="button" class="btn btn-primary m-3">ELIMINAR</button>
     </footer>
@@ -82,13 +82,13 @@
         <div class="col-5">
           <label class="form-label mt-2">NUMERO:</label>
           <input type="number" class="form-control" id="cli_nid" tag="cpru"  #idcli_ni (focusout)="foucuscliente(idcli_ni.id)"
-            [(ngModel)]="cliente.cli_nid" name="NUMERO" aria-describedby="">
+            [(ngModel)]="cliente.cli_nid" name="NUMERO" maxlength="13" #field="ngModel" number>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <label class="form-label mt-2">NOMBRE</label>
-          <input type="text" class="form-control"  tag="cnnn" [(ngModel)]="cliente.cli_nom" id="cli_nom" name="NOMBRE"
+          <input type="text" class="form-control"  tag="cnrn" [(ngModel)]="cliente.cli_nom" id="cli_nom" name="NOMBRE"
             aria-describedby="">
         </div>
       </div>
@@ -115,7 +115,7 @@
         <div class="col">
           <label class="form-label mt-2">CORREO</label>
           <input type="email" class="form-control"  tag="cnru" [(ngModel)]="cliente.cli_email" id="cli_email" name="CORREO"
-            aria-describedby="">
+            aria-describedby="" required>
         </div>
       </div>
     </mat-card>

@@ -34,6 +34,7 @@ this.l_Lemp=this.Gvariables.g_Lemp;
 
   this.multiAxisData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+
     datasets: [{
         label: 'Dataset 1',
         backgroundColor: [

@@ -23,9 +23,8 @@ export class DetalleFacturaComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.gvbus.g_fac_doc);
     let fec =new DatePipe('en-US');
-this.l_facfec=fec.transform(Date.now(), 'yyyy/MM/dd');
+this.l_facfec=fec.transform(Date.now(),'yyyy/MM/dd');
     this.GlobalService
-
     .metodoGet(`https://localhost:7232/Detalle/BuscarFacDetalle?p_Doc=`+this.gvbus.g_fac_doc+`&p_Num=`+this.gvbus.g_fac_num+`&p_Usr=`+this.gvariable.g_empid.id.id)
     .subscribe((res:any) => {
       console.log(res);

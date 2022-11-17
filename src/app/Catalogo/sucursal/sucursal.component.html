@@ -1,0 +1,38 @@
+<app-navbar></app-navbar>
+<header class="row text-center mt-3">
+  <h1>Sucursal</h1>
+</header>
+<section class="Consulta" id="Consulta">
+  <header class="Filtro  row m-4"></header>
+  <body class="tabla">
+    <div class=" row mat-elevation-z8 m-4">
+      <table mat-table [dataSource]="this.datatable">
+        <ng-container matColumnDef="emp_cod">
+          <th mat-header-cell *matHeaderCellDef> Empresa </th>
+          <td mat-cell *matCellDef="let element"> {{element.emp_cod}} </td>
+        </ng-container>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="suc_cod">
+          <th mat-header-cell *matHeaderCellDef> Codigo </th>
+          <td mat-cell *matCellDef="let element"> {{element.suc_cod}} </td>
+        </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="suc_nom">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.suc_nom}} </td>
+        </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="suc_est">
+          <th mat-header-cell *matHeaderCellDef> Estado </th>
+          <td mat-cell *matCellDef="let element"> {{element.suc_est}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+  </body>
+  <footer class="abs-center">
+  </footer>
+</section>
+<footer></footer>

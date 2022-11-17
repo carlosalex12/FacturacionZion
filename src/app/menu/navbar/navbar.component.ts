@@ -40,6 +40,18 @@ export class NavbarComponent implements OnInit {
       ]);
     }
   }
+  buscar1(content: string) {
+    console.log(content);
+    if (content == '') {
+    } else {
+      this._router.navigate([
+        `/` +
+          content +
+          `/` +
+          this.G_variables.g_empid.id.id
+      ]);
+    }
+  }
   login(){
     this._router.navigate([`/login/` ]);
   }

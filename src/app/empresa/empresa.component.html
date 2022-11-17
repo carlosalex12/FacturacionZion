@@ -73,17 +73,17 @@
         <div class="col-4" ALIGN=left>
           <label class="form-label mt-2 ">CODIGO:</label>
           <input type="text" class="form-control styleinp" tag="cpru" #emp_cod [(ngModel)]="empresa.emp_cod"
-            id="emp_cod" value="" name="CODIGO" aria-describedby="">
+            id="emp_cod" value="" name="CODIGO" aria-describedby="" (focusout)="foucusOut(emp_cod.id)" maxlength="3" >
         </div>
         <div class="col-4" ALIGN=left>
           <label class="form-label mt-2">ESTADO</label>
           <input type="text" class="form-control styleinp" value="" tag="cnnn" [(ngModel)]="empresa.emp_est"
-            id="emp_est" name="emp_est" aria-describedby="" maxlength="3" disabled>
+            id="emp_est" name="ESTADO" aria-describedby="" maxlength="3" disabled>
         </div>
         <div class="col-4" ALIGN=left>
           <label class="form-label mt-2 ">RUC</label>
           <input type="text" class="form-control styleinp" value="" tag="cnru" [(ngModel)]="empresa.emp_ruc"
-            id="emp_ruc" name="emp_ruc" aria-describedby="">
+            id="emp_ruc" name="RUC" aria-describedby="" maxlength="13">
         </div>
         <div class="col-12" ALIGN=left>
           <label class="form-label mt-2 ">NOMBRE:</label>
@@ -93,31 +93,31 @@
         <div class="col-12">
           <label class="form-label mt-2 ">DIRECCION</label>
           <input type="text" class="form-control styleinp" tag="cnru" [(ngModel)]="empresa.emp_dir" id="emp_dir"
-            name="emp_dir" aria-describedby="">
+            name="DIRECCION" aria-describedby="">
         </div>
       </div>
       <div class="row">
         <div class="col-6">
-          <label class="form-label mt-2 ">TELF 1</label>
+          <label class="form-label mt-2 ">TELEFONO 1</label>
           <input type="text" class="form-control styleinp" value="" tag="cnru" [(ngModel)]="empresa.emp_tlf1"
-            id="emp_tlf1" name="emp_tlf1" aria-describedby="">
+            id="emp_tlf1" name="TELEFONO 1" aria-describedby="" maxlength="10">
         </div>
         <div class="col-6">
-          <label class="form-label mt-2">TEFL 2</label>
+          <label class="form-label mt-2">TELEFONO 2</label>
           <input type="text" class="form-control" tag="cnnn" value="" [(ngModel)]="empresa.emp_tlf2" id="emp_tlf2"
-            name="emp_tlf2" aria-describedby="">
+            name="TELEFONO 2" aria-describedby="" maxlength="10">
         </div>
       </div>
       <div class="row">
         <div class="col-4">
           <label class="form-label m-2">N-FAX</label>
-          <input type="text" class="form-control" id="emp_fax" value="" tag="cnnn" [(ngModel)]="empresa.emp_fax"
-            name="emp_fax" aria-describedby="">
+          <input type="text" class="form-control" id="emp_fax" value="" tag="cnrn" [(ngModel)]="empresa.emp_fax"
+            name="N-FAX" aria-describedby="">
         </div>
         <div class="col-8">
-          <label class="form-label m-2">N-CORREO</label>
+          <label class="form-label m-2">CORREO</label>
           <input type="text" class="form-control" id="emp_email" value="" tag="cnnn" [(ngModel)]="empresa.emp_email"
-            name="emp_email" aria-describedby="">
+            name="CORREO" aria-describedby="">
         </div>
       </div>
     </mat-card>

@@ -18,6 +18,8 @@ export class EmpresaComponent implements OnInit {
   MostrarConsulta=true
   MostrarCrud=false
   flgAcc=""
+  scampo:any
+  svalor:any
   empresa:empresa= new empresa()
   datatable: any = [];
   displayedColumns: string[] = [
@@ -85,20 +87,30 @@ export class EmpresaComponent implements OnInit {
     //console.log(this.empresa.emp_cod);
     this.GlobalService.metodoPost(this.zzglob.creaurl('Empresa', this.zzglob.metodo.Insert)
     +this.gvariables.g_empid.id.id,this.empresa
-    ).subscribe((resultado) => {
-      //if(resultado){
-      this.zzglob.mensaje('success', 'OK, Registro Guardado');
-      //this.articulo.ars_cod=resultado.art_cod
-      this.Cancelar();
-      this.ondatatable();})
+    ).subscribe((res:any) => {
+
+       if(res.success==true){
+        this.zzglob.mensaje('success', 'OK, Registro Guardado');
+        this.Cancelar();
+        this.ondatatable();
+       }else{
+
+        this.zzglob.mensaje('error',res.message);
+       }
+     })
   }
   onUpdate(){
     this.GlobalService.metodoPut(this.zzglob.creaurl('Empresa', this.zzglob.metodo.Update)
     +this.gvariables.g_empid.id.id,this.empresa
-    ).subscribe((resultado) => {
-      this.zzglob.mensaje('success', 'OK, Empresa Actualizado');
-      this.ondatatable();
-      this.Cancelar();
+    ).subscribe((res:any) => {
+      if(res.success==true){
+        this.zzglob.mensaje('success', 'OK, Empresa Actualizado');
+        this.ondatatable();
+        this.Cancelar();
+      }else{
+        this.zzglob.mensaje('error',res.message);
+      }
+
     });
 
 
@@ -115,10 +127,10 @@ export class EmpresaComponent implements OnInit {
      this.MostrarConsulta=false
      this.MostrarCrud=true
      this.flgAcc="nuevo"
+     this.clear()
      this.InicializarCampos()
   }
   Actualizar() {
-   // alert('funcion Actualizar');
     this.MostrarConsulta=false
     this.MostrarCrud=true
     this.flgAcc="actualizar"
@@ -126,10 +138,11 @@ export class EmpresaComponent implements OnInit {
   }
 
   lAntesGuardar( val:any){
-    this.Zzappl.gGuardar
+    return true
   }
+
   Guardar(documen:any ):any {
-    if(this.Zzappl.gGuardar(documen)==false){return false}
+   if(this.Zzappl.gGuardar(documen)==false){return false}
    if(this.flgAcc=="nuevo"){this.onInsert();}else{this.onUpdate();}}
 
   Cancelar() {
@@ -137,6 +150,38 @@ export class EmpresaComponent implements OnInit {
     //alert('funcion Cancelar');
     this.MostrarConsulta=true
      this.MostrarCrud=false
-
+     this.clear()
   }
+  foucusOut(idCamp: any) {
+    this.scampo = document.getElementById(''+idCamp+'')
+    this.svalor = this.scampo.value
+    var lparam='&p_Campo=' + idCamp
+      +'&p_Valor=' + this.svalor
+      +'&p_Usr=' + this.gvariables.g_empid.id.id
+      this.GlobalService.metodoGet(' https://localhost:7232/Empresa/ExistenciaEmpresa?'+lparam).subscribe((res: any) => {
+        console.log(res.result);
+if(res.result.length>0){
+  let tmpcod=this.svalor
+  this.zzglob.mensaje('error', 'La Empresa  Ya Existe')
+  this.scampo = document.getElementById(''+idCamp+'')
+  this.scampo.placeholder=tmpcod
+  this.empresa.emp_cod=""
+
+}
+
+      });
+  }
+
+clear(){
+this.empresa.emp_cod=""
+this.empresa.emp_dir=""
+this.empresa.emp_email=""
+this.empresa.emp_est=""
+this.empresa.emp_fax=""
+this.empresa.emp_nom=""
+this.empresa.emp_ruc=""
+this.empresa.emp_tlf1=""
+this.empresa.emp_tlf2=""
+
+}
 }

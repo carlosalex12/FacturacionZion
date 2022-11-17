@@ -22,7 +22,7 @@ export class ClienteComponent implements OnInit {
   l_tmpCli_cod = '';
   l_BusCientes: any;
   l_tmpCli_nom = '';
-  SelecActualizar = true;
+  SelecActualizar:any;
   check: any;
   MostrarConsulta = true;
   MostrarCrud = false;
@@ -70,7 +70,11 @@ export class ClienteComponent implements OnInit {
       this.GlobalService.metodoGet('https://localhost:7232/Cliente/ExistenciaCliente?'+lparam).subscribe((res: any) => {
         console.log(res.result);
 if(res.result.length>0){
-  this.zzglob.mensaje('error ', 'El Cliente Ya Existe')
+  let tmpcod=this.svalor
+  this.zzglob.mensaje('error', 'El Cliente Ya Existe')
+  this.scampo = document.getElementById(''+idCamp+'')
+  this.scampo.placeholder=tmpcod
+  this.cliente.cli_nid=0
 }
 
       });
@@ -88,11 +92,12 @@ if(res.result.length>0){
     });
   }
 
-  dataSource = new MatTableDataSource<articulo>(this.datatable.Data);
+  dataSource = new MatTableDataSource<clientes>(this.datatable.Data);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   ngAfterViewInit() {
+
     this.dataSource.paginator = this.paginator;
+
   }
   //FILTRO
   applyFilter(event: Event) {
@@ -101,7 +106,6 @@ if(res.result.length>0){
   }
   //MOSTRAR DATOS
   onSetData(select: any) {
-    this.SelecActualizar = false;
     this.cliente.emp_cod = select.emp_cod;
     this.cliente.cli_cod = select.cli_cod;
     this.cliente.cli_nom = select.cli_nom;
@@ -112,6 +116,7 @@ if(res.result.length>0){
     this.cliente.cli_tlf1 = select.cli_tlf1;
     this.cliente.cli_tlf2 = select.cli_tlf2;
     this.cliente.cli_email = select.cli_email;
+
   }
   cancelar() {
     this.ondatatable();
@@ -123,13 +128,17 @@ if(res.result.length>0){
     this.GlobalService.metodoPost(this.zzglob.creaurl('Cliente',this.zzglob.metodo.Insert)
     +this.gvariables.g_empid.id.id,this.cliente
     ).subscribe((res:any) => {
+      console.log(res);
       if(res.success==true){
         this.zzglob.mensaje('success',res.message);
         this.ondatatable();
         this.clear();
         this.Cancelar();
+      }else{
+        this.zzglob.mensaje('error',res.message);
       }
-      this.zzglob.mensaje('error',res.message);
+
+
     });
   }
 
@@ -139,11 +148,15 @@ if(res.result.length>0){
 
    this.GlobalService.metodoPut(this.zzglob.creaurl('Cliente', this.zzglob.metodo.Update)
    +this.gvariables.g_empid.id.id,this.cliente
-   ).subscribe((resultado) => {
-      this.zzglob.mensaje('success', 'OK, Cliente Actualizado');
+   ).subscribe((res:any) => {
+    if(res.success==true){
+      this.zzglob.mensaje('success',res.message);
       this.ondatatable();
       this.clear();
       this.Cancelar();
+    }else{
+      this.zzglob.mensaje('error',res.message);
+    }
     });
     this.SelecActualizar = true;
   }
@@ -182,9 +195,7 @@ if(res.result.length>0){
     this.cliente.emp_cod=this.gvariables.g_nemp.emp.emp
   }
   Nuevo() {
-    //this.Zzappl.gNuevo()
-    // Nuevo()
-    //  alert('funcion nuevo');
+    this.clear()
     this.MostrarConsulta = false;
     this.MostrarCrud = true;
     this.flgAcc = 'nuevo';
@@ -202,21 +213,15 @@ if(res.result.length>0){
   }
   Guardar(documen: any): any {
     //alert('local guardar')
-    if (this.Zzappl.gGuardar(documen) == false) {
-      return false;
-    }
-    if (this.flgAcc == 'nuevo') {
-      this.onInsert();
-    } else {
-      this.onUpdate();
-    }
+    if (this.Zzappl.gGuardar(documen) == false) {return false;}
+    if (this.flgAcc == 'nuevo') {this.onInsert();} else {this.onUpdate();}
   }
 
   Cancelar() {
-    this.ondatatable();
-    //alert('funcion Cancelar');
+    //alert('uncion Cancelar');
     this.MostrarConsulta = true;
     this.MostrarCrud = false;
+    this.clear()
   }
 
   //borrar campos
@@ -230,7 +235,6 @@ if(res.result.length>0){
     this.cliente.cli_tlf1 ='';
     this.cliente.cli_tlf2 = '';
     this.cliente.cli_email = '';
-    this.ondatatable();
     this.SelecActualizar = true;
   }
 }

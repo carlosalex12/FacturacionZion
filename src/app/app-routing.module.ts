@@ -11,6 +11,9 @@ import { FacturacionComponent } from './facturacion/facturacion.component';
 import { PruebaComponent } from './prueba/prueba.component';
 import { VigilanteGuard } from './vigilante.guard';
 import { EmpresaComponent } from './empresa/empresa.component';
+import { SucursalComponent } from './Catalogo/sucursal/sucursal.component';
+import { BodegaComponent } from './Catalogo/bodega/bodega.component';
+import { UnidadComponent } from './Catalogo/unidad/unidad.component';
 
 //import { HomeModule } from './components/home/home.module';
 
@@ -33,11 +36,26 @@ const routes: Routes = [
   {
     path: 'facturacion/:id/:emp',
     component: FacturacionComponent,
-   // canActivate:[VigilanteGuard]
+   canActivate:[VigilanteGuard]
   },
   {
     path: 'empresa/:id/:emp',
     component: EmpresaComponent,
+    //canActivate:[VigilanteGuard]
+  },
+  {
+    path: 'sucursal/:id/:emp',
+    component: SucursalComponent,
+    //canActivate:[VigilanteGuard]
+  },
+  {
+    path: 'bodega/:id/:emp',
+    component: BodegaComponent,
+    //canActivate:[VigilanteGuard]
+  },
+  {
+    path: 'unidad/:id/:emp',
+    component: UnidadComponent,
     //canActivate:[VigilanteGuard]
   },
   {

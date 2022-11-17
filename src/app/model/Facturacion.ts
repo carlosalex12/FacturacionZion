@@ -7,7 +7,7 @@ export class Facturacion {
   fac_ser: string = '';
   suc_cod: string = '';
   cli_cod: string = '';
-  fac_tpag: string = '';
+  fco_cod: string = '';
   fac_sub0:number=0
   fac_sub1:number=0
   fac_tot:number=0

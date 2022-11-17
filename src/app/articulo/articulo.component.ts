@@ -114,7 +114,6 @@ export class ArticuloComponent implements OnInit {
       this.dataSource.data = this.datatable;
       console.log(res.Data);
     });
-
   }
   dataSource = new MatTableDataSource<articulo>(this.datatable.Data);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -137,12 +136,12 @@ export class ArticuloComponent implements OnInit {
     ).subscribe((res:any) => {
       if(res.success==true ){
         this.zzglob.mensaje('success', res.message);
-        this.clear();
         this.Cancelar();
-        this.ondatatable();
         //console.log(resultado);
-      }
+      }else{
         this.zzglob.mensaje('error',res.message)
+      }
+
     });
   }
   onSetData(select: any) {
@@ -161,12 +160,14 @@ export class ArticuloComponent implements OnInit {
     +this.gvariables.g_empid.id.id,this.articulo
     ).subscribe((res:any) => {
       if(res.success==true){
-        this.zzglob.mensaje('success', res.mensaje);
-        this.ondatatable();
-        this.clear();
+        this.zzglob.mensaje('success',res.message);
+        console.log(res);
+
         this.Cancelar();
+      }else{
+        this.zzglob.mensaje('error',res.message)
       }
-      this.zzglob.mensaje('error',res.mensaje)
+
     });
 
     this.SelecActualizar = true;
@@ -197,13 +198,11 @@ export class ArticuloComponent implements OnInit {
   clear() {
     this.articulo.art_cod = '';
     (this.articulo.art_nom = ''),
-      (this.articulo.art_pimpto = 0),
-      (this.articulo.art_nom1 = ''),
-      (this.articulo.art_prec = 0),
-      (this.articulo.uni_cod = ''),
-      (this.articulo.art_nom1 = '');
-    this.ondatatable();
-    this.SelecActualizar = true;
+    (this.articulo.art_pimpto = 0),
+    (this.articulo.art_nom1 = ''),
+    (this.articulo.art_prec = 0),
+    (this.articulo.uni_cod = ''),
+    (this.articulo.art_nom1 = '');
   }
 
   foucusArticulo(idCamp: any) {
@@ -220,9 +219,12 @@ export class ArticuloComponent implements OnInit {
     'https://localhost:7232/ArtClase/ExistenciaUnidad?'+lparam
     ).subscribe((res: any) => {
       console.log(res);
-      if(res.result.length ==0){
+      if(res.result.length==0){
+        let tmpcod=this.svalor
         this.zzglob.mensaje('error',' La Unidad No  Existente')
-
+        this.scampo = document.getElementById(''+idCamp+'')
+        this.scampo.placeholder=tmpcod
+        this.articulo.uni_cod=""
       }
         });
     }if(idCamp=="ars_cod"){
@@ -230,7 +232,11 @@ export class ArticuloComponent implements OnInit {
         'https://localhost:7232/ArtClase/ExistenciaArtClase?'+lparam
       ).subscribe((res: any) => {
         if(res.result.length==0){
+          let tmpcod=this.svalor
           this.zzglob.mensaje('error','  La Clase  No Existe')
+          this.scampo = document.getElementById(''+idCamp+'')
+          this.scampo.placeholder=tmpcod
+          this.articulo.ars_cod=""
         }
 
           });
@@ -243,10 +249,10 @@ export class ArticuloComponent implements OnInit {
     this.articulo.emp_cod=this.gvariables.g_nemp.emp.emp
   }
   Nuevo() {
-
    this.MostrarConsulta = false;
    this.MostrarCrud = true;
     this.flgAcc = 'nuevo';
+    this.clear()
     this.InicializarCampos();
   }
   Actualizar() {
@@ -266,11 +272,9 @@ export class ArticuloComponent implements OnInit {
   }
 
   Cancelar() {
-  //   this.datosart=document.getElementById('Crud')
-  //   this.datosart.style.visibility = "hidden";
-  //  this.con=document.getElementById('Consulta')
-  //  this.con.style.visibility = "visible";
     this.MostrarConsulta = true;
     this.MostrarCrud = false
+    this.clear()
+    this.ondatatable()
   }
 }

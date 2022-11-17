@@ -4,7 +4,6 @@
 </header>
 <section class="Crud m-2" id="Crud">
   <header></header>
-
   <body id="idbody">
     <mat-card class="m-3">
       <div class="container text-center">
@@ -19,11 +18,7 @@
             <input type="datetime" class="form-control" [(ngModel)]="this.l_facfec" tag="cnrn" id="fac_fec"
               name="FECHA FACTURA" disabled />
           </div>
-          <div class="col">
-            <label class="form-label">TIPO DE PAGO</label>
-            <input type="text" class="form-control" [(ngModel)]="factura.fac_tpag" id="fac_tpag" tag="cnrn"
-              maxlength="1" name="TIPO DE PAGO" />
-          </div>
+
           <div class="col">
             <label class="form-label">SERIE</label>
             <input type="text" class="form-control" [(ngModel)]="factura.fac_ser " id="fac_ser" tag="cnrn" name="SERIE"
@@ -33,6 +28,16 @@
             <label class="form-label">SUCURSAL</label>
             <input type="text" class="form-control" [(ngModel)]="factura.suc_cod" id="suc_cod" tag="cnrn" maxlength="3"
               name="SUCURSAL" aria-describedby="" />
+          </div>
+          <div class="col">
+            <label class="form-label">TIPO COBRO</label>
+            <select class="form-select" id="fco_cod" tag="cnrn"  name="Tipo Cobro">
+              <option selected value="EFE"> Seleccione</option>
+              <option *ngFor="let item of this.fcoCobro" [value]="item.fco_cod">{{item.fco_nom}}</option>
+            </select>
+
+            <!-- <input type="text" class="form-control" [(ngModel)]="factura.fco_cod" id="fco_cod" tag="cnrn"
+              maxlength="3" name="Tipo Cobro" /> -->
           </div>
         </div>
       </div>
@@ -47,7 +52,7 @@
             <label class="form-label text-center">COD</label>
             <input type="text" class="form-control styleinp " #cli_cod id="cli_cod" name="Codigo Cliente" tag="cpru"
               [(ngModel)]="this.l_cli_cod"
-              (focusout)="foucusOut(cli_cod.id ,divCliente.id)"
+              (focusout)="foucusOut(cli_cod.id,divCliente.id)"
               placeholder="" maxlength="5" value="{{this.gvariablesBus.g_DatosCli.cli_cod}}"/>
           </div>
           <div class="col">
@@ -209,7 +214,7 @@
 </section>
 <footer class="abs-center">
   <button pButton pRipple type="button" label="Anular" class="p-button-info m-2"></button>
-  <button pButton pRipple type="button" label="Procesar" class="p-button-info m-2" (click)="Guardar(this)"> </button>
+  <button pButton pRipple type="button" label="Procesar" [disabled]="this.procesar" class="p-button-info m-2" (click)="Guardar(this)"> </button>
   <button pButton pRipple type="button" label="Nueva" class="p-button-info m-2"  (click)=" refresh()"></button>
   <button pButton pRipple type="button" label="Imprimir" class="p-button-info m-2" (click)="imprimir()"></button>
   <button pButton pRipple type="button" label="Emviar Email" class="p-button-info " (click)="EnviarEmail()"></button>

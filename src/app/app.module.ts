@@ -30,8 +30,6 @@ import { MenuModule } from './menu/menu.module';
 ///pdf
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 //prime
-import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
-import {MenuItem} from 'primeng/api';
 import {ButtonModule} from 'primeng/button';
 import {TableModule} from 'primeng/table';
 import {DialogModule} from 'primeng/dialog';
@@ -45,17 +43,22 @@ import {ToastModule} from 'primeng/toast';
 import {ChartModule} from 'primeng/chart';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {SplitButtonModule} from 'primeng/splitbutton';
-
+import {FocusTrapModule} from 'primeng/focustrap';
+import {InputTextModule} from 'primeng/inputtext';
+import {CalendarModule} from 'primeng/calendar';
 //material
 import {MatGridListModule} from '@angular/material/grid-list';
 ///cookies
 import { CookieService } from 'ngx-cookie-service';
 
-
+import { DatePipe } from '@angular/common';
 //report
 //import { BoldReportViewerModule } from '@boldreports/angular-reporting-components';
 //notiflix
 import * as printJS from 'print-js';
+import { UnidadComponent } from './Catalogo/unidad/unidad.component';
+import { SucursalComponent } from './Catalogo/sucursal/sucursal.component';
+import { BodegaComponent } from './Catalogo/bodega/bodega.component';
 
 
 
@@ -81,6 +84,9 @@ import * as printJS from 'print-js';
     EmpresaComponent,
     CategoriaDialogoComponent,
     UnidaDialogoComponent,
+    UnidadComponent,
+    SucursalComponent,
+    BodegaComponent,
 
   ],
   imports: [
@@ -107,6 +113,9 @@ ChartModule,
 MatGridListModule,
 InputTextareaModule,
 SplitButtonModule,
+FocusTrapModule,
+InputTextModule,
+CalendarModule,
 
 //BoldReportViewerModule
 

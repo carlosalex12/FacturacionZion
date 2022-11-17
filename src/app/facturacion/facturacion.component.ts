@@ -30,6 +30,7 @@ export class FacturacionComponent implements OnInit {
   Ffac_num = 0;
   l_facfec: any;
   F_fac_obs = '';
+  selec: any;
   ////cliente
   Fcli_nom = '';
   Fcli_cod = '';
@@ -42,6 +43,8 @@ export class FacturacionComponent implements OnInit {
   l_alert = false;
   l_tmpCli_cod = '';
   l_tmpCli_nom = '';
+  fcoCobro: any;
+  procesar = false;
   ////articulo///
   fart_cod = '';
   fart_nom = '';
@@ -100,6 +103,13 @@ export class FacturacionComponent implements OnInit {
 
     let fec = new DatePipe('en-US');
     this.l_facfec = fec.transform(Date.now(), 'dd-MM-yyyy');
+    this.GlobalService.metodoGet(
+      'https://localhost:7232/Factura/Cobro/Select?p_Usr=' +
+        this.gvariables.g_empid.id.id
+    ).subscribe((res: any) => {
+      this.fcoCobro = res.result;
+      console.log(this.fcoCobro);
+    });
     //console.log(this.gvariables.g_nemp);
   }
   //funciones para abrir los dialogos
@@ -172,7 +182,7 @@ export class FacturacionComponent implements OnInit {
       this.gvariablesBus.gsubtotal1 +
       this.gvariablesBus.g_iva +
       this.gvariablesBus.g_dec;
-    console.log('total :', this.gvariablesBus.g_total);
+    //console.log('total :', this.gvariablesBus.g_total);
   }
   //funcion de la teclas f4 ,esc,eliminar
   precionarTecla(event: any, id: any, idinput: any) {
@@ -214,7 +224,7 @@ export class FacturacionComponent implements OnInit {
   }
   //focus del input de la tabla
   fousTable(dato: any, valor: any) {
-    if(valor.id=="idTcant"){
+    if (valor.id == 'idTcant') {
       const ideli = this.factura.Detalles.findIndex((elemto) => {
         return elemto.id === dato.id;
       });
@@ -246,7 +256,7 @@ export class FacturacionComponent implements OnInit {
 
       console.log(this.factura.Detalles);
       return this.sacarSub();
-    }else if(valor.id=="art_descrip"){
+    } else if (valor.id == 'art_descrip') {
       const ideli = this.factura.Detalles.findIndex((elemto) => {
         return elemto.id === dato.id;
       });
@@ -278,9 +288,7 @@ export class FacturacionComponent implements OnInit {
 
       console.log(this.factura.Detalles);
       return this.sacarSub();
-
     }
-
   }
   //focus
   foucusOut(idCamp: any, iddiv: string) {
@@ -300,6 +308,7 @@ export class FacturacionComponent implements OnInit {
         if (this.svalor == '') {
           this.scampo = document.getElementById('' + idCamp + '');
           this.scampo.placeholder = this.l_tmpCli_cod;
+          this.scampo.placeholder = this.l_tmpCli_nom;
         } else {
           this.GlobalService.metodoGet(
             'https://localhost:7232/Cliente/ExistenciaCliente?' + lparam
@@ -312,6 +321,8 @@ export class FacturacionComponent implements OnInit {
                 'El ' + this.scampo.name + ' No Existe'
               );
               this.l_tmpCli_cod = this.svalor;
+              this.l_tmpCli_nom = this.svalor;
+              this.l_cli_nid = '';
               this.l_cli_cod = '';
               this.scampo = document.getElementById('' + idCamp + '');
               this.scampo.focus();
@@ -399,12 +410,10 @@ export class FacturacionComponent implements OnInit {
     this.factura.fac_est = 'DIG';
     this.factura.fac_ser = '001-001';
     this.factura.suc_cod = 'S01';
-    this.factura.fac_tpag = 'E';
     this.factura.emp_cod = this.gvariables.g_nemp.emp.emp;
   }
   EnviarEmail() {
     console.log('numero factura ', this.l_Cli_email);
-
     if (this.l_Cli_email == this.factura.fac_num) {
       Notiflix.Loading.standard('ENVIANDO...');
       this.GlobalService.metodoGet(
@@ -413,6 +422,7 @@ export class FacturacionComponent implements OnInit {
           '&p_Usr=' +
           this.gvariables.g_empid.id.id
       ).subscribe((res: any) => {
+        console.log(res);
         Notiflix.Loading.remove(1923);
       });
     }
@@ -423,17 +433,25 @@ export class FacturacionComponent implements OnInit {
     this.factura.fac_impto = this.gvariablesBus.g_iva;
     this.factura.fac_tot = this.gvariablesBus.g_total;
     this.factura.cli_cod = this.l_cli_cod;
-    this.factura.fac_obs=this.F_fac_obs
-    //console.log(this.factura);
-    if (this.Zzappl.gGuardar(documen) == false) {return false;}
-    this.GlobalService.metodoPost('https://localhost:7232/Facturacion/Facturacion?p_Usr=' +this.gvariables.g_empid.id.id,this.factura
+    this.factura.fac_obs = this.F_fac_obs;
+    this.selec = document.getElementById('fco_cod');
+    this.factura.fco_cod = this.selec.value;
+    if (this.Zzappl.gGuardar(documen) == false) {
+      return false;
+    }
+    this.agregarArt();
+    this.GlobalService.metodoPost(
+      'https://localhost:7232/Facturacion/Facturacion?p_Usr=' +
+        this.gvariables.g_empid.id.id,
+      this.factura
     ).subscribe((res: any) => {
-     // console.log('resultado bak', res);
-      if (res.success==true) {
+      // console.log('resultado bak', res);
+      if (res.success == true) {
         this.l_Cli_email = this.factura.fac_num;
-        this.zzglob.mensaje('success', 'OK, '+res.message+'');
-       // console.log('el resultado ', res, 'la factura  ',this.factura)
-      }else{
+        this.zzglob.mensaje('success', 'OK, ' + res.message + '');
+        this.procesar = true;
+        // console.log('el resultado ', res, 'la factura  ',JSON.stringify(this.factura) )
+      } else {
         this.zzglob.mensaje('error', res.message);
       }
       //console.log('el resultado ', resultado, 'la factura  ',this.factura);
